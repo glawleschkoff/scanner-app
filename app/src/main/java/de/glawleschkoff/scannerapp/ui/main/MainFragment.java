@@ -50,12 +50,19 @@ public class MainFragment extends Fragment {
         binding = FragmentMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
-        recyclerViewTopAdapter = new RecyclerViewTopAdapter(this.getContext(), Arrays.asList(new RecyclerViewTopItem("Informationen ...")));
-        recyclerViewBottomAdapter = new RecyclerViewBottomAdapter(this.getContext(), Arrays.asList(new RecyclerViewBottomItem("Das ist ein Knopf")));
+        recyclerViewTopAdapter = new RecyclerViewTopAdapter(this.getContext(),
+                Arrays.asList(new RecyclerViewTopItem("Informationen ...")));
+        recyclerViewBottomAdapter = new RecyclerViewBottomAdapter(this.getContext(),
+                Arrays.asList(new RecyclerViewBottomItem("Das ist ein Knopf")));
         binding.rvTop.setAdapter(recyclerViewTopAdapter);
         binding.rvBottom.setAdapter(recyclerViewBottomAdapter);
         binding.rvTop.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.rvBottom.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        mViewModel.getTopItems().observe(getViewLifecycleOwner(),
+                response -> recyclerViewTopAdapter.setRecyclerViewTopItems(response));
+        mViewModel.getBottomItems().observe(getViewLifecycleOwner(),
+                response -> recyclerViewBottomAdapter.setRecyclerViewBottomItems(response));
         return view;
     }
 

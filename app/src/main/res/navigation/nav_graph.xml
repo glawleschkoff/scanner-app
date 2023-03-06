@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/zuruecksetzen1Fragment">
+
+    <fragment
+        android:id="@+id/zuruecksetzen1Fragment"
+        android:name="de.glawleschkoff.scannerapp.Zuruecksetzen1Fragment"
+        android:label="fragment_zuruecksetzen1"
+        tools:layout="@layout/fragment_zuruecksetzen1" >
+        <action
+            android:id="@+id/action_zuruecksetzen1Fragment_to_zuruecksetzen2Fragment"
+            app:destination="@id/zuruecksetzen2Fragment" />
+        <action
+            android:id="@+id/action_zuruecksetzen1Fragment_to_zuruecksetzen3Fragment"
+            app:destination="@id/zuruecksetzen3Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/zuruecksetzen2Fragment"
+        android:name="de.glawleschkoff.scannerapp.Zuruecksetzen2Fragment"
+        android:label="fragment_zuruecksetzen2"
+        tools:layout="@layout/fragment_zuruecksetzen2" >
+        <action
+            android:id="@+id/action_zuruecksetzen2Fragment_to_zuruecksetzen1Fragment"
+            app:destination="@id/zuruecksetzen1Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/zuruecksetzen3Fragment"
+        android:name="de.glawleschkoff.scannerapp.Zuruecksetzen3Fragment"
+        android:label="fragment_zuruecksetzen3"
+        tools:layout="@layout/fragment_zuruecksetzen3" >
+        <action
+            android:id="@+id/action_zuruecksetzen3Fragment_to_zuruecksetzen1Fragment"
+            app:destination="@id/zuruecksetzen1Fragment" />
+    </fragment>
+</navigation>

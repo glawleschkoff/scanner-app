@@ -12,26 +12,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.keyence.autoid.sdk.scan.DecodeResult;
 import com.keyence.autoid.sdk.scan.ScanManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.RecyclerViewBottomAdapter;
 import de.glawleschkoff.scannerapp.RecyclerViewBottomItem;
 import de.glawleschkoff.scannerapp.RecyclerViewTopAdapter;
 import de.glawleschkoff.scannerapp.RecyclerViewTopItem;
 import de.glawleschkoff.scannerapp.databinding.FragmentMainBinding;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements ScanManager.DataListener{
 
     private FragmentMainBinding binding;
     private MainViewModel mViewModel;
     private RecyclerViewTopAdapter recyclerViewTopAdapter;
     private RecyclerViewBottomAdapter recyclerViewBottomAdapter;
+    private ScanManager mScanManager;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -49,6 +49,8 @@ public class MainFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        mScanManager = ScanManager.createScanManager(this.getContext());
+        mScanManager.addDataListener(this);
 
         recyclerViewTopAdapter = new RecyclerViewTopAdapter(this.getContext(),
                 Arrays.asList(new RecyclerViewTopItem("Informationen ...")));
@@ -66,4 +68,19 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDataReceived(DecodeResult decodeResult) {
+        DecodeResult.Result result = decodeResult.getResult();
+        String codeType = decodeResult.getCodeType();
+        String data = decodeResult.getData();
+        //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
+        System.out.println(data);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mScanManager.removeDataListener(this);
+        mScanManager.releaseScanManager();
+    }
 }

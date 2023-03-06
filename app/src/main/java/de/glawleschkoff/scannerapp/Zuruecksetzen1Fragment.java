@@ -45,6 +45,13 @@ public class Zuruecksetzen1Fragment extends Fragment implements ScanManager.Data
         mScanManager = ScanManager.createScanManager(this.getContext());
         mScanManager.addDataListener(this);
 
+        binding.text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(getView()).navigate(R.id.action_zuruecksetzen1Fragment_to_zuruecksetzen2Fragment);
+            }
+        });
+
         return view;
     }
 
@@ -58,6 +65,8 @@ public class Zuruecksetzen1Fragment extends Fragment implements ScanManager.Data
 
         Navigation.findNavController(getView()).navigate(R.id.action_zuruecksetzen1Fragment_to_zuruecksetzen2Fragment);
     }
+
+
 
     @Override
     public void onDestroy(){

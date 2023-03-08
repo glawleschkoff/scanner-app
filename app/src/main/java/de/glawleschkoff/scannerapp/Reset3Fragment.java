@@ -12,12 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Zuruecksetzen3Fragment extends Fragment {
+public class Reset3Fragment extends Fragment {
 
-    private Zuruecksetzen3ViewModel mViewModel;
+    private Reset3ViewModel mViewModel;
 
-    public static Zuruecksetzen3Fragment newInstance() {
-        return new Zuruecksetzen3Fragment();
+    public static Reset3Fragment newInstance() {
+        return new Reset3Fragment();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Zuruecksetzen3Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(Zuruecksetzen3ViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(Reset3ViewModel.class);
         // TODO: Use the ViewModel
     }
 

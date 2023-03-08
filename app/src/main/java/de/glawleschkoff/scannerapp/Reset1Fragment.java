@@ -1,6 +1,5 @@
 package de.glawleschkoff.scannerapp;
 
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -20,20 +19,20 @@ import com.keyence.autoid.sdk.scan.ScanManager;
 
 import de.glawleschkoff.scannerapp.databinding.FragmentZuruecksetzen1Binding;
 
-public class Zuruecksetzen1Fragment extends Fragment implements ScanManager.DataListener {
+public class Reset1Fragment extends Fragment implements ScanManager.DataListener {
 
     private FragmentZuruecksetzen1Binding binding;
-    private Zuruecksetzen1ViewModel mViewModel;
+    private Reset1ViewModel mViewModel;
     private ScanManager mScanManager;
 
-    public static Zuruecksetzen1Fragment newInstance() {
-        return new Zuruecksetzen1Fragment();
+    public static Reset1Fragment newInstance() {
+        return new Reset1Fragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(Zuruecksetzen1ViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(Reset1ViewModel.class);
     }
 
     @Nullable
@@ -42,13 +41,15 @@ public class Zuruecksetzen1Fragment extends Fragment implements ScanManager.Data
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentZuruecksetzen1Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        mScanManager = ScanManager.createScanManager(this.getContext());
-        mScanManager.addDataListener(this);
+        //mScanManager = ScanManager.createScanManager(this.getContext());
+        //mScanManager.addDataListener(this);
 
         binding.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.action_zuruecksetzen1Fragment_to_zuruecksetzen2Fragment);
+                System.out.println("Click");
+                mViewModel.requestData();
+                //Navigation.findNavController(getView()).navigate(R.id.action_zuruecksetzen1Fragment_to_zuruecksetzen2Fragment);
             }
         });
 

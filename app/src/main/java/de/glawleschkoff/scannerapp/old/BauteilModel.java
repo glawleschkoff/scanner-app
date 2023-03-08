@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp;
+package de.glawleschkoff.scannerapp.old;
 
 public class BauteilModel {
     private String f1;

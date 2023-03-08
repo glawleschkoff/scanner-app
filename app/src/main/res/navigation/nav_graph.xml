@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/zuruecksetzen1Fragment"
-        android:name="de.glawleschkoff.scannerapp.Zuruecksetzen1Fragment"
+        android:name="de.glawleschkoff.scannerapp.Reset1Fragment"
         android:label="fragment_zuruecksetzen1"
         tools:layout="@layout/fragment_zuruecksetzen1" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/zuruecksetzen2Fragment"
-        android:name="de.glawleschkoff.scannerapp.Zuruecksetzen2Fragment"
+        android:name="de.glawleschkoff.scannerapp.Reset2Fragment"
         android:label="fragment_zuruecksetzen2"
         tools:layout="@layout/fragment_zuruecksetzen2" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/zuruecksetzen3Fragment"
-        android:name="de.glawleschkoff.scannerapp.Zuruecksetzen3Fragment"
+        android:name="de.glawleschkoff.scannerapp.Reset3Fragment"
         android:label="fragment_zuruecksetzen3"
         tools:layout="@layout/fragment_zuruecksetzen3" >
         <action

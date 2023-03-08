@@ -1,15 +1,10 @@
-package de.glawleschkoff.scannerapp.ui.main;
+package de.glawleschkoff.scannerapp.old;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
-
-import de.glawleschkoff.scannerapp.BauteilRepository;
-import de.glawleschkoff.scannerapp.OptionRepository;
-import de.glawleschkoff.scannerapp.RecyclerViewBottomItem;
-import de.glawleschkoff.scannerapp.RecyclerViewTopItem;
 
 public class MainViewModel extends ViewModel {
 

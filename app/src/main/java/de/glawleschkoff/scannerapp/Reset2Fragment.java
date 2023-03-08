@@ -12,12 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Zuruecksetzen2Fragment extends Fragment {
+public class Reset2Fragment extends Fragment {
 
-    private Zuruecksetzen2ViewModel mViewModel;
+    private Reset2ViewModel mViewModel;
 
-    public static Zuruecksetzen2Fragment newInstance() {
-        return new Zuruecksetzen2Fragment();
+    public static Reset2Fragment newInstance() {
+        return new Reset2Fragment();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Zuruecksetzen2Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(Zuruecksetzen2ViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(Reset2ViewModel.class);
         // TODO: Use the ViewModel
     }
 

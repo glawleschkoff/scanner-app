@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp.ui.main;
+package de.glawleschkoff.scannerapp.old;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,17 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.keyence.autoid.sdk.scan.DecodeResult;
 import com.keyence.autoid.sdk.scan.ScanManager;
 
 import java.util.Arrays;
 
-import de.glawleschkoff.scannerapp.RecyclerViewBottomAdapter;
-import de.glawleschkoff.scannerapp.RecyclerViewBottomItem;
-import de.glawleschkoff.scannerapp.RecyclerViewTopAdapter;
-import de.glawleschkoff.scannerapp.RecyclerViewTopItem;
 import de.glawleschkoff.scannerapp.databinding.FragmentMainBinding;
 
 public class MainFragment extends Fragment implements ScanManager.DataListener{

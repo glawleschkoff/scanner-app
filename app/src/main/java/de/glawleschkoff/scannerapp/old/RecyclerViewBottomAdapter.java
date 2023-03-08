@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp;
+package de.glawleschkoff.scannerapp.old;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import de.glawleschkoff.scannerapp.R;
 
 public class RecyclerViewBottomAdapter extends RecyclerView.Adapter<RecyclerViewBottomAdapter.MyViewHolder>{
     private Context context;

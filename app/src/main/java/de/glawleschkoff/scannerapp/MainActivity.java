@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import de.glawleschkoff.scannerapp.ui.main.MainFragment;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override

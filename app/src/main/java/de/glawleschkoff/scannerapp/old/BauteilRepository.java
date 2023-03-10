@@ -4,7 +4,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import de.glawleschkoff.scannerapp.RecyclerViewItem;
 import io.reactivex.Flowable;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,35 +18,57 @@ import retrofit2.Retrofit;
 public class BauteilRepository {
 
     private HttpApi httpApi;
-    private MutableLiveData<String> data = new MutableLiveData<>();
+    private MutableLiveData<List<RecyclerViewItem>> data = new MutableLiveData<>();
+    private MutableLiveData<Boolean> responseSuccessful = new MutableLiveData<>();
 
     public BauteilRepository(){
         Retrofit retrofit = RetrofitInstance.getInstance();
         httpApi = retrofit.create(HttpApi.class);
     }
 
-    public void getData(){
-        Call<String> call = httpApi.getBauteil(83);
-        call.enqueue(new Callback<String>() {
+    public void getData(String id){
+        Call<BauteilModel> call = httpApi.getBauteil(id);
+        call.enqueue(new Callback<BauteilModel>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<BauteilModel> call, Response<BauteilModel> response) {
                 if(!response.isSuccessful()){
-                    data.setValue("Code: " + response.code());
-                    System.out.println(response.code());
+                    responseSuccessful.setValue(Boolean.FALSE);
+                    System.out.println("Code: " + response.code());
                 } else {
-                    data.setValue(response.body());
-                    System.out.println(response.body());
+                    Map<String, String> map = BauteilModel.object2Map(response.body());
+                    List<RecyclerViewItem> list = new ArrayList<>();
+
+                    SortedSet<String> keys = new TreeSet<>(map.keySet());
+                    for (String key : keys) {
+                        list.add(new RecyclerViewItem(key, map.get(key)));
+                        //String value = map.get(key);
+                        // do something
+                    }
+                    /*
+                    for(Map.Entry<String,String> entry : map.entrySet()){
+                        list.add(new RecyclerViewItem(entry.getKey(), entry.getValue()));
+                        //System.out.println(entry.getKey() + "      " + entry.getValue());
+                    }
+
+                     */
+                    data.setValue(list);
+                    responseSuccessful.setValue(Boolean.TRUE);
+                    //System.out.println(response.body().getRowDDMFields());
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                data.setValue(t.getMessage());
+            public void onFailure(Call<BauteilModel> call, Throwable t) {
+                responseSuccessful.setValue(Boolean.FALSE);
+                System.out.println("onFailure: " + t.getMessage());
             }
         });
     }
 
-    public MutableLiveData<String> bindData(){
+    public MutableLiveData<List<RecyclerViewItem>> bindData(){
         return data;
+    }
+    public MutableLiveData<Boolean> bindResponseSuccessfull(){
+        return responseSuccessful;
     }
 }

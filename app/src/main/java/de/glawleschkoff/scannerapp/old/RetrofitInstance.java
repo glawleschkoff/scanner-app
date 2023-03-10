@@ -10,7 +10,7 @@ public class RetrofitInstance {
     public static synchronized Retrofit getInstance(){
         if(instance == null){
             instance = new Retrofit.Builder()
-                    .baseUrl("https://jsonplaceholder.typicode.com/")
+                    .baseUrl("http://192.168.1.34:8080/")
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

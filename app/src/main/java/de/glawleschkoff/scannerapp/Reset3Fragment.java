@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 public class Reset3Fragment extends Fragment {
 
-    private Reset3ViewModel mViewModel;
+    //private Reset3ViewModel mViewModel;
 
     public static Reset3Fragment newInstance() {
         return new Reset3Fragment();
@@ -29,7 +29,7 @@ public class Reset3Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(Reset3ViewModel.class);
+        //mViewModel = new ViewModelProvider(this).get(Reset3ViewModel.class);
         // TODO: Use the ViewModel
     }
 

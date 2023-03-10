@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import de.glawleschkoff.scannerapp.databinding.FragmentZuruecksetzen1Binding;
 public class Reset1Fragment extends Fragment implements ScanManager.DataListener {
 
     private FragmentZuruecksetzen1Binding binding;
-    private Reset1ViewModel mViewModel;
+    private ResetViewModel mViewModel;
     private ScanManager mScanManager;
 
     public static Reset1Fragment newInstance() {
@@ -32,7 +33,8 @@ public class Reset1Fragment extends Fragment implements ScanManager.DataListener
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(Reset1ViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(ResetViewModel.class);
+        //mViewModel = new ViewModelProvider(this).get(Reset1ViewModel.class);
     }
 
     @Nullable
@@ -41,17 +43,37 @@ public class Reset1Fragment extends Fragment implements ScanManager.DataListener
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentZuruecksetzen1Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        //mViewModel.data.setValue(new BauteilModel("test44"));
+        //binding.text.setText(mViewModel.data.getValue().getRowDDMFields());
         //mScanManager = ScanManager.createScanManager(this.getContext());
         //mScanManager.addDataListener(this);
+
+        //mViewModel.data.observe(getViewLifecycleOwner(), response -> binding.text.setText(response.getRowDDMFields()));
 
         binding.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Click");
-                mViewModel.requestData();
+                //System.out.println("Click");
+                mViewModel.requestData("3818233-001");
+                //System.out.println("fragment: " + mViewModel.data.getValue().getRowDDMFields());
+                //System.out.println("text: " + binding.text.getText());
                 //Navigation.findNavController(getView()).navigate(R.id.action_zuruecksetzen1Fragment_to_zuruecksetzen2Fragment);
             }
         });
+
+
+        mViewModel.responseSuccessful().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    Navigation.findNavController(getView()).navigate(R.id.action_zuruecksetzen1Fragment_to_zuruecksetzen2Fragment);
+                } else {
+                    Navigation.findNavController(getView()).navigate(R.id.action_zuruecksetzen1Fragment_to_zuruecksetzen3Fragment);
+                }
+            }
+        });
+
+
 
         return view;
     }
@@ -63,6 +85,7 @@ public class Reset1Fragment extends Fragment implements ScanManager.DataListener
         String data = decodeResult.getData();
         Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
+        mViewModel.requestData(data);
 
         Navigation.findNavController(getView()).navigate(R.id.action_zuruecksetzen1Fragment_to_zuruecksetzen2Fragment);
     }

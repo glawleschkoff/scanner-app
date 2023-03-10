@@ -9,5 +9,5 @@ import retrofit2.http.Query;
 public interface HttpApi {
 
     @GET("api/v1/bauteil")
-    Call<String> getBauteil(@Query("id") int id);
+    Call<BauteilModel> getBauteil(@Query("id") String id);
 }

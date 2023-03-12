@@ -19,11 +19,12 @@ public class BauteilRepository {
 
     private HttpApi httpApi;
     private MutableLiveData<List<RecyclerViewItem>> data = new MutableLiveData<>();
-    private MutableLiveData<Boolean> responseSuccessful = new MutableLiveData<>();
+    private MutableLiveData<Integer> responseState = new MutableLiveData<>();
 
     public BauteilRepository(){
         Retrofit retrofit = RetrofitInstance.getInstance();
         httpApi = retrofit.create(HttpApi.class);
+        responseState.setValue(0);
     }
 
     public void getData(String id){
@@ -32,7 +33,7 @@ public class BauteilRepository {
             @Override
             public void onResponse(Call<BauteilModel> call, Response<BauteilModel> response) {
                 if(!response.isSuccessful()){
-                    responseSuccessful.setValue(Boolean.FALSE);
+                    responseState.setValue(-1);
                     System.out.println("Code: " + response.code());
                 } else {
                     Map<String, String> map = BauteilModel.object2Map(response.body());
@@ -41,34 +42,24 @@ public class BauteilRepository {
                     SortedSet<String> keys = new TreeSet<>(map.keySet());
                     for (String key : keys) {
                         list.add(new RecyclerViewItem(key, map.get(key)));
-                        //String value = map.get(key);
-                        // do something
                     }
-                    /*
-                    for(Map.Entry<String,String> entry : map.entrySet()){
-                        list.add(new RecyclerViewItem(entry.getKey(), entry.getValue()));
-                        //System.out.println(entry.getKey() + "      " + entry.getValue());
-                    }
-
-                     */
                     data.setValue(list);
-                    responseSuccessful.setValue(Boolean.TRUE);
-                    //System.out.println(response.body().getRowDDMFields());
+                    responseState.setValue(+1);
                 }
             }
 
             @Override
             public void onFailure(Call<BauteilModel> call, Throwable t) {
-                responseSuccessful.setValue(Boolean.FALSE);
-                System.out.println("onFailure: " + t.getMessage());
+                responseState.setValue(-1);
             }
+
         });
     }
 
     public MutableLiveData<List<RecyclerViewItem>> bindData(){
         return data;
     }
-    public MutableLiveData<Boolean> bindResponseSuccessfull(){
-        return responseSuccessful;
+    public MutableLiveData<Integer> bindResponseSuccessfull(){
+        return responseState;
     }
 }

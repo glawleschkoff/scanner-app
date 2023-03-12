@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -15,29 +16,29 @@ import android.view.ViewGroup;
 
 import java.util.Arrays;
 
-import de.glawleschkoff.scannerapp.databinding.FragmentZuruecksetzen2Binding;
+import de.glawleschkoff.scannerapp.databinding.FragmentInfo2Binding;
 
-public class Reset2Fragment extends Fragment {
+public class Info2Fragment extends Fragment {
 
-    private FragmentZuruecksetzen2Binding binding;
-    private ResetViewModel mViewModel;
+    private FragmentInfo2Binding binding;
+    private InfoViewModel mViewModel;
     private RecyclerViewAdapter recyclerViewAdapter;
 
-    public static Reset2Fragment newInstance() {
-        return new Reset2Fragment();
+    public static Info2Fragment newInstance() {
+        return new Info2Fragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(ResetViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentZuruecksetzen2Binding.inflate(getLayoutInflater());
+        binding = FragmentInfo2Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
         recyclerViewAdapter = new RecyclerViewAdapter(this.getContext(),
@@ -45,6 +46,15 @@ public class Reset2Fragment extends Fragment {
         binding.rv.setAdapter(recyclerViewAdapter);
         binding.rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mViewModel.data().observe(getViewLifecycleOwner(), response -> recyclerViewAdapter.setRecyclerViewItems(response));
+
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.resetResponseState();
+                mViewModel.resetData();
+                Navigation.findNavController(requireView()).navigate(R.id.action_info2Fragment_to_info1Fragment);
+            }
+        });
 
         return view;
     }

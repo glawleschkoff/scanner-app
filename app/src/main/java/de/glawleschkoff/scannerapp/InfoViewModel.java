@@ -4,21 +4,22 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import de.glawleschkoff.scannerapp.old.BauteilModel;
 import de.glawleschkoff.scannerapp.old.BauteilRepository;
 
-public class ResetViewModel extends ViewModel {
+public class InfoViewModel extends ViewModel {
 
     private BauteilRepository bauteilRepository;
     private MutableLiveData<List<RecyclerViewItem>> data;
-    private MutableLiveData<Boolean> responseSuccessful;
+    private MutableLiveData<Integer> responseState;
 
-    public ResetViewModel(){
+    public InfoViewModel(){
         bauteilRepository = new BauteilRepository();
         data = bauteilRepository.bindData();
-        responseSuccessful = bauteilRepository.bindResponseSuccessfull();
+        responseState = bauteilRepository.bindResponseSuccessfull();
     }
 
     public void requestData(String id){
@@ -27,7 +28,14 @@ public class ResetViewModel extends ViewModel {
     public LiveData<List<RecyclerViewItem>> data(){
         return data;
     }
-    public LiveData<Boolean> responseSuccessful(){
-        return responseSuccessful;
+    public LiveData<Integer> responseSuccessful(){
+        return responseState;
     }
+    public void resetResponseState(){
+        responseState.setValue(0);
+    }
+    public void resetData(){
+        data.setValue(Collections.singletonList(new RecyclerViewItem("Typ...", "Wert...")));
+    }
+
 }

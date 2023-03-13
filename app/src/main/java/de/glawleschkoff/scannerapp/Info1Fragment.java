@@ -47,7 +47,13 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
         mScanManager = ScanManager.createScanManager(this.getContext());
         mScanManager.addDataListener(this);
 
+        return view;
+    }
 
+    @Nullable
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         binding.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,10 +74,6 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
                 }
             }
         });
-
-
-
-        return view;
     }
 
     @Override
@@ -85,9 +87,11 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     }
 
     @Override
-    public void onDestroy(){
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         mScanManager.removeDataListener(this);
         mScanManager.releaseScanManager();
+        mViewModel.responseSuccessful().removeObservers(this);
     }
+
 }

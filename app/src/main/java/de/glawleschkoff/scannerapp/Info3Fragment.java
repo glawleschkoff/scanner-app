@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,14 +35,23 @@ public class Info3Fragment extends Fragment {
         binding = FragmentInfo3Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
-        binding.button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(requireView()).navigate(R.id.action_info3Fragment_to_info1Fragment);
-            }
-        });
-
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.button3.setOnClickListener(x -> Navigation.findNavController(requireView()).navigate(R.id.action_info3Fragment_to_info1Fragment));
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == 0){
+                    Navigation.findNavController(requireView()).navigate(R.id.action_info3Fragment_to_info1Fragment);
+                    return true;
+                } else return false;
+            }
+        });
+    }
+
 
 }

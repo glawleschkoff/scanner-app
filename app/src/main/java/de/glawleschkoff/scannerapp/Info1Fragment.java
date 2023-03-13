@@ -44,25 +44,16 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentInfo1Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        mScanManager = ScanManager.createScanManager(this.getContext());
-        mScanManager.addDataListener(this);
+        //mScanManager = ScanManager.createScanManager(this.getContext());
+        //mScanManager.addDataListener(this);
 
         return view;
     }
 
-    @Nullable
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModel.requestData("3818233-001");
-            }
-        });
-
-
-
+        binding.text.setOnClickListener(x -> mViewModel.requestData("3818233-001-"));
         mViewModel.responseSuccessful().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer aInteger) {
@@ -89,8 +80,8 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mScanManager.removeDataListener(this);
-        mScanManager.releaseScanManager();
+        //mScanManager.removeDataListener(this);
+        //mScanManager.releaseScanManager();
         mViewModel.responseSuccessful().removeObservers(this);
     }
 

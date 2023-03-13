@@ -45,18 +45,15 @@ public class Info2Fragment extends Fragment {
                 Arrays.asList(new RecyclerViewItem("Typ...", "Wert...")));
         binding.rv.setAdapter(recyclerViewAdapter);
         binding.rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
         mViewModel.data().observe(getViewLifecycleOwner(), response -> recyclerViewAdapter.setRecyclerViewItems(response));
 
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModel.resetResponseState();
-                mViewModel.resetData();
-                Navigation.findNavController(requireView()).navigate(R.id.action_info2Fragment_to_info1Fragment);
-            }
+        binding.button.setOnClickListener(x -> {
+            mViewModel.resetResponseState();
+            mViewModel.resetData();
+            Navigation.findNavController(requireView()).navigate(R.id.action_info2Fragment_to_info1Fragment);
         });
 
         return view;
     }
-
 }

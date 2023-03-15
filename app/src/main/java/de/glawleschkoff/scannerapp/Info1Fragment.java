@@ -44,8 +44,8 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentInfo1Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //mScanManager = ScanManager.createScanManager(this.getContext());
-        //mScanManager.addDataListener(this);
+        mScanManager = ScanManager.createScanManager(this.getContext());
+        mScanManager.addDataListener(this);
 
         return view;
     }
@@ -72,7 +72,7 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
         DecodeResult.Result result = decodeResult.getResult();
         String codeType = decodeResult.getCodeType();
         String data = decodeResult.getData();
-        Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
             mViewModel.getBauteil(data.substring(1));
@@ -82,7 +82,6 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -94,8 +93,9 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //mScanManager.removeDataListener(this);
-        //mScanManager.releaseScanManager();
+        System.out.println("destroy");
+        mScanManager.removeDataListener(this);
+        mScanManager.releaseScanManager();
         mViewModel.responseSuccessful().removeObservers(this);
     }
 

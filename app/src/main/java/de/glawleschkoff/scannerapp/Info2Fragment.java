@@ -80,7 +80,7 @@ public class Info2Fragment extends Fragment {
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(keyCode == 66){
+                if(keyCode == 501){
                     mViewModel.resetResponseState();
                     mViewModel.resetData();
                     Navigation.findNavController(requireView()).navigate(R.id.action_info2Fragment_to_info1Fragment);

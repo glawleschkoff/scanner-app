@@ -74,7 +74,9 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
         String data = decodeResult.getData();
         Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
-        mViewModel.getBauteil(data);
+        if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
+            mViewModel.getBauteil(data.substring(1));
+        }
     }
 
     @Override

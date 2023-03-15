@@ -53,5 +53,18 @@ public class Info3Fragment extends Fragment {
         });
     }
 
-
+    public void onResume() {
+        super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == 66){
+                    Navigation.findNavController(requireView()).navigate(R.id.action_info3Fragment_to_info1Fragment);
+                    return true;
+                } else return false;
+            }
+        });
+    }
 }

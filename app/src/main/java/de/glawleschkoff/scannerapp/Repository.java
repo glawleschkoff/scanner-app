@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp.old;
+package de.glawleschkoff.scannerapp;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -8,26 +8,24 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import de.glawleschkoff.scannerapp.RecyclerViewItem;
-import io.reactivex.Flowable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class BauteilRepository {
+public class Repository {
 
     private HttpApi httpApi;
     private MutableLiveData<List<RecyclerViewItem>> data = new MutableLiveData<>();
     private MutableLiveData<Integer> responseState = new MutableLiveData<>();
 
-    public BauteilRepository(){
+    public Repository(){
         Retrofit retrofit = RetrofitInstance.getInstance();
         httpApi = retrofit.create(HttpApi.class);
         responseState.setValue(0);
     }
 
-    public void getData(String id){
+    public void getBauteil(String id){
         Call<BauteilModel> call = httpApi.getBauteil(id);
         call.enqueue(new Callback<BauteilModel>() {
             @Override
@@ -47,12 +45,25 @@ public class BauteilRepository {
                     responseState.setValue(+1);
                 }
             }
-
             @Override
             public void onFailure(Call<BauteilModel> call, Throwable t) {
                 responseState.setValue(-1);
             }
+        });
+    }
 
+    public void createFeedback(FeedbackModel feedbackModel){
+        Call<FeedbackModel> call = httpApi.createFeedback(feedbackModel);
+        call.enqueue(new Callback<FeedbackModel>() {
+            @Override
+            public void onResponse(Call<FeedbackModel> call, Response<FeedbackModel> response) {
+                System.out.println("success");
+            }
+
+            @Override
+            public void onFailure(Call<FeedbackModel> call, Throwable t) {
+                System.out.println("fail");
+            }
         });
     }
 

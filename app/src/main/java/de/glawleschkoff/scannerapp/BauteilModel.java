@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp.old;
+package de.glawleschkoff.scannerapp;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

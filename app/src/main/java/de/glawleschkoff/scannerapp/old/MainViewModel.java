@@ -6,15 +6,17 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import de.glawleschkoff.scannerapp.Repository;
+
 public class MainViewModel extends ViewModel {
 
-    private BauteilRepository bauteilRepository;
+    private Repository repository;
     private OptionRepository optionRepository;
     private MutableLiveData<List<RecyclerViewTopItem>> topItems;
     private MutableLiveData<List<RecyclerViewBottomItem>> bottomItems;
 
     public MainViewModel() {
-        bauteilRepository = new BauteilRepository();
+        repository = new Repository();
         optionRepository = new OptionRepository();
     }
 

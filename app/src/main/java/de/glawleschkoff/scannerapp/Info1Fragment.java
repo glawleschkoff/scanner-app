@@ -53,7 +53,7 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.text.setOnClickListener(x -> mViewModel.requestData("3818233-001-"));
+        binding.text.setOnClickListener(x -> mViewModel.getBauteil("3818233-001"));
         mViewModel.responseSuccessful().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer aInteger) {
@@ -74,7 +74,19 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
         String data = decodeResult.getData();
         Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
-        mViewModel.requestData(data);
+        mViewModel.getBauteil(data);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 
     @Override

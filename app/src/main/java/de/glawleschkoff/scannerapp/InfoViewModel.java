@@ -4,26 +4,26 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import de.glawleschkoff.scannerapp.old.BauteilRepository;
-
 public class InfoViewModel extends ViewModel {
 
-    private BauteilRepository bauteilRepository;
+    private Repository repository;
     private MutableLiveData<List<RecyclerViewItem>> data;
     private MutableLiveData<Integer> responseState;
 
     public InfoViewModel(){
-        bauteilRepository = new BauteilRepository();
-        data = bauteilRepository.bindData();
-        responseState = bauteilRepository.bindResponseSuccessfull();
+        repository = new Repository();
+        data = repository.bindData();
+        responseState = repository.bindResponseSuccessfull();
     }
 
-    public void requestData(String id){
-        bauteilRepository.getData(id);
+    public void getBauteil(String id){
+        repository.getBauteil(id);
+    }
+    public void createFeedback(FeedbackModel feedbackModel){
+        repository.createFeedback(feedbackModel);
     }
     public LiveData<List<RecyclerViewItem>> data(){
         return data;

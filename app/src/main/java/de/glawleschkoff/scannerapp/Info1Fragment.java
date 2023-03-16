@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.JsonToken;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +20,17 @@ import android.widget.Toast;
 import com.keyence.autoid.sdk.scan.DecodeResult;
 import com.keyence.autoid.sdk.scan.ScanManager;
 
+import java.util.List;
 import java.util.Objects;
 
 import de.glawleschkoff.scannerapp.databinding.FragmentInfo1Binding;
+import retrofit2.Response;
 
 public class Info1Fragment extends Fragment implements ScanManager.DataListener {
 
     private FragmentInfo1Binding binding;
     private InfoViewModel mViewModel;
     private ScanManager mScanManager;
-
     public static Info1Fragment newInstance() {
         return new Info1Fragment();
     }
@@ -44,8 +47,8 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentInfo1Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        mScanManager = ScanManager.createScanManager(this.getContext());
-        mScanManager.addDataListener(this);
+        //mScanManager = ScanManager.createScanManager(this.getContext());
+        //mScanManager.addDataListener(this);
 
         return view;
     }
@@ -54,14 +57,12 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.text.setOnClickListener(x -> mViewModel.getBauteil("3818233-001"));
-        mViewModel.responseSuccessful().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer aInteger) {
-                if(aInteger==1){
+        mViewModel.getResponseLivedata().observe(getViewLifecycleOwner(), response -> {
+            if(getViewLifecycleOwner().getLifecycle().getCurrentState()== Lifecycle.State.RESUMED){
+                if(response.code() == 200){
                     Navigation.findNavController(requireView()).navigate(R.id.action_info1Fragment_to_info2Fragment);
-                } else if(aInteger==-1){
+                } else {
                     Navigation.findNavController(requireView()).navigate(R.id.action_info1Fragment_to_info3Fragment);
-                    mViewModel.resetResponseState();
                 }
             }
         });
@@ -80,23 +81,11 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        System.out.println("destroy");
-        mScanManager.removeDataListener(this);
-        mScanManager.releaseScanManager();
-        mViewModel.responseSuccessful().removeObservers(this);
+        //mScanManager.removeDataListener(this);
+        //mScanManager.releaseScanManager();
+        mViewModel.getResponseLivedata().removeObservers(this);
     }
 
 }

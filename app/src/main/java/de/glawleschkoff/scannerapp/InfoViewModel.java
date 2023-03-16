@@ -4,19 +4,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import retrofit2.Response;
+
 public class InfoViewModel extends ViewModel {
 
-    private Repository repository;
-    private MutableLiveData<List<RecyclerViewItem>> data;
-    private MutableLiveData<Integer> responseState;
+    private final Repository repository;
+    private final MutableLiveData<Response<BauteilModel>> responseMutableLiveData;
 
     public InfoViewModel(){
         repository = new Repository();
-        data = repository.bindData();
-        responseState = repository.bindResponseSuccessfull();
+        responseMutableLiveData = repository.getResponseMutableLiveData();
     }
 
     public void getBauteil(String id){
@@ -25,17 +26,8 @@ public class InfoViewModel extends ViewModel {
     public void createFeedback(FeedbackModel feedbackModel){
         repository.createFeedback(feedbackModel);
     }
-    public LiveData<List<RecyclerViewItem>> data(){
-        return data;
-    }
-    public LiveData<Integer> responseSuccessful(){
-        return responseState;
-    }
-    public void resetResponseState(){
-        responseState.setValue(0);
-    }
-    public void resetData(){
-        data.setValue(Collections.singletonList(new RecyclerViewItem("Typ...", "Wert...")));
+    public LiveData<Response<BauteilModel>> getResponseLivedata(){
+        return responseMutableLiveData;
     }
 
 }

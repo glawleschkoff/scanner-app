@@ -1,5 +1,8 @@
 package de.glawleschkoff.scannerapp;
 
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
@@ -8,6 +11,8 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,14 +20,12 @@ import retrofit2.Retrofit;
 
 public class Repository {
 
-    private HttpApi httpApi;
-    private MutableLiveData<List<RecyclerViewItem>> data = new MutableLiveData<>();
-    private MutableLiveData<Integer> responseState = new MutableLiveData<>();
+    private final HttpApi httpApi;
+    private final MutableLiveData<Response<BauteilModel>> responseMutableLiveData = new MutableLiveData<>();
 
     public Repository(){
         Retrofit retrofit = RetrofitInstance.getInstance();
         httpApi = retrofit.create(HttpApi.class);
-        responseState.setValue(0);
     }
 
     public void getBauteil(String id){
@@ -31,23 +34,18 @@ public class Repository {
             @Override
             public void onResponse(Call<BauteilModel> call, Response<BauteilModel> response) {
                 if(!response.isSuccessful()){
-                    responseState.setValue(-1);
-                    System.out.println("Code: " + response.code());
+                    responseMutableLiveData.setValue(response);
                 } else {
-                    Map<String, String> map = BauteilModel.object2Map(response.body());
-                    List<RecyclerViewItem> list = new ArrayList<>();
-
-                    SortedSet<String> keys = new TreeSet<>(map.keySet());
-                    for (String key : keys) {
-                        list.add(new RecyclerViewItem(key, map.get(key)));
-                    }
-                    data.setValue(list);
-                    responseState.setValue(+1);
+                    responseMutableLiveData.setValue(response);
                 }
             }
             @Override
             public void onFailure(Call<BauteilModel> call, Throwable t) {
-                responseState.setValue(-1);
+                //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
+                responseMutableLiveData.setValue(Response.error(999, ResponseBody.create(
+                        MediaType.parse("application/json"),
+                        ""
+                )));
             }
         });
     }
@@ -67,10 +65,7 @@ public class Repository {
         });
     }
 
-    public MutableLiveData<List<RecyclerViewItem>> bindData(){
-        return data;
-    }
-    public MutableLiveData<Integer> bindResponseSuccessfull(){
-        return responseState;
+    public MutableLiveData<Response<BauteilModel>> getResponseMutableLiveData() {
+        return responseMutableLiveData;
     }
 }

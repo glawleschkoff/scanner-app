@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -50,16 +51,14 @@ public class Info2Fragment extends Fragment {
         binding.rv.setAdapter(recyclerViewAdapter);
         binding.rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        mViewModel.data().observe(getViewLifecycleOwner(), response -> recyclerViewAdapter.setRecyclerViewItems(response));
+        mViewModel.getResponseLivedata().observe(getViewLifecycleOwner(), response -> recyclerViewAdapter.setRecyclerViewItems(response.body().toListOfRecyclerViewItems()));
 
         binding.button.setOnClickListener(x -> {
-            mViewModel.resetResponseState();
-            mViewModel.resetData();
             Navigation.findNavController(requireView()).navigate(R.id.action_info2Fragment_to_info1Fragment);
         });
 
         binding.button2.setOnClickListener(x -> {
-            String exemplarNr = mViewModel.data().getValue().stream().filter(y -> y.getLeftText() == "exemplarNr").collect(Collectors.toList()).get(0).getRightText();
+            String exemplarNr = mViewModel.getResponseLivedata().getValue().body().getExemplarNr();
             //String zeitstempelScNr = new Timestamp(System.currentTimeMillis()).toString().concat("#001");
             String scannerNr = "001";
             String mitarbeiter = "MO";
@@ -67,8 +66,8 @@ public class Info2Fragment extends Fragment {
             String optionen = "";
 
             mViewModel.createFeedback(new FeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter, optionen));
+            Navigation.findNavController(requireView()).navigate(R.id.action_info2Fragment_to_info1Fragment);
         });
-
         return view;
     }
 
@@ -81,8 +80,6 @@ public class Info2Fragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == 501){
-                    mViewModel.resetResponseState();
-                    mViewModel.resetData();
                     Navigation.findNavController(requireView()).navigate(R.id.action_info2Fragment_to_info1Fragment);
                     return true;
                 } else return false;

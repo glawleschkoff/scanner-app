@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,7 +45,20 @@ public class BauteilModel {
     private String prodFreigabe;
     private String f20;
 
-    static public Map<String, String> object2Map(Object o)
+    public List<RecyclerViewItem> toListOfRecyclerViewItems(){
+        Map<String, String> map = object2Map(this);
+        List<RecyclerViewItem> list = new ArrayList<>();
+
+        SortedSet<String> keys = new TreeSet<>(map.keySet());
+        for (String key : keys) {
+            list.add(new RecyclerViewItem(key, map.get(key)));
+        }
+        return list;
+    }
+
+
+
+    public Map<String, String> object2Map(Object o)
     {
         Class co = o.getClass();
         Field[] cfields = co.getDeclaredFields();
@@ -74,7 +89,7 @@ public class BauteilModel {
         }
         return ret;
     }
-    private static Map<String, String> ddmToMap(String s){
+    private Map<String, String> ddmToMap(String s){
         Map<String, String> map = new HashMap<>();
         List<String> list = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{(.*?)\\}");
@@ -86,8 +101,6 @@ public class BauteilModel {
         for(String str : list){
             map.put(str.split("\\:")[0], str.split("\\:")[1]);
         }
-
-
         return map;
     }
 

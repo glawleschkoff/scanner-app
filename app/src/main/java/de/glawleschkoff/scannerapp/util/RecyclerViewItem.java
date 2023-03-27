@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp;
+package de.glawleschkoff.scannerapp.util;
 
 public class RecyclerViewItem {
     private String leftText;

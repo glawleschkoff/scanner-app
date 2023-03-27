@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp;
+package de.glawleschkoff.scannerapp.model;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,6 +13,8 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.glawleschkoff.scannerapp.util.RecyclerViewItem;
 
 public class BauteilModel {
     private Integer rowID;

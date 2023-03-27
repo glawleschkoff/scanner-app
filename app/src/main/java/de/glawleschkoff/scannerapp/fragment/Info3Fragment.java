@@ -1,10 +1,11 @@
-package de.glawleschkoff.scannerapp;
+package de.glawleschkoff.scannerapp.fragment;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.KeyEvent;
@@ -12,13 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Objects;
-
+import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
+import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentInfo3Binding;
 
 public class Info3Fragment extends Fragment {
 
     private FragmentInfo3Binding binding;
+    private InfoViewModel mViewModel;
+    private MetaViewModel metaViewModel;
 
     public static Info3Fragment newInstance() {
         return new Info3Fragment();
@@ -27,6 +31,9 @@ public class Info3Fragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
+        metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
+
     }
     @Nullable
     @Override
@@ -58,5 +65,12 @@ public class Info3Fragment extends Fragment {
                 } else return false;
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mViewModel.resetResponseBauteil();
+        mViewModel.resetResponseFeedback();
     }
 }

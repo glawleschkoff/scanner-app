@@ -1,9 +1,9 @@
 package de.glawleschkoff.scannerapp.util;
 
-public class RecyclerViewItem2 {
+public class LoginRVItem {
     private String text;
 
-    public RecyclerViewItem2(String text){
+    public LoginRVItem(String text){
         this.text = text;
     }
     public String getText(){

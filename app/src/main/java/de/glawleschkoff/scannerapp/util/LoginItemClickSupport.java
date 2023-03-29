@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import de.glawleschkoff.scannerapp.R;
 
-public class ItemClickSupport {
+public class LoginItemClickSupport {
     private final RecyclerView mRecyclerView;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
@@ -50,7 +50,7 @@ public class ItemClickSupport {
         }
     };
 
-    private ItemClickSupport(RecyclerView recyclerView) {
+    private LoginItemClickSupport(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
         // the ID must be declared in XML, used to avoid
         // replacing the ItemClickSupport without removing
@@ -59,30 +59,30 @@ public class ItemClickSupport {
         mRecyclerView.addOnChildAttachStateChangeListener(mAttachListener);
     }
 
-    public static ItemClickSupport addTo(RecyclerView view) {
+    public static LoginItemClickSupport addTo(RecyclerView view) {
         // if there's already an ItemClickSupport attached
         // to this RecyclerView do not replace it, use it
-        ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.rv2);
+        LoginItemClickSupport support = (LoginItemClickSupport) view.getTag(R.id.rv2);
         if (support == null) {
-            support = new ItemClickSupport(view);
+            support = new LoginItemClickSupport(view);
         }
         return support;
     }
 
-    public static ItemClickSupport removeFrom(RecyclerView view) {
-        ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.rv2);
+    public static LoginItemClickSupport removeFrom(RecyclerView view) {
+        LoginItemClickSupport support = (LoginItemClickSupport) view.getTag(R.id.rv2);
         if (support != null) {
             support.detach(view);
         }
         return support;
     }
 
-    public ItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
+    public LoginItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
         return this;
     }
 
-    public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
+    public LoginItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
         mOnItemLongClickListener = listener;
         return this;
     }

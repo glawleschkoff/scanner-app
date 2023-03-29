@@ -17,26 +17,24 @@ import android.view.ViewGroup;
 import com.keyence.autoid.sdk.scan.DecodeResult;
 import com.keyence.autoid.sdk.scan.ScanManager;
 
-import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;
+import de.glawleschkoff.scannerapp.databinding.FragmentBtzsscanBinding;
+import de.glawleschkoff.scannerapp.viewmodel.BTZSViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 import de.glawleschkoff.scannerapp.R;
-import de.glawleschkoff.scannerapp.databinding.FragmentInfo1Binding;
 
-public class Info1Fragment extends Fragment implements ScanManager.DataListener {
+public class BTZSScanFragment extends Fragment implements ScanManager.DataListener {
 
-    private FragmentInfo1Binding binding;
-    private InfoViewModel mViewModel;
-    private MetaViewModel metaViewModel;
+    private FragmentBtzsscanBinding binding;
+    private BTZSViewModel btzsViewModel;
     private ScanManager mScanManager;
-    public static Info1Fragment newInstance() {
-        return new Info1Fragment();
+    public static BTZSScanFragment newInstance() {
+        return new BTZSScanFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
-        metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
+        btzsViewModel = new ViewModelProvider(requireActivity()).get(BTZSViewModel.class);
 
     }
 
@@ -44,7 +42,7 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentInfo1Binding.inflate(getLayoutInflater());
+        binding = FragmentBtzsscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         //mScanManager = ScanManager.createScanManager(this.getContext());
         //mScanManager.addDataListener(this);
@@ -56,34 +54,33 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.text.setOnClickListener(x -> {
-            mViewModel.requestBauteil("3922780-001");
-            mViewModel.requestFeedback("3922780-001_BTZS.csv");
-            System.out.println(metaViewModel.getMitarbeiter().getValue());
+            btzsViewModel.requestBauteil("3400510-005");
+            btzsViewModel.requestFeedback("3400510-005_BTZS.csv");
         });
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
-                    .navigate(R.id.action_info1Fragment_to_menuFragment);
+                    .navigate(R.id.action_BTZSScanFragment_to_menuFragment);
         });
-        mViewModel.getResponseCounter().observe(getViewLifecycleOwner(), response -> {
+        btzsViewModel.getResponseCounter().observe(getViewLifecycleOwner(), response -> {
             if(getViewLifecycleOwner().getLifecycle().getCurrentState() == Lifecycle
                     .State.RESUMED
-            && mViewModel.getResponseCounter().getValue() == 2){
-                if(mViewModel.getResponseBauteil().getValue().code() != 200){
+            && btzsViewModel.getResponseCounter().getValue() == 2){
+                if(btzsViewModel.getResponseBauteil().getValue().code() != 200){
                     Navigation.findNavController(requireView())
-                            .navigate(R.id.action_info1Fragment_to_info3Fragment);
-                } else if(mViewModel.getResponseFeedback().getValue() != null){
-                    mViewModel.getInfo2fragmentText().setValue("Bereits zurückgesetzt");
+                            .navigate(R.id.action_BTZSScanFragment_to_BTZSErrorFragment);
+                } else if(btzsViewModel.getResponseFeedback().getValue() != null){
+                    btzsViewModel.getInfo2fragmentText().setValue("Bereits zurückgesetzt");
                     Navigation.findNavController(requireView())
-                            .navigate(R.id.action_info1Fragment_to_info2Fragment);
-                } else if(!mViewModel.getResponseBauteil().getValue().body()
+                            .navigate(R.id.action_BTZSScanFragment_to_BTZSSelectFragment3);
+                } else if(!btzsViewModel.getResponseBauteil().getValue().body()
                         .getScannerAnweisung().equals("BTZS=J")){
-                    mViewModel.getInfo2fragmentText().setValue("Zurücksetzen nicht möglich");
+                    btzsViewModel.getInfo2fragmentText().setValue("Zurücksetzen nicht möglich");
                     Navigation.findNavController(requireView())
-                            .navigate(R.id.action_info1Fragment_to_info2Fragment);
+                            .navigate(R.id.action_BTZSScanFragment_to_BTZSSelectFragment3);
                 } else {
-                    mViewModel.getInfo2fragmentText().setValue("Bauteil wirklich zurücksetzen?");
+                    btzsViewModel.getInfo2fragmentText().setValue("Bauteil wirklich zurücksetzen?");
                     Navigation.findNavController(requireView())
-                            .navigate(R.id.action_info1Fragment_to_info2Fragment);
+                            .navigate(R.id.action_BTZSScanFragment_to_BTZSSelectFragment3);
                 }
             }
         });
@@ -97,7 +94,8 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
         //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            mViewModel.requestBauteil(data.substring(1));
+            btzsViewModel.requestBauteil(data.substring(1));
+            btzsViewModel.requestFeedback(data.substring(1)+"-001_BTZS.csv");
         }
     }
 
@@ -106,8 +104,8 @@ public class Info1Fragment extends Fragment implements ScanManager.DataListener 
         super.onDestroyView();
         //mScanManager.removeDataListener(this);
         //mScanManager.releaseScanManager();
-        mViewModel.getResponseCounter().removeObservers(this);
-        mViewModel.resetResponseCounter();
+        btzsViewModel.getResponseCounter().removeObservers(this);
+        btzsViewModel.resetResponseCounter();
     }
 
 }

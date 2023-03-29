@@ -18,12 +18,12 @@ import android.view.ViewGroup;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import de.glawleschkoff.scannerapp.util.ItemClickSupport;
+import de.glawleschkoff.scannerapp.util.LoginItemClickSupport;
 import de.glawleschkoff.scannerapp.viewmodel.LoginViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 import de.glawleschkoff.scannerapp.R;
-import de.glawleschkoff.scannerapp.util.RecyclerViewAdapter2;
-import de.glawleschkoff.scannerapp.util.RecyclerViewItem2;
+import de.glawleschkoff.scannerapp.util.LoginRVAdapter;
+import de.glawleschkoff.scannerapp.util.LoginRVItem;
 import de.glawleschkoff.scannerapp.databinding.FragmentLoginBinding;
 
 /**
@@ -36,7 +36,7 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
     private LoginViewModel loginViewModel;
     private MetaViewModel metaViewModel;
-    private RecyclerViewAdapter2 recyclerViewAdapter2;
+    private LoginRVAdapter loginRVAdapter;
 
    public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -56,19 +56,19 @@ public class LoginFragment extends Fragment {
         binding = FragmentLoginBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
-        recyclerViewAdapter2 = new RecyclerViewAdapter2(this.getContext(),
-                Arrays.asList(new RecyclerViewItem2("Lädt...")));
-        binding.rv2.setAdapter(recyclerViewAdapter2);
+        loginRVAdapter = new LoginRVAdapter(this.getContext(),
+                Arrays.asList(new LoginRVItem("Lädt...")));
+        binding.rv2.setAdapter(loginRVAdapter);
         binding.rv2.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         loginViewModel.requestMitarbeiter();
 
         loginViewModel.getResponseMitarbeiter().observe(getViewLifecycleOwner(), response ->
-                recyclerViewAdapter2.setRecyclerViewItems(response.stream()
-                        .map(x -> new RecyclerViewItem2(x)).collect(Collectors.toList())));
+                loginRVAdapter.setRecyclerViewItems(response.stream()
+                        .map(x -> new LoginRVItem(x)).collect(Collectors.toList())));
 
-        ItemClickSupport.addTo(binding.rv2)
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+        LoginItemClickSupport.addTo(binding.rv2)
+                .setOnItemClickListener(new LoginItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         //Toast.makeText(getContext(),loginViewModel.getResponseMitarbeiter()
@@ -102,4 +102,9 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        loginViewModel.getResponseMitarbeiter().removeObservers(this);
+    }
 }

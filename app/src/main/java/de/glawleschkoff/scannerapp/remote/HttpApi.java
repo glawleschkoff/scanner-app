@@ -21,12 +21,17 @@ public interface HttpApi {
 
 
     @Multipart
-    @POST("uploadFile")
+    @POST("api/v1/feedback")
     Call<ResponseBody> createFeedback(@Part MultipartBody.Part file);
 
-    @GET("downloadFile/{fileName}")
-    Call<ResponseBody> getFeedback(@Path("fileName") String name);
+    //@GET("downloadFile/{fileName}")
+    @GET("api/v1/feedback")
+    Call<ResponseBody> getFeedback(@Query("name") String name);
+    //Call<ResponseBody> getFeedback(@Path("fileName") String name);
 
     @GET("api/v1/mitarbeiter")
     Call<List<MitarbeiterModel>> getMitarbeiter();
+
+    @GET("api/v1/image")
+    Call<ResponseBody> getImage(@Query("id") String id, @Query("name") String name);
 }

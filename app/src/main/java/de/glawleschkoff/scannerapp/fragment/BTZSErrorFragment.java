@@ -13,25 +13,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;
+import de.glawleschkoff.scannerapp.databinding.FragmentBtzserrorBinding;
+import de.glawleschkoff.scannerapp.viewmodel.BTZSViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 import de.glawleschkoff.scannerapp.R;
-import de.glawleschkoff.scannerapp.databinding.FragmentInfo3Binding;
 
-public class Info3Fragment extends Fragment {
+public class BTZSErrorFragment extends Fragment {
 
-    private FragmentInfo3Binding binding;
-    private InfoViewModel mViewModel;
+    private FragmentBtzserrorBinding binding;
+    private BTZSViewModel mViewModel;
     private MetaViewModel metaViewModel;
 
-    public static Info3Fragment newInstance() {
-        return new Info3Fragment();
+    public static BTZSErrorFragment newInstance() {
+        return new BTZSErrorFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(BTZSViewModel.class);
         metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
 
     }
@@ -39,7 +39,7 @@ public class Info3Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentInfo3Binding.inflate(getLayoutInflater());
+        binding = FragmentBtzserrorBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
         return view;
@@ -48,7 +48,7 @@ public class Info3Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.button3.setOnClickListener(x -> Navigation.findNavController(requireView()).navigate(R.id.action_info3Fragment_to_info1Fragment));
+        binding.button3.setOnClickListener(x -> Navigation.findNavController(requireView()).navigate(R.id.action_BTZSErrorFragment_to_BTZSScanFragment));
 
     }
 
@@ -60,7 +60,7 @@ public class Info3Fragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == 501){
-                    Navigation.findNavController(requireView()).navigate(R.id.action_info3Fragment_to_info1Fragment);
+                    Navigation.findNavController(requireView()).navigate(R.id.action_BTZSErrorFragment_to_BTZSScanFragment);
                     return true;
                 } else return false;
             }

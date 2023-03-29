@@ -50,12 +50,14 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        binding.bt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(requireView())
-                        .navigate(R.id.action_menuFragment_to_info1Fragment);
-            }
+        binding.bt1.setOnClickListener(x -> {
+            Navigation.findNavController(requireView())
+                    .navigate(R.id.action_menuFragment_to_BTZSScanFragment);
+        });
+
+        binding.bt2.setOnClickListener(x -> {
+            Navigation.findNavController(requireView())
+                    .navigate(R.id.action_menuFragment_to_infoScanFragment2);
         });
 
         return view;

@@ -1,7 +1,13 @@
 package de.glawleschkoff.scannerapp.remote;
 
+import android.media.Image;
+import android.widget.ImageView;
+
 import androidx.lifecycle.MutableLiveData;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +34,7 @@ public class Repository {
     private final MutableLiveData<FeedbackModel> responseFeedback = new MutableLiveData<>();
     private final MutableLiveData<Integer> responseCounter = new MutableLiveData<>(0);
     private final MutableLiveData<List<String>> mitarbeiter = new MutableLiveData<>();
+    private final MutableLiveData<ImageView> imageview = new MutableLiveData<>();
 
     public static synchronized Repository getInstance(){
         if(repository==null){
@@ -132,6 +139,11 @@ public class Repository {
 
             }
         });
+    }
+
+    public void requestImage(String id, String name){
+        String s = "";
+        //Picasso.get().load("http://192.168.34.1/api/v1/image/?id="+id+"&name="+name).into();
     }
 
     public MutableLiveData<Response<BauteilModel>> getResponseBauteil() {

@@ -14,8 +14,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.glawleschkoff.scannerapp.util.RecyclerViewItem;
-
 public class BauteilModel {
     private Integer rowID;
     private Timestamp rowTimestamp;
@@ -46,18 +44,6 @@ public class BauteilModel {
     private String kommentar;
     private String prodFreigabe;
     private String f20;
-
-    public List<RecyclerViewItem> toListOfRecyclerViewItems(){
-        Map<String, String> map = object2Map(this);
-        List<RecyclerViewItem> list = new ArrayList<>();
-
-        SortedSet<String> keys = new TreeSet<>(map.keySet());
-        for (String key : keys) {
-            list.add(new RecyclerViewItem(key, map.get(key)));
-        }
-        return list;
-    }
-
 
 
     public Map<String, String> object2Map(Object o)

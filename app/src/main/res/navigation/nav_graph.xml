@@ -69,5 +69,29 @@
         <action
             android:id="@+id/action_infoScanFragment2_to_menuFragment"
             app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_infoScanFragment2_to_infoErrorFragment"
+            app:destination="@id/infoErrorFragment" />
+        <action
+            android:id="@+id/action_infoScanFragment2_to_infoShowFragment"
+            app:destination="@id/infoShowFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoErrorFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.InfoErrorFragment"
+        android:label="fragment_infoerror"
+        tools:layout="@layout/fragment_infoerror" >
+        <action
+            android:id="@+id/action_infoErrorFragment_to_infoScanFragment2"
+            app:destination="@id/infoScanFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoShowFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.InfoShowFragment"
+        android:label="fragment_infoshow"
+        tools:layout="@layout/fragment_infoshow" >
+        <action
+            android:id="@+id/action_infoShowFragment_to_infoScanFragment2"
+            app:destination="@id/infoScanFragment2" />
     </fragment>
 </navigation>

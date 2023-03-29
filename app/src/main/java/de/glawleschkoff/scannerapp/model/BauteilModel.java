@@ -46,7 +46,7 @@ public class BauteilModel {
     private String f20;
 
 
-    public Map<String, String> object2Map(Object o)
+    public static Map<String, String> object2Map(Object o)
     {
         Class co = o.getClass();
         Field[] cfields = co.getDeclaredFields();
@@ -77,7 +77,7 @@ public class BauteilModel {
         }
         return ret;
     }
-    private Map<String, String> ddmToMap(String s){
+    public static Map<String, String> ddmToMap(String s){
         Map<String, String> map = new HashMap<>();
         List<String> list = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{(.*?)\\}");

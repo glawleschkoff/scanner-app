@@ -1,6 +1,10 @@
 package de.glawleschkoff.scannerapp.fragment;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,36 +12,29 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import de.glawleschkoff.scannerapp.databinding.FragmentBtzserrorBinding;
-import de.glawleschkoff.scannerapp.viewmodel.BTZSViewModel;
-import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 import de.glawleschkoff.scannerapp.R;
+import de.glawleschkoff.scannerapp.databinding.FragmentInfoerrorBinding;
+import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;
 
-public class BTZSErrorFragment extends Fragment {
+public class InfoErrorFragment extends Fragment {
 
-    private FragmentBtzserrorBinding binding;
-    private BTZSViewModel mViewModel;
+    private FragmentInfoerrorBinding binding;
+    private InfoViewModel infoViewModel;
 
-    public static BTZSErrorFragment newInstance() {
-        return new BTZSErrorFragment();
+    public static InfoErrorFragment newInstance(){
+        return new InfoErrorFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(BTZSViewModel.class);
-
+        infoViewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
     }
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        binding = FragmentBtzserrorBinding.inflate(getLayoutInflater());
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentInfoerrorBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
         return view;
@@ -47,8 +44,7 @@ public class BTZSErrorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.button3.setOnClickListener(x -> Navigation.findNavController(requireView())
-                .navigate(R.id.action_BTZSErrorFragment_to_BTZSScanFragment));
-
+                .navigate(R.id.action_infoErrorFragment_to_infoScanFragment2));
     }
 
     public void onResume() {
@@ -60,7 +56,7 @@ public class BTZSErrorFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == 501){
                     Navigation.findNavController(requireView())
-                            .navigate(R.id.action_BTZSErrorFragment_to_BTZSScanFragment);
+                            .navigate(R.id.action_infoErrorFragment_to_infoScanFragment2);
                     return true;
                 } else return false;
             }
@@ -70,7 +66,7 @@ public class BTZSErrorFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mViewModel.resetResponseBauteil();
-        mViewModel.resetResponseFeedback();
+        infoViewModel.resetResponseBauteil();
+        infoViewModel.resetResponseFeedback();
     }
 }

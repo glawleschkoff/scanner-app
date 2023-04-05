@@ -5,19 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.MenuFragment">
-
-    <Button
-        android:id="@+id/btLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Ausloggen"
-        android:textSize="22sp">
-
-    </Button>
+    tools:context=".fragment.menu.MenuFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

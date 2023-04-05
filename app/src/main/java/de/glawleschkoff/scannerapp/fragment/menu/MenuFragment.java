@@ -1,7 +1,9 @@
-package de.glawleschkoff.scannerapp.fragment;
+package de.glawleschkoff.scannerapp.fragment.menu;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -39,12 +41,16 @@ public class MenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentMenuBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        return view;
+    }
 
-        binding.btLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                metaViewModel.setMitarbeiter("");
-                getActivity().setTitle("ScannerApp");
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getActivity().setTitle("Menü");
+        metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x->{
+            if(x==null){
                 Navigation.findNavController(requireView())
                         .navigate(R.id.action_menuFragment_to_loginFragment);
             }
@@ -59,7 +65,5 @@ public class MenuFragment extends Fragment {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_menuFragment_to_infoScanFragment2);
         });
-
-        return view;
     }
 }

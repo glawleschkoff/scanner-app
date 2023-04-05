@@ -2,7 +2,10 @@ package de.glawleschkoff.scannerapp.remote;
 
 import java.util.List;
 
+import de.glawleschkoff.scannerapp.model.BauteilLogModel;
 import de.glawleschkoff.scannerapp.model.BauteilModel;
+import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
+import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -24,14 +27,18 @@ public interface HttpApi {
     @POST("api/v1/feedback")
     Call<ResponseBody> createFeedback(@Part MultipartBody.Part file);
 
-    //@GET("downloadFile/{fileName}")
     @GET("api/v1/feedback")
     Call<ResponseBody> getFeedback(@Query("name") String name);
-    //Call<ResponseBody> getFeedback(@Path("fileName") String name);
 
     @GET("api/v1/mitarbeiter")
     Call<List<MitarbeiterModel>> getMitarbeiter();
 
-    @GET("api/v1/image")
-    Call<ResponseBody> getImage(@Query("id") String id, @Query("name") String name);
+    @GET("api/v1/cncfeedback")
+    Call<List<CNCFeedbackModel>> getCNCFeedback(@Query("id") String id);
+
+    @GET("api/v1/kntfeedback")
+    Call<List<KntFeedbackModel>> getKntFeedback(@Query("id") String id);
+
+    @GET("api/v1/bauteillog")
+    Call<List<BauteilLogModel>> getBauteilLog(@Query("id") String id);
 }

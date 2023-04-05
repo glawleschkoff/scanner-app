@@ -1,8 +1,9 @@
-package de.glawleschkoff.scannerapp.fragment;
+package de.glawleschkoff.scannerapp.fragment.login;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -55,16 +56,24 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         loginRVAdapter = new LoginRVAdapter(this.getContext(),
                 Arrays.asList(new LoginRVItem("Lädt...")));
         binding.rv2.setAdapter(loginRVAdapter);
         binding.rv2.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+        getActivity().setTitle("Login");
+
         loginViewModel.requestMitarbeiter();
 
         loginViewModel.getResponseMitarbeiter().observe(getViewLifecycleOwner(), response ->
-                loginRVAdapter.setRecyclerViewItems(response.stream()
+                loginRVAdapter.setRecyclerViewItems(response.getResponse().stream()
                         .map(x -> new LoginRVItem(x)).collect(Collectors.toList())));
 
         LoginItemClickSupport.addTo(binding.rv2)
@@ -72,21 +81,21 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         //Toast.makeText(getContext(),loginViewModel.getResponseMitarbeiter()
-                         //       .getValue().get(position),Toast.LENGTH_SHORT).show();
+                        //       .getValue().get(position),Toast.LENGTH_SHORT).show();
 
 
                         new AlertDialog.Builder(getContext())
                                 //.setTitle("Delete entry")
                                 .setMessage("Wirklich als "+ loginViewModel.getResponseMitarbeiter()
-                                                .getValue().get(position)+ " anmelden?")
+                                        .getValue().getResponse().get(position)+ " anmelden?")
 
                                 // Specifying a listener allows you to take an action before dismissing the dialog.
                                 // The dialog is automatically dismissed when a dialog button is clicked.
                                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         metaViewModel.setMitarbeiter(loginViewModel.getResponseMitarbeiter()
-                                                .getValue().get(position));
-                                        getActivity().setTitle("ScannerApp - angemeldet als "+metaViewModel.getMitarbeiter().getValue());
+                                                .getValue().getResponse().get(position));
+                                        //getActivity().setTitle("Menü - angemeldet als "+metaViewModel.getMitarbeiter().getValue());
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_loginFragment_to_menuFragment);
                                     }
@@ -98,13 +107,5 @@ public class LoginFragment extends Fragment {
                                 .show();
                     }
                 });
-
-        return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        loginViewModel.getResponseMitarbeiter().removeObservers(this);
     }
 }

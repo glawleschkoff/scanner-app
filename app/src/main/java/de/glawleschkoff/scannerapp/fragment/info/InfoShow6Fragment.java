@@ -1,0 +1,76 @@
+package de.glawleschkoff.scannerapp.fragment.info;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import de.glawleschkoff.scannerapp.databinding.FragmentInfoshow6Binding;
+import de.glawleschkoff.scannerapp.util.CardRVAdapter;
+import de.glawleschkoff.scannerapp.util.CardRVItem;
+import de.glawleschkoff.scannerapp.util.RVItem;
+import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;
+
+public class InfoShow6Fragment extends Fragment {
+
+    private FragmentInfoshow6Binding binding;
+    private InfoViewModel infoViewModel;
+    private CardRVAdapter cardRVAdapter;
+
+    public static InfoShow6Fragment newInstance(){
+        return new InfoShow6Fragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        infoViewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentInfoshow6Binding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        List<RVItem> list1 = new ArrayList<>();
+        list1.add(new RVItem("Name1","Wert1"));
+        List<RVItem> list2 = new ArrayList<>();
+        list2.add(new RVItem("VersteckterName1","VersteckterWert1"));
+
+        cardRVAdapter = new CardRVAdapter(Arrays.asList(new CardRVItem(list1, list2)),this.getContext());
+        binding.rv99.setAdapter(cardRVAdapter);
+        binding.rv99.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        infoViewModel.getResponseBauteilLog().observe(getViewLifecycleOwner(),response -> {
+
+            cardRVAdapter.setCardRVItemList(infoViewModel.getResponseBauteilLog().getValue().getResponse().stream()
+                    .map(x -> new CardRVItem(
+                            Arrays.asList(
+                                    new RVItem("Datum",x.getDatum()),
+                                    new RVItem("Uhrzeit",x.getUhrzeit())),
+                            Arrays.asList(
+                                    new RVItem("Job",x.getJob()),
+                                    new RVItem("Vorgang", x.getVorgang()),
+                                    new RVItem("Protokoll",x.getProtokoll())
+                            ))).collect(Collectors.toList()));
+        });
+    }
+}

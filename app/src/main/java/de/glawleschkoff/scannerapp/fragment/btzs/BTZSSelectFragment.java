@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp.fragment;
+package de.glawleschkoff.scannerapp.fragment.btzs;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -45,12 +45,31 @@ public class BTZSSelectFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBtzsselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        return view;
+    }
 
-        btzsViewModel.getInfo2fragmentText().observe(getViewLifecycleOwner(), response -> {
-            binding.text2.setText(response);
-            if (!btzsViewModel.getInfo2fragmentText().getValue().equals("Bauteil wirklich zurücksetzen?")) {
-                binding.button2.setEnabled(false);
-                binding.button.setText("Zurück");
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if(btzsViewModel.getResponseFeedback().getValue().getResponse()!=null){
+            binding.text2.setText("Bereits zurück gesetzt");
+            binding.button2.setVisibility(View.GONE);
+            binding.button2.setEnabled(false);
+            binding.button.setText("Zurück");
+        } else if(!btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAnweisung().equals("BTZS=J")){
+            binding.text2.setText("Zurücksetzen nicht möglich");
+            binding.button2.setVisibility(View.GONE);
+            binding.button2.setEnabled(false);
+            binding.button.setText("Zurück");
+        } else{
+            binding.text2.setText("Bauteil wirklich zurücksetzen?");
+        }
+
+        metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x->{
+            if(x==null){
+                Navigation.findNavController(requireView())
+                        .navigate(R.id.action_BTZSSelectFragment3_to_loginFragment);
             }
         });
 
@@ -59,7 +78,7 @@ public class BTZSSelectFragment extends Fragment {
         });
 
         binding.button2.setOnClickListener(x -> {
-            String exemplarNr = btzsViewModel.getResponseBauteil().getValue().body().getExemplarNr();
+            String exemplarNr = btzsViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr();
             String scannerNr = "001";
             String mitarbeiter = metaViewModel.getMitarbeiter().getValue();
             String kurzbefehl = "BTZS";
@@ -111,8 +130,6 @@ public class BTZSSelectFragment extends Fragment {
 
             }
         });
-
-        return view;
     }
 
     @Override
@@ -131,12 +148,4 @@ public class BTZSSelectFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        btzsViewModel.getResponseBauteil().removeObservers(this);
-        btzsViewModel.getInfo2fragmentText().removeObservers(this);
-        btzsViewModel.resetResponseBauteil();
-        btzsViewModel.resetResponseFeedback();
-    }
 }

@@ -1,21 +1,26 @@
 package de.glawleschkoff.scannerapp.remote;
 
-import android.media.Image;
-import android.widget.ImageView;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.glawleschkoff.scannerapp.model.BauteilLogModel;
 import de.glawleschkoff.scannerapp.model.BauteilModel;
+import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
 import de.glawleschkoff.scannerapp.model.FeedbackModel;
+import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
+import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -30,11 +35,7 @@ public class Repository {
 
     private static Repository repository;
     private final HttpApi httpApi;
-    private final MutableLiveData<Response<BauteilModel>> responseBauteil = new MutableLiveData<>();
-    private final MutableLiveData<FeedbackModel> responseFeedback = new MutableLiveData<>();
-    private final MutableLiveData<Integer> responseCounter = new MutableLiveData<>(0);
-    private final MutableLiveData<List<String>> mitarbeiter = new MutableLiveData<>();
-    private final MutableLiveData<ImageView> imageview = new MutableLiveData<>();
+    private Target target;
 
     public static synchronized Repository getInstance(){
         if(repository==null){
@@ -47,27 +48,77 @@ public class Repository {
         httpApi = retrofit.create(HttpApi.class);
     }
 
-    public void requestBauteil(String id){
+    public void requestBauteil(String id, MutableLiveData<ResponseWrapper<BauteilModel>> responseBauteil){
         Call<BauteilModel> call = httpApi.getBauteil(id);
         call.enqueue(new Callback<BauteilModel>() {
             @Override
             public void onResponse(Call<BauteilModel> call, Response<BauteilModel> response) {
                 if(!response.isSuccessful()){
-                    responseBauteil.setValue(response);
-                    responseCounter.setValue(responseCounter.getValue()+1);
+                    responseBauteil.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
-                    responseBauteil.setValue(response);
-                    responseCounter.setValue(responseCounter.getValue()+1);
+                    responseBauteil.setValue(new ResponseWrapper<>(response.body(),null));
                 }
             }
             @Override
             public void onFailure(Call<BauteilModel> call, Throwable t) {
-                //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
-                responseBauteil.setValue(Response.error(999, ResponseBody.create(
-                        MediaType.parse("application/json"),
-                        ""
-                )));
-                responseCounter.setValue(responseCounter.getValue()+1);
+                responseBauteil.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            }
+        });
+    }
+
+    public void requestCNCFeedback(String id, MutableLiveData<ResponseWrapper<List<CNCFeedbackModel>>> responseCNCFeedback){
+        Call<List<CNCFeedbackModel>> call = httpApi.getCNCFeedback(id);
+        call.enqueue(new Callback<List<CNCFeedbackModel>>() {
+            @Override
+            public void onResponse(Call<List<CNCFeedbackModel>> call, Response<List<CNCFeedbackModel>> response) {
+                if(!response.isSuccessful()){
+                    responseCNCFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                } else {
+                    responseCNCFeedback.setValue(new ResponseWrapper<>(response.body(),null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CNCFeedbackModel>> call, Throwable t) {
+                responseCNCFeedback.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            }
+        });
+    }
+
+    public void requestKntFeedback(String id, MutableLiveData<ResponseWrapper<List<KntFeedbackModel>>> responseKntFeedback){
+        Call<List<KntFeedbackModel>> call = httpApi.getKntFeedback(id);
+        call.enqueue(new Callback<List<KntFeedbackModel>>() {
+            @Override
+            public void onResponse(Call<List<KntFeedbackModel>> call, Response<List<KntFeedbackModel>> response) {
+                if(!response.isSuccessful()){
+                    responseKntFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                } else {
+                    responseKntFeedback.setValue(new ResponseWrapper<>(response.body(),null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<KntFeedbackModel>> call, Throwable t) {
+                responseKntFeedback.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            }
+        });
+    }
+
+    public void requestBauteilLog(String id, MutableLiveData<ResponseWrapper<List<BauteilLogModel>>> responseBauteilLog){
+        Call<List<BauteilLogModel>> call = httpApi.getBauteilLog(id);
+        call.enqueue(new Callback<List<BauteilLogModel>>() {
+            @Override
+            public void onResponse(Call<List<BauteilLogModel>> call, Response<List<BauteilLogModel>> response) {
+                if(!response.isSuccessful()){
+                    responseBauteilLog.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                } else {
+                    responseBauteilLog.setValue(new ResponseWrapper<>(response.body(),null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BauteilLogModel>> call, Throwable t) {
+                responseBauteilLog.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }
@@ -83,6 +134,11 @@ public class Repository {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(!response.isSuccessful()){
+
+                } else {
+
+                }
                 System.out.println("code: "+response.code());
             }
 
@@ -93,69 +149,72 @@ public class Repository {
         });
     }
 
-    public void requestFeedback(String name){
+    public void requestFeedback(String name, MutableLiveData<ResponseWrapper<FeedbackModel>> responseFeedback){
         Call<ResponseBody> call = httpApi.getFeedback(name);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(!response.isSuccessful()){
-                    responseFeedback.setValue(null);
-                    responseCounter.setValue(responseCounter.getValue()+1);
+                    responseFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
                     try {
-                        String s = new String(response.body().bytes());
-                        responseFeedback.setValue(new FeedbackModel(s));
-
+                        responseFeedback.setValue(new ResponseWrapper<>(new FeedbackModel(new String(response.body().bytes())),null));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    responseCounter.setValue(responseCounter.getValue()+1);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseFeedback.setValue(null);
-                responseCounter.setValue(responseCounter.getValue()+1);
+                responseFeedback.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
 
     }
 
-    public void requestMitarbeiter(){
+    public void requestMitarbeiter(MutableLiveData<ResponseWrapper<List<String>>> responseMitarbeiter){
         Call<List<MitarbeiterModel>> call = httpApi.getMitarbeiter();
         call.enqueue(new Callback<List<MitarbeiterModel>>() {
             @Override
             public void onResponse(Call<List<MitarbeiterModel>> call, Response<List<MitarbeiterModel>> response) {
                 if(!response.isSuccessful()){
-
+                    responseMitarbeiter.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
-                    mitarbeiter.setValue(response.body().stream().map(x -> x.getKurzzeichen()).filter(x -> !Arrays.asList("1","2","3","4").contains(x)).sorted().collect(Collectors.toList()));
+                    responseMitarbeiter.setValue(new ResponseWrapper<>(response.body()
+                            .stream().map(x -> x.getKurzzeichen())
+                            .filter(x -> !Arrays.asList("1","2","3","4").contains(x)).sorted()
+                            .collect(Collectors.toList()),null));
                 }
             }
 
             @Override
             public void onFailure(Call<List<MitarbeiterModel>> call, Throwable t) {
-
+                responseMitarbeiter.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }
 
-    public void requestImage(String id, String name){
-        String s = "";
-        //Picasso.get().load("http://192.168.34.1/api/v1/image/?id="+id+"&name="+name).into();
+    public void requestBitmap(String id, String name, MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap){
+        System.out.println("hier");
+        target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                responseBitmap.setValue(new ResponseWrapper<>(bitmap,null));
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                responseBitmap.setValue(new ResponseWrapper<>(null,e.getMessage()));
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        Picasso.get().load("http://192.168.1.34:8080/api/v1/image/?id="+id+"&name="+name+".jpg")
+                .into(target);
     }
 
-    public MutableLiveData<Response<BauteilModel>> getResponseBauteil() {
-        return responseBauteil;
-    }
-    public MutableLiveData<FeedbackModel> getResponseFeedback(){
-        return responseFeedback;
-    }
-    public MutableLiveData<Integer> getResponseCounter(){
-        return responseCounter;
-    }
-    public MutableLiveData<List<String>> getMitarbeiter(){
-        return mitarbeiter;
-    }
 }

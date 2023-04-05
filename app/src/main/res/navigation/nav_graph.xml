@@ -6,7 +6,7 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.LoginFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.MenuFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.menu.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/BTZSScanFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.BTZSScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.btzs.BTZSScanFragment"
         android:label="fragment_btzsscan"
         tools:layout="@layout/fragment_btzsscan" >
         <action
@@ -40,58 +40,52 @@
             android:id="@+id/action_BTZSScanFragment_to_BTZSSelectFragment3"
             app:destination="@id/BTZSSelectFragment3" />
         <action
-            android:id="@+id/action_BTZSScanFragment_to_BTZSErrorFragment"
-            app:destination="@id/BTZSErrorFragment" />
+            android:id="@+id/action_BTZSScanFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_BTZSScanFragment_self"
+            app:destination="@id/BTZSScanFragment" />
     </fragment>
     <fragment
         android:id="@+id/BTZSSelectFragment3"
-        android:name="de.glawleschkoff.scannerapp.fragment.BTZSSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.btzs.BTZSSelectFragment"
         android:label="fragment_btzsselect"
         tools:layout="@layout/fragment_btzsselect" >
         <action
             android:id="@+id/action_BTZSSelectFragment3_to_BTZSScanFragment"
             app:destination="@id/BTZSScanFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/BTZSErrorFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.BTZSErrorFragment"
-        android:label="fragment_btzserror"
-        tools:layout="@layout/fragment_btzserror" >
         <action
-            android:id="@+id/action_BTZSErrorFragment_to_BTZSScanFragment"
-            app:destination="@id/BTZSScanFragment" />
+            android:id="@+id/action_BTZSSelectFragment3_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoScanFragment2"
-        android:name="de.glawleschkoff.scannerapp.fragment.InfoScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.info.InfoScanFragment"
         android:label="fragment_infoscan"
         tools:layout="@layout/fragment_infoscan" >
         <action
             android:id="@+id/action_infoScanFragment2_to_menuFragment"
             app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_infoScanFragment2_to_infoErrorFragment"
-            app:destination="@id/infoErrorFragment" />
-        <action
             android:id="@+id/action_infoScanFragment2_to_infoShowFragment"
             app:destination="@id/infoShowFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/infoErrorFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.InfoErrorFragment"
-        android:label="fragment_infoerror"
-        tools:layout="@layout/fragment_infoerror" >
         <action
-            android:id="@+id/action_infoErrorFragment_to_infoScanFragment2"
+            android:id="@+id/action_infoScanFragment2_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_infoScanFragment2_self"
             app:destination="@id/infoScanFragment2" />
     </fragment>
     <fragment
         android:id="@+id/infoShowFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.InfoShowFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.info.InfoShowFragment"
         android:label="fragment_infoshow"
         tools:layout="@layout/fragment_infoshow" >
         <action
             android:id="@+id/action_infoShowFragment_to_infoScanFragment2"
             app:destination="@id/infoScanFragment2" />
+        <action
+            android:id="@+id/action_infoShowFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

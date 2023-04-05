@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp.fragment;
+package de.glawleschkoff.scannerapp.fragment.info;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -19,11 +19,13 @@ import com.google.android.material.tabs.TabLayout;
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentInfoshowBinding;
 import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 
 public class InfoShowFragment extends Fragment {
 
     private FragmentInfoshowBinding binding;
     private InfoViewModel infoViewModel;
+    private MetaViewModel metaViewModel;
     private TabLayout tabLayout;
 
     public static InfoShowFragment newInstance(){
@@ -34,6 +36,7 @@ public class InfoShowFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         infoViewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
+        metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
     }
 
     @Nullable
@@ -41,6 +44,19 @@ public class InfoShowFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentInfoshowBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x->{
+            if(x==null){
+                Navigation.findNavController(requireView())
+                        .navigate(R.id.action_infoShowFragment_to_loginFragment);
+            }
+        });
 
         binding.button3.setOnClickListener(x -> {
             Navigation.findNavController(requireView()).navigate(R.id.action_infoShowFragment_to_infoScanFragment2);
@@ -48,14 +64,23 @@ public class InfoShowFragment extends Fragment {
 
         tabLayout = binding.tabLayout;
         TabLayout.Tab firstTab = tabLayout.newTab();
-        firstTab.setText("Felder");
+        firstTab.setText("Allgemein");
         tabLayout.addTab(firstTab);
         TabLayout.Tab secondTab = tabLayout.newTab();
         secondTab.setText("Platte");
         tabLayout.addTab(secondTab);
         TabLayout.Tab thirdTab = tabLayout.newTab();
-        thirdTab.setText("Kante");
+        thirdTab.setText("Platten Feedback");
         tabLayout.addTab(thirdTab);
+        TabLayout.Tab fourthTab = tabLayout.newTab();
+        fourthTab.setText("Kante");
+        tabLayout.addTab(fourthTab);
+        TabLayout.Tab fifthTab = tabLayout.newTab();
+        fifthTab.setText("Kanten Feedback");
+        tabLayout.addTab(fifthTab);
+        TabLayout.Tab sixthTab = tabLayout.newTab();
+        sixthTab.setText("Log");
+        tabLayout.addTab(sixthTab);
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(binding.frame.getId(), new InfoShow1Fragment());
@@ -67,8 +92,11 @@ public class InfoShowFragment extends Fragment {
                 Fragment fragment = null;
                 switch (tab.getPosition()){
                     case 0: fragment = new InfoShow1Fragment(); break;
-                    //case 1: fragment = new InfoShow2Fragment(); break;
-                    //case 2: fragment = new InfoShow3Fragment(); break;
+                    case 1: fragment = new InfoShow2Fragment(); break;
+                    case 2: fragment = new InfoShow3Fragment(); break;
+                    case 3: fragment = new InfoShow4Fragment(); break;
+                    case 4: fragment = new InfoShow5Fragment(); break;
+                    case 5: fragment = new InfoShow6Fragment(); break;
                 }
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
@@ -87,8 +115,6 @@ public class InfoShowFragment extends Fragment {
 
             }
         });
-
-        return view;
     }
 
     @Override
@@ -107,11 +133,4 @@ public class InfoShowFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //infoViewModel.getResponseBauteil().removeObservers(this);
-        infoViewModel.resetResponseBauteil();
-        infoViewModel.resetResponseFeedback();
-    }
 }

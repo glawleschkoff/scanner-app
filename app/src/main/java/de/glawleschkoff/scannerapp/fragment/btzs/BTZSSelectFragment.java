@@ -53,7 +53,7 @@ public class BTZSSelectFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if(btzsViewModel.getResponseFeedback().getValue().getResponse()!=null){
-            binding.text2.setText("Bereits zurück gesetzt");
+            binding.text2.setText("Bauteil bereits zurück gesetzt");
             binding.button2.setVisibility(View.GONE);
             binding.button2.setEnabled(false);
             binding.button.setText("Zurück");

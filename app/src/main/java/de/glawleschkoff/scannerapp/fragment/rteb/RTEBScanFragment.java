@@ -1,0 +1,97 @@
+package de.glawleschkoff.scannerapp.fragment.rteb;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
+import com.keyence.autoid.sdk.scan.DecodeResult;
+import com.keyence.autoid.sdk.scan.ScanManager;
+
+import de.glawleschkoff.scannerapp.R;
+import de.glawleschkoff.scannerapp.databinding.FragmentRtebscanBinding;
+import de.glawleschkoff.scannerapp.fragment.info.InfoScanFragment;
+import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.RTEBViewModel;
+
+public class RTEBScanFragment extends Fragment implements ScanManager.DataListener {
+
+    private FragmentRtebscanBinding binding;
+    private RTEBViewModel rtebViewModel;
+    private MetaViewModel metaViewModel;
+    private ScanManager scanManager;
+
+    public static InfoScanFragment newInstance(){
+        return new InfoScanFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        rtebViewModel = new ViewModelProvider(requireActivity()).get(RTEBViewModel.class);
+        metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentRtebscanBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getActivity().setTitle("Restteil Einbuchen");
+
+        binding.text.setOnClickListener(x -> {
+            rtebViewModel.setFeedbackRestteil("abc");
+        });
+
+        rtebViewModel.getFeedbackRestteil().observe(getViewLifecycleOwner(), x -> {
+            //Navigation.findNavController(requireView()).navigate();
+        });
+
+        binding.bt1.setOnClickListener(x -> {
+            Navigation.findNavController(requireView())
+                    .navigate(R.id.action_RTEBScanFragment_to_menuFragment);
+        });
+
+        metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x -> {
+            if(x==null){
+                Navigation.findNavController(requireView())
+                        .navigate(R.id.action_RTEBScanFragment_to_loginFragment);
+            }
+        });
+    }
+
+    @Override
+    public void onDataReceived(DecodeResult decodeResult) {
+        DecodeResult.Result result = decodeResult.getResult();
+        String codeType = decodeResult.getCodeType();
+        String data = decodeResult.getData();
+        //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
+        System.out.println(data);
+        if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
+            String id = data.substring(1);
+            //...
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
+    }
+}

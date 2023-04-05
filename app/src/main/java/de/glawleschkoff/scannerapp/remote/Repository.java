@@ -1,6 +1,7 @@
 package de.glawleschkoff.scannerapp.remote;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 
@@ -21,6 +22,7 @@ import de.glawleschkoff.scannerapp.model.FeedbackModel;
 import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
+import de.glawleschkoff.scannerapp.util.BitmapCutter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -200,7 +202,8 @@ public class Repository {
         target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                responseBitmap.setValue(new ResponseWrapper<>(bitmap,null));
+                Bitmap b = BitmapCutter.imageWithMargin(bitmap, -1,0);
+                responseBitmap.setValue(new ResponseWrapper<>(b,null));
             }
 
             @Override

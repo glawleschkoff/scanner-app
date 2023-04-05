@@ -64,6 +64,7 @@ public class InfoViewModel extends ViewModel {
         return responseFeedback;
     }
     public LiveData<ResponseWrapper<Bitmap>> getResponseBitmap(){
+        //System.out.println("farbe: "+responseBitmap.getValue().getResponse().getColor(0,0));
         return responseBitmap;
     }
     public LiveData<ResponseWrapper<List<CNCFeedbackModel>>> getResponseCNCFeedback(){

@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_menuFragment_to_infoScanFragment2"
             app:destination="@id/infoScanFragment2" />
+        <action
+            android:id="@+id/action_menuFragment_to_RTEBScanFragment"
+            app:destination="@id/RTEBScanFragment" />
     </fragment>
     <fragment
         android:id="@+id/BTZSScanFragment"
@@ -86,6 +89,18 @@
             app:destination="@id/infoScanFragment2" />
         <action
             android:id="@+id/action_infoShowFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RTEBScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.rteb.RTEBScanFragment"
+        android:label="fragment_rtebscan"
+        tools:layout="@layout/fragment_rtebscan" >
+        <action
+            android:id="@+id/action_RTEBScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_RTEBScanFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

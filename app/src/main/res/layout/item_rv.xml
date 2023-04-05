@@ -11,7 +11,7 @@
         <TextView
             android:id="@+id/textLinks"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingStart="8sp"
             android:paddingEnd="8sp"
             android:text="TextView"

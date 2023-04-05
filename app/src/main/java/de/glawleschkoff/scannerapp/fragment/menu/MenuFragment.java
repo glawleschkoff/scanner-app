@@ -65,5 +65,9 @@ public class MenuFragment extends Fragment {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_menuFragment_to_infoScanFragment2);
         });
+        binding.bt3.setOnClickListener(x -> {
+            Navigation.findNavController(requireView())
+                    .navigate(R.id.action_menuFragment_to_RTEBScanFragment);
+        });
     }
 }

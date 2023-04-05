@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp.fragment.info;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.Arrays;
 
 import de.glawleschkoff.scannerapp.databinding.FragmentInfoshow1Binding;
+import de.glawleschkoff.scannerapp.util.BitmapCutter;
 import de.glawleschkoff.scannerapp.util.RVAdapter;
 import de.glawleschkoff.scannerapp.util.RVItem;
 import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;

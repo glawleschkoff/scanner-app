@@ -11,4 +11,7 @@
     <color name="colorPrimary">#0f9d58</color>
     <color name="colorPrimaryDark">#006d2d</color>
     <color name="colorAccent">#55cf86</color>
+
+    <color name="mdrei">#A41C3A</color>
+    <color name="mdreidark">#7A7E7E</color>
 </resources>

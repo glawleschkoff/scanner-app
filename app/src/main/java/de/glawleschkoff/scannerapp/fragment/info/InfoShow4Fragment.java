@@ -55,7 +55,6 @@ public class InfoShow4Fragment extends Fragment {
             rvAdapter.setRecyclerViewItems(Arrays.asList(
                     new RVItem("FertigKante",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getFertigKante()),
-                    new RVItem("",""),
                     new RVItem("KA",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKa()),
                     new RVItem("KA Ist L",infoViewModel.getResponseBauteil()
@@ -64,7 +63,6 @@ public class InfoShow4Fragment extends Fragment {
                             .getValue().getResponse().getKa_Läufe()),
                     new RVItem("KA Verbrauch",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKa_Verbrauch()),
-                    new RVItem("",""),
                     new RVItem("KB",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKb()),
                     new RVItem("KB Ist L",infoViewModel.getResponseBauteil()
@@ -73,7 +71,6 @@ public class InfoShow4Fragment extends Fragment {
                             .getValue().getResponse().getKb_Läufe()),
                     new RVItem("KB Verbrauch",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKb_Verbrauch()),
-                    new RVItem("",""),
                     new RVItem("KC",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKc()),
                     new RVItem("KC Ist L",infoViewModel.getResponseBauteil()
@@ -82,7 +79,6 @@ public class InfoShow4Fragment extends Fragment {
                             .getValue().getResponse().getKc_Läufe()),
                     new RVItem("KC Verbrauch",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKc_Verbrauch()),
-                    new RVItem("",""),
                     new RVItem("KD",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKd()),
                     new RVItem("KD Ist L",infoViewModel.getResponseBauteil()
@@ -91,7 +87,6 @@ public class InfoShow4Fragment extends Fragment {
                             .getValue().getResponse().getKd_Läufe()),
                     new RVItem("KD Verbrauch",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKd_Verbrauch()),
-                    new RVItem("",""),
                     new RVItem("KE",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKe()),
                     new RVItem("KE Ist L",infoViewModel.getResponseBauteil()
@@ -100,7 +95,6 @@ public class InfoShow4Fragment extends Fragment {
                             .getValue().getResponse().getKe_Läufe()),
                     new RVItem("KE Verbrauch",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKe_Verbrauch()),
-                    new RVItem("",""),
                     new RVItem("KF",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKf()),
                     new RVItem("KF Ist L",infoViewModel.getResponseBauteil()
@@ -109,7 +103,6 @@ public class InfoShow4Fragment extends Fragment {
                             .getValue().getResponse().getKf_Läufe()),
                     new RVItem("KF Verbrauch",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKf_Verbrauch()),
-                    new RVItem("",""),
                     new RVItem("KG",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKg()),
                     new RVItem("KG Ist L",infoViewModel.getResponseBauteil()
@@ -118,7 +111,6 @@ public class InfoShow4Fragment extends Fragment {
                             .getValue().getResponse().getKg_Läufe()),
                     new RVItem("KG Verbrauch",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKg_Verbrauch()),
-                    new RVItem("",""),
                     new RVItem("KH",infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKh()),
                     new RVItem("KH Ist L",infoViewModel.getResponseBauteil()

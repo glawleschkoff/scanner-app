@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
-        menu.findItem(R.id.action_settings).setEnabled(false);
+        //menu.findItem(R.id.action_settings).setEnabled(false);
+        menu.setGroupEnabled(0,false);
+        menu.setGroupVisible(0,false);
         return true;
     }
 
@@ -54,12 +56,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         metaViewModel.getMitarbeiter().observe(this,x->{
+            System.out.println(x);
             if(x == null){
-                menu.findItem(R.id.action_settings).setEnabled(false);
+                menu.setGroupEnabled(0,false);
+                menu.setGroupVisible(0,false);
+                //menu.findItem(R.id.action_settings).setEnabled(false);
             } else {
-                menu.findItem(R.id.action_settings).setEnabled(true);
+                menu.setGroupEnabled(0,true);
+                menu.setGroupVisible(0,true);
+                menu.findItem(R.id.action_settings).setTitle(x+" abmelden");
+                //menu.findItem(R.id.action_settings).setEnabled(true);
             }
         });
+
         return true;
     }
 }

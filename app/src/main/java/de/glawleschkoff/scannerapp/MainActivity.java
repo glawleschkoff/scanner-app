@@ -6,7 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        byte [] encodeByte= Base64.decode(":",Base64.DEFAULT);
+        Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        Drawable d = new BitmapDrawable(bitmap);
 
         setSupportActionBar(binding.toolbar);
         //binding.toolbar.setTitle("hi");
@@ -60,11 +70,13 @@ public class MainActivity extends AppCompatActivity {
             if(x == null){
                 menu.setGroupEnabled(0,false);
                 menu.setGroupVisible(0,false);
+                binding.kRzel.setText("");
                 //menu.findItem(R.id.action_settings).setEnabled(false);
             } else {
                 menu.setGroupEnabled(0,true);
                 menu.setGroupVisible(0,true);
-                menu.findItem(R.id.action_settings).setTitle(x+" abmelden");
+                menu.findItem(R.id.action_settings).setTitle("Abmelden");
+                binding.kRzel.setText(x);
                 //menu.findItem(R.id.action_settings).setEnabled(true);
             }
         });

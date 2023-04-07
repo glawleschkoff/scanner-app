@@ -9,11 +9,9 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.model.BauteilLogModel;
 import de.glawleschkoff.scannerapp.model.BauteilModel;
 import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
-import de.glawleschkoff.scannerapp.model.FeedbackModel;
 import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import de.glawleschkoff.scannerapp.remote.Repository;
@@ -22,7 +20,7 @@ public class InfoViewModel extends ViewModel {
 
     private final Repository repository;
     private final MutableLiveData<ResponseWrapper<BauteilModel>> responseBauteil;
-    private final MutableLiveData<ResponseWrapper<FeedbackModel>> responseFeedback;
+    private final MutableLiveData<ResponseWrapper<String>> responseFeedback;
     private final MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap;
     private final MutableLiveData<ResponseWrapper<List<CNCFeedbackModel>>> responseCNCFeedback;
     private final MutableLiveData<ResponseWrapper<List<KntFeedbackModel>>> responseKntFeedback;
@@ -60,7 +58,7 @@ public class InfoViewModel extends ViewModel {
     public LiveData<ResponseWrapper<BauteilModel>> getResponseBauteil(){
         return responseBauteil;
     }
-    public LiveData<ResponseWrapper<FeedbackModel>> getResponseFeedback(){
+    public LiveData<ResponseWrapper<String>> getResponseFeedback(){
         return responseFeedback;
     }
     public LiveData<ResponseWrapper<Bitmap>> getResponseBitmap(){

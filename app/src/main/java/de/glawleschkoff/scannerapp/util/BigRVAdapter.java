@@ -1,6 +1,9 @@
 package de.glawleschkoff.scannerapp.util;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +17,18 @@ import java.util.List;
 
 import de.glawleschkoff.scannerapp.R;
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
+public class BigRVAdapter extends RecyclerView.Adapter<BigRVAdapter.MyViewHolder> {
 
     private Context context;
     private List<RVItem> RVItems;
     private ClickInterface clickInterface;
 
-    public RVAdapter(Context context, List<RVItem> RVItems, ClickInterface clickInterface){
+    public BigRVAdapter(Context context, List<RVItem> RVItems, ClickInterface clickInterface){
         this.context = context;
         this.RVItems = RVItems;
         this.clickInterface = clickInterface;
     }
-    public RVAdapter(Context context, List<RVItem> RVItems){
+    public BigRVAdapter(Context context, List<RVItem> RVItems){
         this.context = context;
         this.RVItems = RVItems;
         this.clickInterface = null;
@@ -34,19 +37,24 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
 
     @NonNull
     @Override
-    public RVAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public BigRVAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_rv, parent, false);
-        return new RVAdapter.MyViewHolder(view);
+        View view = inflater.inflate(R.layout.item_bigrv, parent, false);
+        return new BigRVAdapter.MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RVAdapter.MyViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull BigRVAdapter.MyViewHolder holder, int position){
+        SpannableString wert = new SpannableString(RVItems.get(position).getWert());
+        if(RVItems.get(position).getName().equals("Länge") || RVItems.get(position).getName().equals("Breite")){
+            wert.setSpan(new UnderlineSpan(), 0, wert.length(), 0);
+            //holder.rechts.setTextColor(Color.parseColor("#000000"));
+        }
         holder.links.setText(RVItems.get(position).getName());
-        holder.rechts.setText(RVItems.get(position).getWert());
+        holder.rechts.setText(wert);
         if(clickInterface!=null){
-            holder.links.setOnClickListener(x-> clickInterface.onClick(""));
-            holder.rechts.setOnClickListener(x-> clickInterface.onClick(""));
+            holder.links.setOnClickListener(x-> clickInterface.onClick(RVItems.get(position).getName()));
+            holder.rechts.setOnClickListener(x-> clickInterface.onClick(RVItems.get(position).getName()));
         }
     }
 

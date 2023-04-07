@@ -18,7 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentBtzsselectBinding;
-import de.glawleschkoff.scannerapp.model.FeedbackModel;
+import de.glawleschkoff.scannerapp.model.BTZSFeedbackModel;
 import de.glawleschkoff.scannerapp.viewmodel.BTZSViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 
@@ -79,12 +79,12 @@ public class BTZSSelectFragment extends Fragment {
 
         binding.button2.setOnClickListener(x -> {
             String exemplarNr = btzsViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr();
-            String scannerNr = "001";
+            String scannerNr = metaViewModel.getScannerNr().getValue();
             String mitarbeiter = metaViewModel.getMitarbeiter().getValue();
             String kurzbefehl = "BTZS";
             String optionen = "";
 
-            btzsViewModel.createFeedback(new FeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));
+            btzsViewModel.createFeedback(new BTZSFeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));
             Navigation.findNavController(requireView()).navigate(R.id.action_BTZSSelectFragment3_to_BTZSScanFragment);
         });
 

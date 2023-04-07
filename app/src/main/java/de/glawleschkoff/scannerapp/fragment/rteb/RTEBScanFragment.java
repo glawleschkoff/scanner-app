@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp.fragment.rteb;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -17,6 +20,7 @@ import com.keyence.autoid.sdk.scan.ScanManager;
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentRtebscanBinding;
 import de.glawleschkoff.scannerapp.fragment.info.InfoScanFragment;
+import de.glawleschkoff.scannerapp.util.AndLiveData;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.RTEBViewModel;
 
@@ -55,12 +59,40 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Restteil Einbuchen");
 
         binding.text.setOnClickListener(x -> {
-            rtebViewModel.setFeedbackRestteil("abc");
+            rtebViewModel.setFeedbackRestteil("A0249-000801;EDSW980ST15_19;2800;1888");
+            rtebViewModel.requestFeedback("A0249-000801_RTEB.csv");
         });
 
-        rtebViewModel.getFeedbackRestteil().observe(getViewLifecycleOwner(), x -> {
-            //Navigation.findNavController(requireView()).navigate();
+        AndLiveData.use(getViewLifecycleOwner())
+                .add(rtebViewModel.getFeedbackRestteil())
+                .add(rtebViewModel.getResponseFeedback())
+                .observe(getViewLifecycleOwner(), x -> {
+                    if(rtebViewModel.getResponseFeedback().getValue().getResponse()!=null){
+                        new AlertDialog.Builder(getContext())
+                                //.setTitle("Delete entry")
+                                .setMessage("Restteil bereits eingebucht")
+
+                                // Specifying a listener allows you to take an action before dismissing the dialog.
+                                // The dialog is automatically dismissed when a dialog button is clicked.
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Navigation.findNavController(requireView()).navigate(R.id.action_RTEBScanFragment_self);
+                                    }
+                                })
+                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    } else {
+                        Navigation.findNavController(requireView()).navigate(R.id.action_RTEBScanFragment_to_RTEBSelectFragment);
+                    }
+                });
+
+        /*rtebViewModel.getFeedbackRestteil().observe(getViewLifecycleOwner(), x -> {
+            if(getLifecycle().getCurrentState() == Lifecycle.State.RESUMED){
+            }
         });
+
+         */
 
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())

@@ -1,5 +1,5 @@
 package de.glawleschkoff.scannerapp.util;
 
 public interface ClickInterface {
-    void onClick();
+    void onClick(String name);
 }

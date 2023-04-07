@@ -3,20 +3,15 @@ package de.glawleschkoff.scannerapp.util;
 import android.content.Context;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,9 +21,6 @@ public class CardRVAdapter extends RecyclerView.Adapter<CardRVAdapter.MyViewHold
 
     private List<CardRVItem> cardRVItemList;
     private Context context;
-
-
-
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         public RecyclerView fixedRecyclerView;
@@ -62,7 +54,7 @@ public class CardRVAdapter extends RecyclerView.Adapter<CardRVAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ClickInterface clickInterface = () -> {
+        ClickInterface clickInterface = s -> {
             if(holder.hiddenRecyclerView.getVisibility() == View.VISIBLE){
                 TransitionManager.beginDelayedTransition(holder.cardView, new AutoTransition());
                 holder.hiddenRecyclerView.setVisibility(View.GONE);

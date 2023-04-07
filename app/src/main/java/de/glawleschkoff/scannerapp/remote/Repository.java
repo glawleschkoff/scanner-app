@@ -1,7 +1,6 @@
 package de.glawleschkoff.scannerapp.remote;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 import de.glawleschkoff.scannerapp.model.BauteilLogModel;
 import de.glawleschkoff.scannerapp.model.BauteilModel;
 import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
-import de.glawleschkoff.scannerapp.model.FeedbackModel;
 import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
@@ -125,12 +123,12 @@ public class Repository {
         });
     }
 
-    public void createFeedback(FeedbackModel feedbackModel){
+    public void createFeedback(String csvName, String csvContent){
         Call<ResponseBody> call = httpApi.createFeedback(
                 MultipartBody.Part.createFormData(
                         "file",
-                        feedbackModel.toCsvName(),
-                        RequestBody.create(MediaType.parse("text/csv"), feedbackModel.toCsv())
+                        csvName,
+                        RequestBody.create(MediaType.parse("text/csv"), csvContent)
                 )
         );
         call.enqueue(new Callback<ResponseBody>() {
@@ -151,7 +149,7 @@ public class Repository {
         });
     }
 
-    public void requestFeedback(String name, MutableLiveData<ResponseWrapper<FeedbackModel>> responseFeedback){
+    public void requestFeedback(String name, MutableLiveData<ResponseWrapper<String>> responseFeedback){
         Call<ResponseBody> call = httpApi.getFeedback(name);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -160,7 +158,7 @@ public class Repository {
                     responseFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
                     try {
-                        responseFeedback.setValue(new ResponseWrapper<>(new FeedbackModel(new String(response.body().bytes())),null));
+                        responseFeedback.setValue(new ResponseWrapper<>(new String(response.body().bytes()),null));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

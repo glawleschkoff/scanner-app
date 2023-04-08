@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp.viewmodel;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.LiveData;
@@ -20,9 +21,9 @@ public class BTZSViewModel extends ViewModel {
 
     public BTZSViewModel(){
         repository = Repository.getInstance();
-        responseBauteil = new MutableLiveData<>();
-        responseFeedback = new MutableLiveData<>();
-        responseBitmap = new MutableLiveData<>();
+        responseBauteil = new MutableLiveData<>(new ResponseWrapper<>());
+        responseFeedback = new MutableLiveData<>(new ResponseWrapper<>());
+        responseBitmap = new MutableLiveData<>(new ResponseWrapper<>());
     }
 
     public void requestBauteil(String id){

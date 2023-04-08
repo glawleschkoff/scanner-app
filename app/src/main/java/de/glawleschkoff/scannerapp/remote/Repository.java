@@ -1,7 +1,9 @@
 package de.glawleschkoff.scannerapp.remote;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.widget.Toast;
 
 
 import androidx.lifecycle.MutableLiveData;
@@ -135,16 +137,11 @@ public class Repository {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(!response.isSuccessful()){
-
-                } else {
-
                 }
-                System.out.println("code: "+response.code());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                System.out.println("failure: "+t.getMessage());
             }
         });
     }

@@ -28,12 +28,12 @@ public class InfoViewModel extends ViewModel {
 
     public InfoViewModel(){
         repository = Repository.getInstance();
-        responseBauteil = new MutableLiveData<>();
-        responseFeedback = new MutableLiveData<>();
-        responseBitmap = new MutableLiveData<>();
-        responseCNCFeedback = new MutableLiveData<>();
-        responseKntFeedback = new MutableLiveData<>();
-        responseBauteilLog = new MutableLiveData<>();
+        responseBauteil = new MutableLiveData<>(new ResponseWrapper<>());
+        responseFeedback = new MutableLiveData<>(new ResponseWrapper<>());
+        responseBitmap = new MutableLiveData<>(new ResponseWrapper<>());
+        responseCNCFeedback = new MutableLiveData<>(new ResponseWrapper<>());
+        responseKntFeedback = new MutableLiveData<>(new ResponseWrapper<>());
+        responseBauteilLog = new MutableLiveData<>(new ResponseWrapper<>());
     }
 
     public void requestBauteil(String id){

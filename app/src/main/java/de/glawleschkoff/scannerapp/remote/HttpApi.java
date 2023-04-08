@@ -22,7 +22,6 @@ public interface HttpApi {
     @GET("api/v1/bauteil")
     Call<BauteilModel> getBauteil(@Query("id") String id);
 
-
     @Multipart
     @POST("api/v1/feedback")
     Call<ResponseBody> createFeedback(@Part MultipartBody.Part file);

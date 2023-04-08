@@ -9,6 +9,10 @@ public class ResponseWrapper <T> {
         this.response = response;
         this.errorMessage = errorMessage;
     }
+    public ResponseWrapper(){
+        this.response = null;
+        this.errorMessage = null;
+    }
 
     public T getResponse() {
         return response;

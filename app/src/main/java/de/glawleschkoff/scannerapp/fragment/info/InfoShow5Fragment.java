@@ -62,20 +62,22 @@ public class InfoShow5Fragment extends Fragment {
 
         infoViewModel.getResponseKntFeedback().observe(getViewLifecycleOwner(),response -> {
 
-            cardRVAdapter.setCardRVItemList(infoViewModel.getResponseKntFeedback().getValue().getResponse().stream()
-                    .map(x -> new CardRVItem(
-                            Arrays.asList(
-                                    new RVItem("Datum",x.getDatum()),
-                                    new RVItem("Uhrzeit",x.getUhrzeit())),
-                            Arrays.asList(
-                                    new RVItem("LaufNr",x.getLaufNr()),
-                                    new RVItem("Kante", x.getKante()),
-                                    new RVItem("KantenMat",x.getKantenMat()),
-                                    new RVItem("KantenLng",x.getKantenLng()),
-                                    new RVItem("PlatteLng", x.getPlatteLng()),
-                                    new RVItem("PlatteBrt",x.getPlatteBrt()),
-                                    new RVItem("PlatteDck",x.getPlatteDck())
-                            ))).collect(Collectors.toList()));
+            if(response.getResponse()!=null){
+                cardRVAdapter.setCardRVItemList(infoViewModel.getResponseKntFeedback().getValue().getResponse().stream()
+                        .map(x -> new CardRVItem(
+                                Arrays.asList(
+                                        new RVItem("Datum",x.getDatum()),
+                                        new RVItem("Uhrzeit",x.getUhrzeit())),
+                                Arrays.asList(
+                                        new RVItem("LaufNr",x.getLaufNr()),
+                                        new RVItem("Kante", x.getKante()),
+                                        new RVItem("KantenMat",x.getKantenMat()),
+                                        new RVItem("KantenLng",x.getKantenLng()),
+                                        new RVItem("PlatteLng", x.getPlatteLng()),
+                                        new RVItem("PlatteBrt",x.getPlatteBrt()),
+                                        new RVItem("PlatteDck",x.getPlatteDck())
+                                ))).collect(Collectors.toList()));
+            }
         });
     }
 }

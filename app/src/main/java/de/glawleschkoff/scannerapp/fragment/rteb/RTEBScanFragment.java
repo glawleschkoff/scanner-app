@@ -87,13 +87,6 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
                     }
                 });
 
-        /*rtebViewModel.getFeedbackRestteil().observe(getViewLifecycleOwner(), x -> {
-            if(getLifecycle().getCurrentState() == Lifecycle.State.RESUMED){
-            }
-        });
-
-         */
-
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_RTEBScanFragment_to_menuFragment);
@@ -115,8 +108,9 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
         //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(1);
-            //...
+            String id = data.substring(0);
+            rtebViewModel.setFeedbackRestteil(id);
+            rtebViewModel.requestFeedback(id.split(";")[0]+"_RTEB.csv");
         }
     }
 

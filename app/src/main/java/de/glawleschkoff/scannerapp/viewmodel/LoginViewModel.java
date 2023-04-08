@@ -16,8 +16,7 @@ public class LoginViewModel extends ViewModel {
 
     public LoginViewModel(){
         repository = Repository.getInstance();
-        //responseMitarbeiter = repository.getMitarbeiter();
-        responseMitarbeiter = new MutableLiveData<>();
+        responseMitarbeiter = new MutableLiveData<>(new ResponseWrapper<>());
     }
 
     public LiveData<ResponseWrapper<List<String>>> getResponseMitarbeiter(){

@@ -53,7 +53,9 @@ public class BTZSSelect1Fragment extends Fragment {
         binding.rv.setHasFixedSize(true);
 
         btzsViewModel.getResponseBitmap().observe(getViewLifecycleOwner(),x -> {
-            binding.image.setImageBitmap(x.getResponse());
+            if(x.getResponse()!=null){
+                binding.image.setImageBitmap(x.getResponse());
+            }
         });
 
         btzsViewModel.getResponseBauteil().observe(getViewLifecycleOwner(),x -> {
@@ -62,13 +64,14 @@ public class BTZSSelect1Fragment extends Fragment {
                     btzsViewModel.getResponseBauteil()
                             .getValue().getResponse().getKundenPosition());
 
-            rvAdapter.setRecyclerViewItems(Arrays.asList(
-                    new RVItem("ExemplarNr",x.getResponse().getExemplarNr()),
-                    new RVItem("KundenAuftrag",x.getResponse().getKundenAuftrag()),
-                    new RVItem("KundenPosition",x.getResponse().getKundenPosition()),
-                    new RVItem("Status",x.getResponse().getStatus())
-            ));
-
+            if(x!=null){
+                rvAdapter.setRecyclerViewItems(Arrays.asList(
+                        new RVItem("ExemplarNr",x.getResponse().getExemplarNr()),
+                        new RVItem("KundenAuftrag",x.getResponse().getKundenAuftrag()),
+                        new RVItem("KundenPosition",x.getResponse().getKundenPosition()),
+                        new RVItem("Status",x.getResponse().getStatus())
+                ));
+            }
         });
     }
 }

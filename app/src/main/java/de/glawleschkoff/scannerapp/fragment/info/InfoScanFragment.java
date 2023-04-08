@@ -106,12 +106,11 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
         DecodeResult.Result result = decodeResult.getResult();
         String codeType = decodeResult.getCodeType();
         String data = decodeResult.getData();
-        //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
             String id = data.substring(1);
             infoViewModel.requestBauteil(id);
-            infoViewModel.requestFeedback(id+"-001_BTZS.csv");
+            infoViewModel.requestFeedback(id+"_BTZS.csv");
             infoViewModel.requestCNCFeedback(id);
             infoViewModel.requestKntFeedback(id);
             infoViewModel.requestBauteilLog(id);

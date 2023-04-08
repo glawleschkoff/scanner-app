@@ -78,28 +78,23 @@ public class BTZSSelectFragment extends Fragment {
         });
 
         binding.button2.setOnClickListener(x -> {
-            String exemplarNr = btzsViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr();
-            String scannerNr = metaViewModel.getScannerNr().getValue();
-            String mitarbeiter = metaViewModel.getMitarbeiter().getValue();
-            String kurzbefehl = "BTZS";
-            String optionen = "";
+            if(btzsViewModel.getResponseBauteil().getValue().getResponse()!=null && metaViewModel.getMitarbeiter().getValue()!=null){
+                String exemplarNr = btzsViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr();
+                String scannerNr = metaViewModel.getScannerNr().getValue();
+                String mitarbeiter = metaViewModel.getMitarbeiter().getValue();
+                String kurzbefehl = "BTZS";
+                String optionen = "";
 
-            btzsViewModel.createFeedback(new BTZSFeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));
-            Navigation.findNavController(requireView()).navigate(R.id.action_BTZSSelectFragment3_to_BTZSScanFragment);
+                btzsViewModel.createFeedback(new BTZSFeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));
+                Navigation.findNavController(requireView()).navigate(R.id.action_BTZSSelectFragment3_to_BTZSScanFragment);
+            }
         });
 
         tabLayout = binding.tabLayout;
         TabLayout.Tab firstTab = tabLayout.newTab();
         firstTab.setText("Bauteil");
         tabLayout.addTab(firstTab);
-        /*TabLayout.Tab secondTab = tabLayout.newTab();
-        secondTab.setText("2");
-        tabLayout.addTab(secondTab);
-        TabLayout.Tab thirdTab = tabLayout.newTab();
-        thirdTab.setText("3");
-        tabLayout.addTab(thirdTab);
 
-         */
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(binding.frame.getId(), new BTZSSelect1Fragment());

@@ -72,9 +72,13 @@ public class LoginFragment extends Fragment {
 
         loginViewModel.requestMitarbeiter();
 
-        loginViewModel.getResponseMitarbeiter().observe(getViewLifecycleOwner(), response ->
+        loginViewModel.getResponseMitarbeiter().observe(getViewLifecycleOwner(), response -> {
+            if(response.getResponse()!=null){
                 loginRVAdapter.setRecyclerViewItems(response.getResponse().stream()
-                        .map(x -> new LoginRVItem(x)).collect(Collectors.toList())));
+                        .map(x -> new LoginRVItem(x)).collect(Collectors.toList()));
+            }
+        });
+
 
         LoginItemClickSupport.addTo(binding.rv2)
                 .setOnItemClickListener(new LoginItemClickSupport.OnItemClickListener() {

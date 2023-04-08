@@ -52,74 +52,77 @@ public class InfoShow4Fragment extends Fragment {
         binding.rv.setAdapter(rvAdapter);
         binding.rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
         infoViewModel.getResponseBauteil().observe(getViewLifecycleOwner(),x -> {
-            rvAdapter.setRecyclerViewItems(Arrays.asList(
-                    new RVItem("FertigKante",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getFertigKante()),
-                    new RVItem("KA",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKa()),
-                    new RVItem("KA Ist L",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKa_Ist_L()),
-                    new RVItem("KA Läufe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKa_Läufe()),
-                    new RVItem("KA Verbrauch",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKa_Verbrauch()),
-                    new RVItem("KB",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKb()),
-                    new RVItem("KB Ist L",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKb_Ist_L()),
-                    new RVItem("KB Läufe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKb_Läufe()),
-                    new RVItem("KB Verbrauch",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKb_Verbrauch()),
-                    new RVItem("KC",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKc()),
-                    new RVItem("KC Ist L",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKc_Ist_L()),
-                    new RVItem("KC Läufe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKc_Läufe()),
-                    new RVItem("KC Verbrauch",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKc_Verbrauch()),
-                    new RVItem("KD",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKd()),
-                    new RVItem("KD Ist L",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKd_Ist_L()),
-                    new RVItem("KD Läufe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKd_Läufe()),
-                    new RVItem("KD Verbrauch",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKd_Verbrauch()),
-                    new RVItem("KE",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKe()),
-                    new RVItem("KE Ist L",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKe_Ist_L()),
-                    new RVItem("KE Läufe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKe_Läufe()),
-                    new RVItem("KE Verbrauch",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKe_Verbrauch()),
-                    new RVItem("KF",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKf()),
-                    new RVItem("KF Ist L",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKf_Ist_L()),
-                    new RVItem("KF Läufe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKf_Läufe()),
-                    new RVItem("KF Verbrauch",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKf_Verbrauch()),
-                    new RVItem("KG",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKg()),
-                    new RVItem("KG Ist L",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKg_Ist_L()),
-                    new RVItem("KG Läufe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKg_Läufe()),
-                    new RVItem("KG Verbrauch",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKg_Verbrauch()),
-                    new RVItem("KH",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKh()),
-                    new RVItem("KH Ist L",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKh_Ist_L()),
-                    new RVItem("KH Läufe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKh_Läufe()),
-                    new RVItem("KH Verbrauch",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKh_Verbrauch())
-            ));
+
+            if(x.getResponse()!= null){
+                rvAdapter.setRecyclerViewItems(Arrays.asList(
+                        new RVItem("FertigKante",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getFertigKante()),
+                        new RVItem("KA",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKa()),
+                        new RVItem("KA Ist L",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKa_Ist_L()),
+                        new RVItem("KA Läufe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKa_Läufe()),
+                        new RVItem("KA Verbrauch",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKa_Verbrauch()),
+                        new RVItem("KB",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKb()),
+                        new RVItem("KB Ist L",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKb_Ist_L()),
+                        new RVItem("KB Läufe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKb_Läufe()),
+                        new RVItem("KB Verbrauch",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKb_Verbrauch()),
+                        new RVItem("KC",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKc()),
+                        new RVItem("KC Ist L",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKc_Ist_L()),
+                        new RVItem("KC Läufe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKc_Läufe()),
+                        new RVItem("KC Verbrauch",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKc_Verbrauch()),
+                        new RVItem("KD",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKd()),
+                        new RVItem("KD Ist L",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKd_Ist_L()),
+                        new RVItem("KD Läufe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKd_Läufe()),
+                        new RVItem("KD Verbrauch",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKd_Verbrauch()),
+                        new RVItem("KE",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKe()),
+                        new RVItem("KE Ist L",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKe_Ist_L()),
+                        new RVItem("KE Läufe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKe_Läufe()),
+                        new RVItem("KE Verbrauch",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKe_Verbrauch()),
+                        new RVItem("KF",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKf()),
+                        new RVItem("KF Ist L",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKf_Ist_L()),
+                        new RVItem("KF Läufe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKf_Läufe()),
+                        new RVItem("KF Verbrauch",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKf_Verbrauch()),
+                        new RVItem("KG",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKg()),
+                        new RVItem("KG Ist L",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKg_Ist_L()),
+                        new RVItem("KG Läufe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKg_Läufe()),
+                        new RVItem("KG Verbrauch",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKg_Verbrauch()),
+                        new RVItem("KH",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKh()),
+                        new RVItem("KH Ist L",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKh_Ist_L()),
+                        new RVItem("KH Läufe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKh_Läufe()),
+                        new RVItem("KH Verbrauch",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKh_Verbrauch())
+                ));
+            }
         });
     }
 }

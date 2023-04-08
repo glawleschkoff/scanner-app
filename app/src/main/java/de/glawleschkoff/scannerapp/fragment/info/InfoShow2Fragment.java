@@ -55,60 +55,63 @@ public class InfoShow2Fragment extends Fragment {
         binding.rv.setAdapter(rvAdapter);
         binding.rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
         infoViewModel.getResponseBauteil().observe(getViewLifecycleOwner(),x -> {
-            rvAdapter.setRecyclerViewItems(Arrays.asList(
-                    new RVItem("Platte",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getPlatte()),
-                    new RVItem("PL FLng",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getPl_FLng()),
-                    new RVItem("PL FBrt",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getPl_FBrt()),
-                    new RVItem("ZLng",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getZlng()),
-                    new RVItem("ZBrt",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getZbrt()),
-                    new RVItem("Prio1Datum",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getPrio1Datum()),
-                    new RVItem("Prio2Datum",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getPrio2Datum()),
-                    new RVItem("Prio",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getPrio()),
-                    new RVItem("ArdisJob",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getArdisJob()),
-                    new RVItem("ArdisSPln",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getArdisSPln()),
-                    new RVItem("PlattenID",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getPlattenID()),
-                    new RVItem("Maschine",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getMaschine()),
-                    new RVItem("Säge",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getSäge()),
-                    new RVItem("OptiQuote",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getOptiQuote()),
-                    new RVItem("OptiQtEff",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getOptiQtEff()),
-                    new RVItem("StripNo",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getStripNo()),
-                    new RVItem("PlatteKlein",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getPlatteKlein()),
-                    new RVItem("Ausw",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getAusw()),
-                    new RVItem("AuslageID",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getAuslagerID()),
-                    new RVItem("ausgelagert",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getAusgelagert()),
-                    new RVItem("Kommentar",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKommentar()),
-                    new RVItem("SPlan gedruckt",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getSplan_gedruckt()),
-                    new RVItem("BTEti gedruckt",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getBteti_gedruckt()),
-                    new RVItem("STEti gedruckt",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getSteti_gedruckt()),
-                    new RVItem("FertigZuschnitt",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getFertigZuschnitt()),
-                    new RVItem("ZuschnittDatum",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getZuschnittDatum())
-            ));
+
+            if(x.getResponse()!=null){
+                rvAdapter.setRecyclerViewItems(Arrays.asList(
+                        new RVItem("Platte",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPlatte()),
+                        new RVItem("PL FLng",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPl_FLng()),
+                        new RVItem("PL FBrt",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPl_FBrt()),
+                        new RVItem("ZLng",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getZlng()),
+                        new RVItem("ZBrt",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getZbrt()),
+                        new RVItem("Prio1Datum",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPrio1Datum()),
+                        new RVItem("Prio2Datum",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPrio2Datum()),
+                        new RVItem("Prio",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPrio()),
+                        new RVItem("ArdisJob",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getArdisJob()),
+                        new RVItem("ArdisSPln",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getArdisSPln()),
+                        new RVItem("PlattenID",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPlattenID()),
+                        new RVItem("Maschine",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getMaschine()),
+                        new RVItem("Säge",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getSäge()),
+                        new RVItem("OptiQuote",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getOptiQuote()),
+                        new RVItem("OptiQtEff",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getOptiQtEff()),
+                        new RVItem("StripNo",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getStripNo()),
+                        new RVItem("PlatteKlein",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPlatteKlein()),
+                        new RVItem("Ausw",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getAusw()),
+                        new RVItem("AuslageID",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getAuslagerID()),
+                        new RVItem("ausgelagert",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getAusgelagert()),
+                        new RVItem("Kommentar",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKommentar()),
+                        new RVItem("SPlan gedruckt",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getSplan_gedruckt()),
+                        new RVItem("BTEti gedruckt",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getBteti_gedruckt()),
+                        new RVItem("STEti gedruckt",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getSteti_gedruckt()),
+                        new RVItem("FertigZuschnitt",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getFertigZuschnitt()),
+                        new RVItem("ZuschnittDatum",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getZuschnittDatum())
+                ));
+            }
         });
     }
 }

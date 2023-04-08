@@ -30,23 +30,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         metaViewModel = new ViewModelProvider(this).get(MetaViewModel.class);
-        //setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        byte [] encodeByte= Base64.decode(":",Base64.DEFAULT);
-        Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-        Drawable d = new BitmapDrawable(bitmap);
-
         setSupportActionBar(binding.toolbar);
-        //binding.toolbar.setTitle("hi");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
-        //menu.findItem(R.id.action_settings).setEnabled(false);
         menu.setGroupEnabled(0,false);
         menu.setGroupVisible(0,false);
         return true;
@@ -71,13 +64,11 @@ public class MainActivity extends AppCompatActivity {
                 menu.setGroupEnabled(0,false);
                 menu.setGroupVisible(0,false);
                 binding.kRzel.setText("");
-                //menu.findItem(R.id.action_settings).setEnabled(false);
             } else {
                 menu.setGroupEnabled(0,true);
                 menu.setGroupVisible(0,true);
                 menu.findItem(R.id.action_settings).setTitle("Abmelden");
                 binding.kRzel.setText(x);
-                //menu.findItem(R.id.action_settings).setEnabled(true);
             }
         });
 

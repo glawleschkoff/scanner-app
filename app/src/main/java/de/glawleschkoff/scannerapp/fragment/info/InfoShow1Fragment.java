@@ -54,7 +54,9 @@ public class InfoShow1Fragment extends Fragment {
         binding.rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         infoViewModel.getResponseBitmap().observe(getViewLifecycleOwner(),x -> {
-            binding.image.setImageBitmap(x.getResponse());
+            if(x.getResponse()!=null){
+                binding.image.setImageBitmap(x.getResponse());
+            }
         });
 
         infoViewModel.getResponseBauteil().observe(getViewLifecycleOwner(),x -> {
@@ -63,38 +65,40 @@ public class InfoShow1Fragment extends Fragment {
                     infoViewModel.getResponseBauteil()
                             .getValue().getResponse().getKundenPosition());
 
-            rvAdapter.setRecyclerViewItems(Arrays.asList(
-                    new RVItem("ExemplarNr",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getExemplarNr()),
-                    new RVItem("KundenAuftrag",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKundenAuftrag()),
-                    new RVItem("KundenPosition",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKundenPosition()),
-                    new RVItem("ProdFreigabe",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getProdFreigabe()),
-                    new RVItem("Status",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getStatus()),
-                    new RVItem("ProdDatum",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getProdDatum()),
-                    new RVItem("FertigDatum",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getFertigDatum()),
-                    new RVItem("BeginnPlatte",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getBeginnPlatte()),
-                    new RVItem("BeginnKante",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getBeginnKante()),
-                    new RVItem("BeginnBankQM",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getBeginnBankQM()),
-                    new RVItem("BauteilAnzGes",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getBauteilAnzGes()),
-                    new RVItem("ProdStopp",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getProdStopp()),
-                    new RVItem("SollZtPlatte",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getSollZtPlatte()),
-                    new RVItem("SollZtKante",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getSollZtKante()),
-                    new RVItem("SollZtBankQM",infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getSollZtBankQM())
-            ));
+            if(x.getResponse()!=null){
+                rvAdapter.setRecyclerViewItems(Arrays.asList(
+                        new RVItem("ExemplarNr",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getExemplarNr()),
+                        new RVItem("KundenAuftrag",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenAuftrag()),
+                        new RVItem("KundenPosition",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenPosition()),
+                        new RVItem("ProdFreigabe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getProdFreigabe()),
+                        new RVItem("Status",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getStatus()),
+                        new RVItem("ProdDatum",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getProdDatum()),
+                        new RVItem("FertigDatum",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getFertigDatum()),
+                        new RVItem("BeginnPlatte",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getBeginnPlatte()),
+                        new RVItem("BeginnKante",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getBeginnKante()),
+                        new RVItem("BeginnBankQM",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getBeginnBankQM()),
+                        new RVItem("BauteilAnzGes",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getBauteilAnzGes()),
+                        new RVItem("ProdStopp",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getProdStopp()),
+                        new RVItem("SollZtPlatte",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getSollZtPlatte()),
+                        new RVItem("SollZtKante",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getSollZtKante()),
+                        new RVItem("SollZtBankQM",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getSollZtBankQM())
+                ));
+            }
         });
     }
 }

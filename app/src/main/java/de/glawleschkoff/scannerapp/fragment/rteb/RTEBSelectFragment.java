@@ -1,13 +1,11 @@
 package de.glawleschkoff.scannerapp.fragment.rteb;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.NumberPicker;
 
 import androidx.annotation.NonNull;
@@ -22,12 +20,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.glawleschkoff.scannerapp.MainActivity;
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentRtebselectBinding;
 import de.glawleschkoff.scannerapp.model.RTEBFeedbackModel;
 import de.glawleschkoff.scannerapp.model.RestteilModel;
-import de.glawleschkoff.scannerapp.util.CustomNumberPicker;
 import de.glawleschkoff.scannerapp.util.RTEBCardRVAdapter;
 import de.glawleschkoff.scannerapp.util.RVItem;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
@@ -67,37 +63,43 @@ public class RTEBSelectFragment extends Fragment {
         list1.add(new RVItem("Lädt...",""));
 
         rtebCardRVAdapter = new RTEBCardRVAdapter(list1,this.getContext(), x -> {
-            switch(x){
-                case "Länge":
-                    pickLänge(false); break;
-                case "Breite":
-                    pickBreite(); break;
-                default:
+            if(x!=null){
+                switch(x){
+                    case "Länge":
+                        pickLänge(false); break;
+                    case "Breite":
+                        pickBreite(); break;
+                    default:
+                }
             }
         });
         binding.rvoutside.setAdapter(rtebCardRVAdapter);
         binding.rvoutside.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         rtebViewModel.getFeedbackRestteil().observe(getViewLifecycleOwner(), x -> {
-            rtebCardRVAdapter.setRvItemList(Arrays.asList(
-                    new RVItem("ID",x.getId()),
-                    new RVItem("Kante",x.getKante()),
-                    new RVItem("Länge",String.valueOf(x.getLänge())),
-                    new RVItem("Breite",String.valueOf(x.getBreite()))
-            ));
+            if(x!=null){
+                rtebCardRVAdapter.setRvItemList(Arrays.asList(
+                        new RVItem("ID",x.getId()),
+                        new RVItem("Kante",x.getKante()),
+                        new RVItem("Länge",String.valueOf(x.getLänge())),
+                        new RVItem("Breite",String.valueOf(x.getBreite()))
+                ));
+            }
         });
 
         binding.button2.setOnClickListener(x -> {
-            String id = rtebViewModel.getFeedbackRestteil().getValue().getId();
-            String scannerNr = metaViewModel.getScannerNr().getValue();
-            String kurzbefehl = "RTEB";
-            String mitarbeiter = metaViewModel.getMitarbeiter().getValue();
-            String länge = String.valueOf(rtebViewModel.getFeedbackRestteil().getValue().getLänge());
-            String breite = String.valueOf(rtebViewModel.getFeedbackRestteil().getValue().getBreite());
-            String kante = rtebViewModel.getFeedbackRestteil().getValue().getKante();
+            if(rtebViewModel.getFeedbackRestteil().getValue()!=null && metaViewModel.getMitarbeiter().getValue()!=null){
+                String id = rtebViewModel.getFeedbackRestteil().getValue().getId();
+                String scannerNr = metaViewModel.getScannerNr().getValue();
+                String kurzbefehl = "RTEB";
+                String mitarbeiter = metaViewModel.getMitarbeiter().getValue();
+                String länge = String.valueOf(rtebViewModel.getFeedbackRestteil().getValue().getLänge());
+                String breite = String.valueOf(rtebViewModel.getFeedbackRestteil().getValue().getBreite());
+                String kante = rtebViewModel.getFeedbackRestteil().getValue().getKante();
 
-            rtebViewModel.createFeedback(new RTEBFeedbackModel(id,scannerNr,kurzbefehl,mitarbeiter,länge,breite,kante));
-            Navigation.findNavController(requireView()).navigate(R.id.action_RTEBSelectFragment_to_RTEBScanFragment);
+                rtebViewModel.createFeedback(new RTEBFeedbackModel(id,scannerNr,kurzbefehl,mitarbeiter,länge,breite,kante));
+                Navigation.findNavController(requireView()).navigate(R.id.action_RTEBSelectFragment_to_RTEBScanFragment);
+            }
         });
 
         binding.button.setOnClickListener(x -> {

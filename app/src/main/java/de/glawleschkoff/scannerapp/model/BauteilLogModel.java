@@ -54,7 +54,12 @@ public class BauteilLogModel {
 
     public String getDatum() {
         String[] s = datum.split("-");
-        return s[2]+"."+s[1]+"."+s[0];
+        if(s.length>=3){
+            return s[2]+"."+s[1]+"."+s[0];
+        } else {
+            return "";
+        }
+
     }
 
     public String getUhrzeit() {

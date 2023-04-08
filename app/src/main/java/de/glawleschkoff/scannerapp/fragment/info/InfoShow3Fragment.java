@@ -64,16 +64,18 @@ public class InfoShow3Fragment extends Fragment {
 
         infoViewModel.getResponseCNCFeedback().observe(getViewLifecycleOwner(),response -> {
 
-            cardRVAdapter.setCardRVItemList(infoViewModel.getResponseCNCFeedback().getValue().getResponse().stream()
-                    .map(x -> new CardRVItem(
-                            Arrays.asList(
-                                    new RVItem("Datum",x.getDatum()),
-                                    new RVItem("Uhrzeit",x.getUhrzeit())),
-                            Arrays.asList(
-                                    new RVItem("Fortschritt",x.getFortschritt()),
-                                    new RVItem("Maschine", x.getMaschine()),
-                                    new RVItem("Bestandsbuchung", x.getBestandsBuchung())
-                            ))).collect(Collectors.toList()));
+            if(infoViewModel.getResponseCNCFeedback().getValue().getResponse()!=null){
+                cardRVAdapter.setCardRVItemList(infoViewModel.getResponseCNCFeedback().getValue().getResponse().stream()
+                        .map(x -> new CardRVItem(
+                                Arrays.asList(
+                                        new RVItem("Datum",x.getDatum()),
+                                        new RVItem("Uhrzeit",x.getUhrzeit())),
+                                Arrays.asList(
+                                        new RVItem("Fortschritt",x.getFortschritt()),
+                                        new RVItem("Maschine", x.getMaschine()),
+                                        new RVItem("Bestandsbuchung", x.getBestandsBuchung())
+                                ))).collect(Collectors.toList()));
+            }
         });
     }
 }

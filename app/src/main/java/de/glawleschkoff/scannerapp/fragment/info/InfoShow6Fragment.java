@@ -61,16 +61,18 @@ public class InfoShow6Fragment extends Fragment {
 
         infoViewModel.getResponseBauteilLog().observe(getViewLifecycleOwner(),response -> {
 
-            cardRVAdapter.setCardRVItemList(infoViewModel.getResponseBauteilLog().getValue().getResponse().stream()
-                    .map(x -> new CardRVItem(
-                            Arrays.asList(
-                                    new RVItem("Datum",x.getDatum()),
-                                    new RVItem("Uhrzeit",x.getUhrzeit())),
-                            Arrays.asList(
-                                    new RVItem("Job",x.getJob()),
-                                    new RVItem("Vorgang", x.getVorgang()),
-                                    new RVItem("Protokoll",x.getProtokoll())
-                            ))).collect(Collectors.toList()));
+            if(response.getResponse()!=null){
+                cardRVAdapter.setCardRVItemList(infoViewModel.getResponseBauteilLog().getValue().getResponse().stream()
+                        .map(x -> new CardRVItem(
+                                Arrays.asList(
+                                        new RVItem("Datum",x.getDatum()),
+                                        new RVItem("Uhrzeit",x.getUhrzeit())),
+                                Arrays.asList(
+                                        new RVItem("Job",x.getJob()),
+                                        new RVItem("Vorgang", x.getVorgang()),
+                                        new RVItem("Protokoll",x.getProtokoll())
+                                ))).collect(Collectors.toList()));
+            }
         });
     }
 }

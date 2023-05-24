@@ -59,12 +59,14 @@ public class BTZSSelect1Fragment extends Fragment {
         });
 
         btzsViewModel.getResponseBauteil().observe(getViewLifecycleOwner(),x -> {
-            btzsViewModel.requestBitmap(btzsViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKundenAuftrag(),
-                    btzsViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKundenPosition());
+            if(btzsViewModel.getResponseBauteil().getValue().getResponse()!=null){
+                btzsViewModel.requestBitmap(btzsViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenAuftrag(),
+                        btzsViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenPosition());
+            }
 
-            if(x!=null){
+            if(x.getResponse()!=null){
                 rvAdapter.setRecyclerViewItems(Arrays.asList(
                         new RVItem("ExemplarNr",x.getResponse().getExemplarNr()),
                         new RVItem("KundenAuftrag",x.getResponse().getKundenAuftrag()),
@@ -74,4 +76,5 @@ public class BTZSSelect1Fragment extends Fragment {
             }
         });
     }
+
 }

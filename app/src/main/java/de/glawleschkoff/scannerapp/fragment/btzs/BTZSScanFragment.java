@@ -48,8 +48,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentBtzsscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -78,6 +78,7 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
                 .add(btzsViewModel.getResponseFeedback())
                 .observe(getViewLifecycleOwner(),x->{
                     if(btzsViewModel.getResponseBauteil().getValue().getErrorMessage() != null){
+                        System.out.println("fail1");
                         new AlertDialog.Builder(getContext())
                                 //.setTitle("Delete entry")
                                 .setMessage("Bauteil nicht gefunden")
@@ -93,6 +94,7 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                     } else {
+
                         Navigation.findNavController(requireView())
                                 .navigate(R.id.action_BTZSScanFragment_to_BTZSSelectFragment3);
                     }
@@ -115,8 +117,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 
 }

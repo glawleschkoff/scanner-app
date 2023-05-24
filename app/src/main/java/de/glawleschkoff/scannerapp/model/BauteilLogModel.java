@@ -2,6 +2,7 @@ package de.glawleschkoff.scannerapp.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class BauteilLogModel {
@@ -64,8 +65,17 @@ public class BauteilLogModel {
 
     public String getUhrzeit() {
         String[] s = uhrzeit.split("\\.");
+        System.out.println(Arrays.toString(s));
         if(s.length==2){
-            return  s[0]+":"+s[1].substring(0,2)+":"+s[1].substring(2,4);
+            if(s[1].length()==1){
+                return  s[0]+":00:0"+s[1].substring(0,1);
+            } else if(s[1].length()==2){
+                return  s[0]+":00:"+s[1].substring(0,2);
+            } else if(s[1].length()==3){
+                return  s[0]+":0"+s[1].substring(0,1)+":"+s[1].substring(1,3);
+            } else {
+                return  s[0]+":"+s[1].substring(0,2)+":"+s[1].substring(2,4);
+            }
         } else {
             return uhrzeit;
         }

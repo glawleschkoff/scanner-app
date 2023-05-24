@@ -25,12 +25,12 @@ public class RTEBFeedbackModel {
 
     public String toCsv(){
         String s = ""
-                .concat(id).concat(";")
-                .concat(kurzbefehl).concat(";")
-                .concat(mitarbeiter).concat(";")
-                .concat(zeitstempelScNr).concat(";")
-                .concat(länge).concat(";")
-                .concat(breite).concat(";")
+                .concat(id).concat("%")
+                .concat(kurzbefehl).concat("%")
+                .concat(mitarbeiter).concat("%")
+                .concat(zeitstempelScNr).concat("%")
+                .concat(länge).concat("%")
+                .concat(breite).concat("%")
                 .concat(kante);
         return s;
     }

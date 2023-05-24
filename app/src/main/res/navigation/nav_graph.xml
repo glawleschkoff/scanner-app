@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_BTZSScanFragment_self"
             app:destination="@id/BTZSScanFragment" />
+        <action
+            android:id="@+id/action_BTZSScanFragment_to_menuFragment2"
+            app:destination="@id/menuFragment" />
     </fragment>
     <fragment
         android:id="@+id/BTZSSelectFragment3"
@@ -60,6 +63,9 @@
         <action
             android:id="@+id/action_BTZSSelectFragment3_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_BTZSSelectFragment3_self"
+            app:destination="@id/BTZSSelectFragment3" />
     </fragment>
     <fragment
         android:id="@+id/infoScanFragment2"
@@ -78,6 +84,9 @@
         <action
             android:id="@+id/action_infoScanFragment2_self"
             app:destination="@id/infoScanFragment2" />
+        <action
+            android:id="@+id/action_infoScanFragment2_to_menuFragment2"
+            app:destination="@id/menuFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoShowFragment"
@@ -90,6 +99,9 @@
         <action
             android:id="@+id/action_infoShowFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_infoShowFragment_self"
+            app:destination="@id/infoShowFragment" />
     </fragment>
     <fragment
         android:id="@+id/RTEBScanFragment"
@@ -120,5 +132,11 @@
         <action
             android:id="@+id/action_RTEBSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_RTEBSelectFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_RTEBSelectFragment_self"
+            app:destination="@id/RTEBSelectFragment" />
     </fragment>
 </navigation>

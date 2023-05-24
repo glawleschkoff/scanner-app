@@ -22,7 +22,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:text="Bauteil zurück setzen"
-            android:textSize="22sp">
+            android:textSize="18sp">
 
         </Button>
 
@@ -34,7 +34,7 @@
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
             android:text="Bauteil Info"
-            android:textSize="22sp">
+            android:textSize="18sp">
 
         </Button>
 
@@ -55,7 +55,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:text="Restteil einbuchen"
-            android:textSize="22sp">
+            android:textSize="18sp">
 
         </Button>
 
@@ -67,7 +67,7 @@
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
             android:text="leer"
-            android:textSize="22sp">
+            android:textSize="18sp">
 
         </Button>
 

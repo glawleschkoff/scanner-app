@@ -4,36 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textLinks"
+        android:layout_width="0dp"
+        android:layout_height="30sp"
+        android:paddingStart="8sp"
+        android:paddingEnd="8sp"
+        android:text="TextView"
 
-        <TextView
-            android:id="@+id/textLinks"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:paddingStart="8sp"
-            android:paddingEnd="8sp"
-            android:text="TextView"
-            android:textSize="16sp"
-            app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textRechts" />
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="16sp"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/textRechts" />
 
-        <TextView
-            android:id="@+id/textRechts"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8sp"
-            android:text="TextView"
-            android:textSize="26sp"
-            app:layout_constraintHorizontal_weight="4"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textLinks"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textRechts"
+        android:layout_width="0dp"
+        android:layout_height="40sp"
+        android:paddingEnd="8sp"
+        android:text="TextView"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="26sp"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textLinks"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

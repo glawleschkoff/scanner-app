@@ -45,7 +45,13 @@ public class BigRVAdapter extends RecyclerView.Adapter<BigRVAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull BigRVAdapter.MyViewHolder holder, int position){
-        SpannableString wert = new SpannableString(RVItems.get(position).getWert());
+        SpannableString wert;
+        if(RVItems.get(position).getWert()!=null){
+            wert = new SpannableString(RVItems.get(position).getWert());
+        } else {
+            wert = new SpannableString("");
+        }
+
         if(RVItems.get(position).getName().equals("Länge") || RVItems.get(position).getName().equals("Breite")){
             wert.setSpan(new UnderlineSpan(), 0, wert.length(), 0);
             //holder.rechts.setTextColor(Color.parseColor("#000000"));

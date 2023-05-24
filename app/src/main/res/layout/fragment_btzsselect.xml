@@ -24,26 +24,28 @@
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintBottom_toTopOf="@id/text2"
+        android:foregroundGravity="top">
 
     </FrameLayout>
 
     <TextView
         android:id="@+id/text2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35sp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:textSize="29dp"
+        android:layout_marginBottom="0dp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button"

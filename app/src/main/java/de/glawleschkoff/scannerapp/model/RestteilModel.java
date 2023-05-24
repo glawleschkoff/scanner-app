@@ -9,7 +9,7 @@ public class RestteilModel {
 
     public RestteilModel(String csv){
         try{
-            String[] s = csv.split(";");
+            String[] s = csv.split("%");
             id = s[0];
             kante = s[1];
             länge = Integer.parseInt(s[2]);

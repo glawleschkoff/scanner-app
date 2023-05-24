@@ -16,6 +16,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.keyence.autoid.sdk.scan.DecodeResult;
+import com.keyence.autoid.sdk.scan.ScanManager;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,12 +27,13 @@ import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentRtebselectBinding;
 import de.glawleschkoff.scannerapp.model.RTEBFeedbackModel;
 import de.glawleschkoff.scannerapp.model.RestteilModel;
+import de.glawleschkoff.scannerapp.util.AndLiveData;
 import de.glawleschkoff.scannerapp.util.RTEBCardRVAdapter;
 import de.glawleschkoff.scannerapp.util.RVItem;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.RTEBViewModel;
 
-public class RTEBSelectFragment extends Fragment {
+public class RTEBSelectFragment extends Fragment implements ScanManager.DataListener{
 
     private FragmentRtebselectBinding binding;
     private RTEBViewModel rtebViewModel;
@@ -58,6 +62,45 @@ public class RTEBSelectFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        AndLiveData.use(getViewLifecycleOwner())
+                .add(rtebViewModel.getFeedbackRestteil())
+                .add(rtebViewModel.getResponseFeedback())
+                .observe(getViewLifecycleOwner(), x -> {
+                    if(rtebViewModel.getResponseFeedback().getValue().getResponse()!=null){
+                        new AlertDialog.Builder(getContext())
+                                //.setTitle("Delete entry")
+                                .setMessage("Restteil bereits eingebucht")
+
+                                // Specifying a listener allows you to take an action before dismissing the dialog.
+                                // The dialog is automatically dismissed when a dialog button is clicked.
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Navigation.findNavController(requireView()).navigate(R.id.action_RTEBSelectFragment_to_RTEBScanFragment);
+                                    }
+                                })
+                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    } else if(rtebViewModel.getFeedbackRestteil().getValue().getId()==null) {
+                        new AlertDialog.Builder(getContext())
+                                //.setTitle("Delete entry")
+                                .setMessage("Gescannter Code ist fehlerhaft")
+
+                                // Specifying a listener allows you to take an action before dismissing the dialog.
+                                // The dialog is automatically dismissed when a dialog button is clicked.
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Navigation.findNavController(requireView()).navigate(R.id.action_RTEBSelectFragment_to_RTEBScanFragment);
+                                    }
+                                })
+                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    } else {
+                        Navigation.findNavController(requireView()).navigate(R.id.action_RTEBSelectFragment_self);
+                    }
+                });
 
         List<RVItem> list1 = new ArrayList<>();
         list1.add(new RVItem("Lädt...",""));
@@ -199,4 +242,18 @@ public class RTEBSelectFragment extends Fragment {
         alertDialog.show();
         alertDialog.getWindow().setGravity(Gravity.BOTTOM);
     }
+
+    @Override
+    public void onDataReceived(DecodeResult decodeResult) {
+        DecodeResult.Result result = decodeResult.getResult();
+        String codeType = decodeResult.getCodeType();
+        String data = decodeResult.getData();
+        System.out.println(data);
+        if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
+            String id = data.substring(0);
+            rtebViewModel.setFeedbackRestteil(id);
+            rtebViewModel.requestFeedback(id.split("%")[0]+"_RTEB.csv");
+        }
+    }
+
 }

@@ -60,10 +60,12 @@ public class InfoShow1Fragment extends Fragment {
         });
 
         infoViewModel.getResponseBauteil().observe(getViewLifecycleOwner(),x -> {
-            infoViewModel.requestBitmap(infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKundenAuftrag(),
-                    infoViewModel.getResponseBauteil()
-                            .getValue().getResponse().getKundenPosition());
+            if(infoViewModel.getResponseBauteil().getValue().getResponse()!=null){
+                infoViewModel.requestBitmap(infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenAuftrag(),
+                        infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenPosition());
+            }
 
             if(x.getResponse()!=null){
                 rvAdapter.setRecyclerViewItems(Arrays.asList(

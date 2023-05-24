@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp.fragment.info;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,18 +17,22 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.tabs.TabLayout;
+import com.keyence.autoid.sdk.scan.DecodeResult;
+import com.keyence.autoid.sdk.scan.ScanManager;
 
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentInfoshowBinding;
+import de.glawleschkoff.scannerapp.util.AndLiveData;
 import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 
-public class InfoShowFragment extends Fragment {
+public class InfoShowFragment extends Fragment implements ScanManager.DataListener{
 
     private FragmentInfoshowBinding binding;
     private InfoViewModel infoViewModel;
     private MetaViewModel metaViewModel;
     private TabLayout tabLayout;
+    private ScanManager scanManager;
 
     public static InfoShowFragment newInstance(){
         return new InfoShowFragment();
@@ -44,12 +50,40 @@ public class InfoShowFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentInfoshowBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        AndLiveData.use(getViewLifecycleOwner())
+                .add(infoViewModel.getResponseBauteil())
+                .add(infoViewModel.getResponseFeedback())
+                .observe(getViewLifecycleOwner(),x->{
+                    if(infoViewModel.getResponseBauteil().getValue().getErrorMessage() != null){
+                        new AlertDialog.Builder(getContext())
+                                //.setTitle("Delete entry")
+                                .setMessage("Bauteil nicht gefunden")
+
+                                // Specifying a listener allows you to take an action before dismissing the dialog.
+                                // The dialog is automatically dismissed when a dialog button is clicked.
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Navigation.findNavController(requireView()).navigate(R.id.action_infoShowFragment_to_infoScanFragment2);
+                                    }
+                                })
+                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+
+                    } else {
+                        Navigation.findNavController(requireView())
+                                .navigate(R.id.action_infoShowFragment_self);
+                    }
+                });
 
         metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x->{
             if(x==null){
@@ -81,7 +115,8 @@ public class InfoShowFragment extends Fragment {
         TabLayout.Tab sixthTab = tabLayout.newTab();
         sixthTab.setText("Log");
         tabLayout.addTab(sixthTab);
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = getChildFragmentManager();
+        //FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(binding.frame.getId(), new InfoShow1Fragment());
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -98,7 +133,8 @@ public class InfoShowFragment extends Fragment {
                     case 4: fragment = new InfoShow5Fragment(); break;
                     case 5: fragment = new InfoShow6Fragment(); break;
                 }
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+                //FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentManager fm = getChildFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(binding.frame.getId(), fragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -131,6 +167,29 @@ public class InfoShowFragment extends Fragment {
                 } else return false;
             }
         });
+    }
+
+    @Override
+    public void onDataReceived(DecodeResult decodeResult) {
+        DecodeResult.Result result = decodeResult.getResult();
+        String codeType = decodeResult.getCodeType();
+        String data = decodeResult.getData();
+        System.out.println(data);
+        if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
+            String id = data.substring(1);
+            infoViewModel.requestBauteil(id);
+            infoViewModel.requestFeedback(id+"_BTZS.csv");
+            infoViewModel.requestCNCFeedback(id);
+            infoViewModel.requestKntFeedback(id);
+            infoViewModel.requestBauteilLog(id);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 
 }

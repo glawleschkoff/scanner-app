@@ -47,8 +47,8 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRtebscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -59,7 +59,7 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Restteil Einbuchen");
 
         binding.text.setOnClickListener(x -> {
-            rtebViewModel.setFeedbackRestteil("A0249-000801;EDSW980ST15_19;2800;1888");
+            rtebViewModel.setFeedbackRestteil("A0249-000801%EDSW980ST15_19%2800%1888");
             rtebViewModel.requestFeedback("A0249-000801_RTEB.csv");
         });
 
@@ -71,6 +71,21 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
                         new AlertDialog.Builder(getContext())
                                 //.setTitle("Delete entry")
                                 .setMessage("Restteil bereits eingebucht")
+
+                                // Specifying a listener allows you to take an action before dismissing the dialog.
+                                // The dialog is automatically dismissed when a dialog button is clicked.
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Navigation.findNavController(requireView()).navigate(R.id.action_RTEBScanFragment_self);
+                                    }
+                                })
+                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    } else if(rtebViewModel.getFeedbackRestteil().getValue().getId()==null) {
+                        new AlertDialog.Builder(getContext())
+                                //.setTitle("Delete entry")
+                                .setMessage("Gescannter Code ist fehlerhaft")
 
                                 // Specifying a listener allows you to take an action before dismissing the dialog.
                                 // The dialog is automatically dismissed when a dialog button is clicked.
@@ -110,14 +125,14 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
             String id = data.substring(0);
             rtebViewModel.setFeedbackRestteil(id);
-            rtebViewModel.requestFeedback(id.split(";")[0]+"_RTEB.csv");
+            rtebViewModel.requestFeedback(id.split("%")[0]+"_RTEB.csv");
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

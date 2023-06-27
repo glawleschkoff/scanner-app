@@ -20,7 +20,9 @@ import de.glawleschkoff.scannerapp.model.BauteilLogModel;
 import de.glawleschkoff.scannerapp.model.BauteilModel;
 import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
 import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
+import de.glawleschkoff.scannerapp.model.LagerModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
+import de.glawleschkoff.scannerapp.model.PlattenlagerModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import de.glawleschkoff.scannerapp.util.BitmapCutter;
 import okhttp3.MediaType;
@@ -38,6 +40,7 @@ public class Repository {
     private static Repository repository;
     private final HttpApi httpApi;
     private Target target;
+    private Target target2;
 
     public static synchronized Repository getInstance(){
         if(repository==null){
@@ -48,6 +51,89 @@ public class Repository {
     private Repository(){
         Retrofit retrofit = RetrofitInstance.getInstance();
         httpApi = retrofit.create(HttpApi.class);
+    }
+
+    public void requestPlattenlager(String id, MutableLiveData<ResponseWrapper<PlattenlagerModel>> responsePlattenlager){
+        Call<PlattenlagerModel> call = httpApi.getPlattenlager(id);
+        call.enqueue(new Callback<PlattenlagerModel>() {
+            @Override
+            public void onResponse(Call<PlattenlagerModel> call, Response<PlattenlagerModel> response) {
+                if(!response.isSuccessful()){
+                    responsePlattenlager.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                } else {
+                    responsePlattenlager.setValue(new ResponseWrapper<>(response.body(), null));
+                }
+            }
+            @Override
+            public void onFailure(Call<PlattenlagerModel> call, Throwable t) {
+                responsePlattenlager.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            }
+        });
+    }
+
+    public void updatePlattenlager(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3) {
+        Call<String> call = httpApi.updatePlattenlager(plattenId,lagerPlatz,lng,brt,mz3);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void insertPlattenlager(Integer rowUserId, String matKurzzeichen, Double plattenId, String lagerplatz, String mz3, Double lng, Double brt) {
+        Call<String> call = httpApi.insertPlattenlager(rowUserId,matKurzzeichen,plattenId,lagerplatz,mz3,lng,brt);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
+    }
+
+    public void getMaxPlattenID(MutableLiveData<ResponseWrapper<Double>> maxPlattenID) {
+        Call<Double> call = httpApi.getMaxPlattenID();
+        call.enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if(!response.isSuccessful()){
+                    maxPlattenID.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                } else {
+                    maxPlattenID.setValue(new ResponseWrapper<>(response.body(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+                maxPlattenID.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            }
+        });
+    }
+
+    public void requestLager(String id, MutableLiveData<ResponseWrapper<LagerModel>> responseLager){
+        Call<LagerModel> call = httpApi.getLager(id);
+        call.enqueue(new Callback<LagerModel>() {
+            @Override
+            public void onResponse(Call<LagerModel> call, Response<LagerModel> response) {
+                if(!response.isSuccessful()){
+                    responseLager.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                } else {
+                    responseLager.setValue(new ResponseWrapper<>(response.body(), null));
+                }
+            }
+            @Override
+            public void onFailure(Call<LagerModel> call, Throwable t) {
+                responseLager.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            }
+        });
     }
 
     public void requestBauteil(String id, MutableLiveData<ResponseWrapper<BauteilModel>> responseBauteil){
@@ -192,7 +278,7 @@ public class Repository {
         });
     }
 
-    public void requestBitmap(String id, String name, MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap){
+    public void requestBitmapBauteil(String id, String name, MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap){
         System.out.println("hier");
         target = new Target() {
             @Override
@@ -211,8 +297,33 @@ public class Repository {
 
             }
         };
-        Picasso.get().load("http://192.168.1.34:8080/api/v1/image/?id="+id+"&name="+name+".jpg")
+        Picasso.get().load("http://192.168.1.34:8080/api/v1/image/bauteil/?id="+id+"&name="+name+".jpg")
                 .into(target);
+    }
+
+    public void requestBitmapMaterial(String name, MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap){
+        target2 = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                System.out.println("bitmap succeded");
+                Bitmap b = BitmapCutter.imageWithMargin(bitmap, -1,0);
+                responseBitmap.setValue(new ResponseWrapper<>(b,null));
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                System.out.println(e.getMessage());
+                responseBitmap.setValue(new ResponseWrapper<>(null,e.getMessage()));
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                System.out.println("bitmap prepare");
+            }
+        };
+        System.out.println(name);
+        Picasso.get().load("http://192.168.1.34:8080/api/v1/image/material/?name="+name)
+                .into(target2);
     }
 
 }

@@ -36,7 +36,7 @@ public class BTZSViewModel extends ViewModel {
         repository.requestFeedback(name, responseFeedback);
     }
     public void requestBitmap(String id, String name){
-        repository.requestBitmap(id, name, responseBitmap);
+        repository.requestBitmapBauteil(id, name, responseBitmap);
     }
 
     public LiveData<ResponseWrapper<BauteilModel>> getResponseBauteil(){

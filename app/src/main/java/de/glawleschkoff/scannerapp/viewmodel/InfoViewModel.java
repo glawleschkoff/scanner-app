@@ -43,7 +43,7 @@ public class InfoViewModel extends ViewModel {
         repository.requestFeedback(name, responseFeedback);
     }
     public void requestBitmap(String id, String name){
-        repository.requestBitmap(id, name, responseBitmap);
+        repository.requestBitmapBauteil(id, name, responseBitmap);
     }
     public void requestCNCFeedback(String id){
         repository.requestCNCFeedback(id, responseCNCFeedback);
@@ -62,7 +62,6 @@ public class InfoViewModel extends ViewModel {
         return responseFeedback;
     }
     public LiveData<ResponseWrapper<Bitmap>> getResponseBitmap(){
-        //System.out.println("farbe: "+responseBitmap.getValue().getResponse().getColor(0,0));
         return responseBitmap;
     }
     public LiveData<ResponseWrapper<List<CNCFeedbackModel>>> getResponseCNCFeedback(){

@@ -30,6 +30,12 @@
         <action
             android:id="@+id/action_menuFragment_to_RTEBScanFragment"
             app:destination="@id/RTEBScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_PLEBScanFragment"
+            app:destination="@id/PLEBScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_RTHFSelectFragment"
+            app:destination="@id/RTHFSelectFragment" />
     </fragment>
     <fragment
         android:id="@+id/BTZSScanFragment"
@@ -138,5 +144,60 @@
         <action
             android:id="@+id/action_RTEBSelectFragment_self"
             app:destination="@id/RTEBSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PLEBScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.pleb.PLEBScanFragment"
+        android:label="fragment_plebscan"
+        tools:layout="@layout/fragment_plebscan" >
+        <action
+            android:id="@+id/action_PLEBScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_PLEBScanFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_PLEBScanFragment_self"
+            app:destination="@id/PLEBScanFragment" />
+        <action
+            android:id="@+id/action_PLEBScanFragment_to_PLEBSelectFragment"
+            app:destination="@id/PLEBSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PLEBSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.pleb.PLEBSelectFragment"
+        android:label="PLEBSelectFragment" >
+        <action
+            android:id="@+id/action_PLEBSelectFragment_to_PLEBScanFragment"
+            app:destination="@id/PLEBScanFragment" />
+        <action
+            android:id="@+id/action_PLEBSelectFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_PLEBSelectFragment_to_PLEBScanLpFragment"
+            app:destination="@id/PLEBScanLpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PLEBScanLpFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.pleb.PLEBScanLpFragment"
+        android:label="PLEBScanLpFragment" >
+        <action
+            android:id="@+id/action_PLEBScanLpFragment_to_PLEBSelectFragment"
+            app:destination="@id/PLEBSelectFragment" />
+        <action
+            android:id="@+id/action_PLEBScanLpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RTHFSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.rthf.RTHFSelectFragment"
+        android:label="fragment_rthfselect"
+        tools:layout="@layout/fragment_rthfselect" >
+        <action
+            android:id="@+id/action_RTHFSelectFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_RTHFSelectFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

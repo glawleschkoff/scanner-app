@@ -31,8 +31,8 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
     private MetaViewModel metaViewModel;
     private ScanManager scanManager;
 
-    public static InfoScanFragment newInstance(){
-        return new InfoScanFragment();
+    public static RTEBScanFragment newInstance(){
+        return new RTEBScanFragment();
     }
 
     @Override
@@ -47,8 +47,8 @@ public class RTEBScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRtebscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 

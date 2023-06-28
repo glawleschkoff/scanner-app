@@ -63,8 +63,8 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRthfselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -141,10 +141,8 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                         rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
                         "J"
                 ));
-                System.out.println("toggle yes");
             } else {
                 //only for testing
-                rthfViewModel.setTempLagerplatz("5");
                 rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
                         rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
                         rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
@@ -153,7 +151,6 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                         rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
                         ""
                 ));
-                System.out.println("toggle no");
             }
         });
 
@@ -321,7 +318,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

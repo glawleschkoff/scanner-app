@@ -18,7 +18,7 @@
             android:paddingEnd="8sp"
 
             app:autoSizeTextType="uniform"
-            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMaxTextSize="14sp"
 
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintTop_toTopOf="parent"

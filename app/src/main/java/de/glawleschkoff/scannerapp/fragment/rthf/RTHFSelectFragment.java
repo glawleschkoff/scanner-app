@@ -4,10 +4,15 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 
 import androidx.appcompat.app.AlertDialog;
@@ -16,6 +21,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.keyence.autoid.sdk.scan.DecodeResult;
 import com.keyence.autoid.sdk.scan.ScanManager;
@@ -25,12 +31,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentPlebselectBinding;
 import de.glawleschkoff.scannerapp.databinding.FragmentRthfselectBinding;
 import de.glawleschkoff.scannerapp.model.PlattenlagerModel;
+import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import de.glawleschkoff.scannerapp.model.RestteilModel;
+import de.glawleschkoff.scannerapp.util.ClickInterface;
+import de.glawleschkoff.scannerapp.util.MaterialienAdapter;
 import de.glawleschkoff.scannerapp.util.PLEBCardRVAdapter;
 import de.glawleschkoff.scannerapp.util.RTEBCardRVAdapter;
 import de.glawleschkoff.scannerapp.util.RVItem;
@@ -46,6 +56,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     private MetaViewModel metaViewModel;
     private PLEBCardRVAdapter plebCardRVAdapter;
     private ScanManager scanManager;
+    private boolean allowImage;
 
     public static RTHFSelectFragment newInstance() {
         return new RTHFSelectFragment();
@@ -56,6 +67,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
         super.onCreate(savedInstanceState);
         rthfViewModel = new ViewModelProvider(requireActivity()).get(RTHFViewModel.class);
         metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
+        allowImage = false;
     }
 
     @Nullable
@@ -72,18 +84,21 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getActivity().setTitle("Restteil einbuchen");
+
         rthfViewModel.requestMaxPlattenID();
 
+        rthfViewModel.requestMaterialien();
+
         rthfViewModel.getResponseBitmap().observe(getViewLifecycleOwner(),x -> {
-            if(x.getResponse()!=null){
+            if(x.getResponse()!=null && allowImage){
                 Bitmap bitmap = x.getResponse();
                 Matrix matrix = new Matrix();
                 matrix.postRotate(90);
                 Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
                 Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
                 binding.image.setImageBitmap(rotatedBitmap);
-
-
+                System.out.println("biiiiiild");
             }
         });
 
@@ -106,6 +121,29 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                         pickLänge(false); break;
                     case "Breite":
                         pickBreite(); break;
+                    case "Material\nKurzzeichen":
+                        pickMaterialKurzzeichen();
+                        break;
+                    case "on":
+                        rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                                rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
+                                rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
+                                rthfViewModel.getPlattenlagerModel().getValue().getLng(),
+                                rthfViewModel.getPlattenlagerModel().getValue().getBrt(),
+                                rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
+                                "J"
+                        ));
+                        break;
+                    case "off":
+                        rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                                rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
+                                rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
+                                rthfViewModel.getPlattenlagerModel().getValue().getLng(),
+                                rthfViewModel.getPlattenlagerModel().getValue().getBrt(),
+                                rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
+                                ""
+                        ));
+                        break;
                     default:
                 }
             }
@@ -115,7 +153,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
 
         rthfViewModel.getMaxPlattenID().observe(getViewLifecycleOwner(), x -> {
             if(x.getResponse()!=null){
-                rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(x.getResponse()+1,"",1400.,600.,"",""));
+                rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(x.getResponse()+1,"",1400.,600.,"","J"));
             }
         });
 
@@ -123,33 +161,11 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
             if(x!=null){
                 plebCardRVAdapter.setRvItemList(Arrays.asList(
                         new RVItem("PlattenID",String.format("%.0f", x.getPlattenID())),
-                        new RVItem("Material\nKurzzeichen",String.valueOf(x.getMatKurzzeichen())),
+                        new RVItem("Material\nKurzzeichen",String.valueOf(x.getMatKurzzeichen())!=""?String.valueOf(x.getMatKurzzeichen()):"Wähle Material"),
                         new RVItem("Länge",String.valueOf(x.getLng())),
                         new RVItem("Breite",String.valueOf(x.getBrt())),
-                        new RVItem("Lagerplatz",String.valueOf(x.getLagerPlatz()))
-                ));
-            }
-        });
-
-        binding.switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
-                        rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
-                        rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
-                        rthfViewModel.getPlattenlagerModel().getValue().getLng(),
-                        rthfViewModel.getPlattenlagerModel().getValue().getBrt(),
-                        rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
-                        "J"
-                ));
-            } else {
-                //only for testing
-                rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
-                        rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
-                        rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
-                        rthfViewModel.getPlattenlagerModel().getValue().getLng(),
-                        rthfViewModel.getPlattenlagerModel().getValue().getBrt(),
-                        rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
-                        ""
+                        new RVItem("Lagerplatz",String.valueOf(x.getLagerPlatz())),
+                        new RVItem("switch","new")
                 ));
             }
         });
@@ -158,15 +174,38 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
             Navigation.findNavController(requireView()).navigate(R.id.action_RTHFSelectFragment_to_menuFragment);
         });
 
+
         binding.button2.setOnClickListener(x -> {
-            rthfViewModel.insertPlattenlager(Integer.parseInt(metaViewModel.getScannerNr().getValue())
-                    ,rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen()
-                    ,rthfViewModel.getPlattenlagerModel().getValue().getPlattenID()
-                    ,rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz()
-                    ,rthfViewModel.getPlattenlagerModel().getValue().getMz3()
-                    ,rthfViewModel.getPlattenlagerModel().getValue().getLng()
-                    ,rthfViewModel.getPlattenlagerModel().getValue().getBrt());
-            Navigation.findNavController(requireView()).navigate(R.id.action_RTHFSelectFragment_to_menuFragment);
+
+            if(rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz().equals("") ||
+                rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen().equals("")){
+                new AlertDialog.Builder(getContext())
+                        //.setTitle("Delete entry")
+                        .setMessage("Lagerplatz oder Material noch nicht gewählt")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            } else {
+                rthfViewModel.insertPlattenlager(Integer.parseInt(metaViewModel.getScannerNr().getValue())
+                        ,rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen()
+                        ,rthfViewModel.getPlattenlagerModel().getValue().getPlattenID()
+                        ,rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz()
+                        ,rthfViewModel.getPlattenlagerModel().getValue().getMz3()
+                        ,rthfViewModel.getPlattenlagerModel().getValue().getLng()
+                        ,rthfViewModel.getPlattenlagerModel().getValue().getBrt());
+                Navigation.findNavController(requireView()).navigate(R.id.action_RTHFSelectFragment_to_menuFragment);
+            }
+
+
         });
 
         metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x -> {
@@ -211,6 +250,72 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
         return s.matches("[0-9][0-9]|[0-9]");
     }
 
+    private void pickMaterialKurzzeichen() {
+        // Create an alert builder
+        AlertDialog optionDialog = new AlertDialog.Builder(getContext()).create();
+        //AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        optionDialog.setTitle("Wähle Material");
+
+        // set the custom layout
+        final View customLayout = getLayoutInflater().inflate(R.layout.alertdialog, null);
+        optionDialog.setView(customLayout);
+
+        EditText editText = (EditText) customLayout.findViewById(R.id.editText);
+        editText.setHint("Suche");
+
+        RecyclerView rv = (RecyclerView) customLayout.findViewById(R.id.list);
+
+        List<String> list = new ArrayList<>();
+        list.add("leer");
+        MaterialienAdapter materialienAdapter = new MaterialienAdapter(getContext(), list, new ClickInterface() {
+            @Override
+            public void onClick(String name) {
+                rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                        rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getLng(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getBrt(),
+                        name,
+                        rthfViewModel.getPlattenlagerModel().getValue().getMz3()
+                ));
+                allowImage = true;
+                rthfViewModel.requestLager(name);
+                System.out.println("hier55");
+                optionDialog.dismiss();
+            }
+        });
+
+        rv.setAdapter(materialienAdapter);
+        rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        materialienAdapter.setRecyclerViewItems(rthfViewModel.getMaterialien().getValue().getResponse());
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                materialienAdapter.setRecyclerViewItems(rthfViewModel.getMaterialien().getValue().getResponse()
+                        .stream().filter(x -> x.toLowerCase().startsWith(s.toString().toLowerCase())).collect(Collectors.toList()));
+            }
+        });
+
+        // add a button
+        /*optionDialog.set
+        optionDialog.setPositiveButton("OK", (dialog1, which) -> {
+
+        });*/
+        optionDialog.show();
+    }
+
     private void pickLänge(boolean b){
         final AlertDialog.Builder d = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = this.getLayoutInflater();
@@ -221,11 +326,10 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
         np.setFormatter(new NumberPicker.Formatter() {
             @Override
             public String format(int value) {
-                return String.valueOf(value*5);
+                return String.valueOf(value);
             }
         });
-        np.setValue((rthfViewModel.getPlattenlagerModel().getValue().getLng().intValue() -
-                rthfViewModel.getPlattenlagerModel().getValue().getLng().intValue() % 5)/5);
+        np.setValue((rthfViewModel.getPlattenlagerModel().getValue().getLng().intValue()));
         np.setWrapSelectorWheel(false);
         d.setMessage("Länge wählen (mm)");
         d.setView(dialogView);
@@ -235,7 +339,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                 rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
                         rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
                         rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
-                        (double) (np.getValue()*5),
+                        (double) (np.getValue()*1),
                         rthfViewModel.getPlattenlagerModel().getValue().getBrt(),
                         rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
                         rthfViewModel.getPlattenlagerModel().getValue().getMz3()
@@ -267,11 +371,10 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
         np.setFormatter(new NumberPicker.Formatter() {
             @Override
             public String format(int value) {
-                return String.valueOf(value*5);
+                return String.valueOf(value*1);
             }
         });
-        np.setValue((rthfViewModel.getPlattenlagerModel().getValue().getBrt().intValue() -
-                rthfViewModel.getPlattenlagerModel().getValue().getBrt().intValue() % 5)/5);
+        np.setValue((rthfViewModel.getPlattenlagerModel().getValue().getBrt().intValue()));
         np.setWrapSelectorWheel(false);
         d.setMessage("Breite wählen (mm)");
         d.setView(dialogView);
@@ -282,7 +385,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                         rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
                         rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
                         rthfViewModel.getPlattenlagerModel().getValue().getLng(),
-                        (double) (np.getValue()*5),
+                        (double) (np.getValue()*1),
                         rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
                         rthfViewModel.getPlattenlagerModel().getValue().getMz3()
                 ));
@@ -320,5 +423,6 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
         super.onDestroyView();
         scanManager.removeDataListener(this);
         scanManager.releaseScanManager();
+        rthfViewModel.setBitmap(null);
     }
 }

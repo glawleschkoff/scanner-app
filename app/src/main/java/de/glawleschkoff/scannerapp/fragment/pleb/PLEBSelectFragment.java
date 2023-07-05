@@ -110,6 +110,26 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                         pickLänge(false); break;
                     case "Breite":
                         pickBreite(); break;
+                    case "on":
+                        plebViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
+                                "J"
+                        ));
+                        break;
+                    case "off":
+                        plebViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
+                                ""
+                        ));
+                        break;
                     default:
                 }
             }
@@ -124,35 +144,9 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                         new RVItem("Material\nKurzzeichen",String.valueOf(x.getResponse().getMatKurzzeichen())),
                         new RVItem("Länge",String.valueOf(x.getResponse().getLng())),
                         new RVItem("Breite",String.valueOf(x.getResponse().getBrt())),
-                        new RVItem("Lagerplatz",String.valueOf(x.getResponse().getLagerPlatz()))
+                        new RVItem("Lagerplatz",String.valueOf(x.getResponse().getLagerPlatz())),
+                        new RVItem("switch",String.valueOf(x.getResponse().getMz3()))
                 ));
-                binding.switch1.setChecked(plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3().equals("J"));
-            }
-        });
-
-        binding.switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                plebViewModel.setPlattenlagerModel(new PlattenlagerModel(
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                        "J"
-                ));
-                System.out.println("toggle yes");
-            } else {
-                //only for testing
-                plebViewModel.setTempLagerplatz("");
-                plebViewModel.setPlattenlagerModel(new PlattenlagerModel(
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                        ""
-                ));
-                System.out.println("toggle no");
             }
         });
 
@@ -217,11 +211,10 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
         np.setFormatter(new NumberPicker.Formatter() {
             @Override
             public String format(int value) {
-                return String.valueOf(value*5);
+                return String.valueOf(value*1);
             }
         });
-        np.setValue((plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng().intValue() -
-                plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng().intValue() % 5)/5);
+        np.setValue((plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng().intValue()));
         np.setWrapSelectorWheel(false);
         d.setMessage("Länge wählen (mm)");
         d.setView(dialogView);
@@ -231,7 +224,7 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                 plebViewModel.setPlattenlagerModel(new PlattenlagerModel(
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
-                        (double) (np.getValue()*5),
+                        (double) (np.getValue()*1),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3()
@@ -263,11 +256,10 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
         np.setFormatter(new NumberPicker.Formatter() {
             @Override
             public String format(int value) {
-                return String.valueOf(value*5);
+                return String.valueOf(value*1);
             }
         });
-        np.setValue((plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt().intValue() -
-                plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt().intValue() % 5)/5);
+        np.setValue((plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt().intValue()));
         np.setWrapSelectorWheel(false);
         d.setMessage("Breite wählen (mm)");
         d.setView(dialogView);
@@ -278,7 +270,7 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
-                        (double) (np.getValue()*5),
+                        (double) (np.getValue()*1),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3()
                 ));

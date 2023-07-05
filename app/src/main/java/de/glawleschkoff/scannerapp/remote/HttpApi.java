@@ -35,6 +35,9 @@ public interface HttpApi {
     @GET("api/v1/plattenlagermax")
     Call<Double> getMaxPlattenID();
 
+    @GET("api/v1/materialien")
+    Call<List<String>> getMaterialien();
+
     @GET("api/v1/lager")
     Call<LagerModel> getLager(@Query("id") String id);
 

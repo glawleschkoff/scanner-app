@@ -7,6 +7,8 @@ import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,6 +56,10 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 LayoutInflater inflater2 = LayoutInflater.from(context);
                 View view2 = inflater2.inflate(R.layout.item_bigrvqr, parent, false);
                 return new BigRVAdapter.MyViewHolder2(view2);
+            case 2:
+                LayoutInflater inflater3 = LayoutInflater.from(context);
+                View view3 = inflater3.inflate(R.layout.item_bigrvswitch, parent, false);
+                return new BigRVAdapter.MyViewHolder3(view3);
             default:
                 return null;
         }
@@ -92,7 +98,7 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     wert = new SpannableString("");
                 }
 
-                if(RVItems.get(position).getName().equals("Länge") || RVItems.get(position).getName().equals("Breite")){
+                if(RVItems.get(position).getName().equals("Länge") || RVItems.get(position).getName().equals("Breite") || RVItems.get(position).getName().equals("Material\nKurzzeichen")){
                     wert.setSpan(new UnderlineSpan(), 0, wert.length(), 0);
                     //holder.rechts.setTextColor(Color.parseColor("#000000"));
                 }
@@ -109,6 +115,20 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 myViewHolder2.links.setText(RVItems.get(position).getName());
                 myViewHolder2.rechts.setText(RVItems.get(position).getWert());
                 break;
+            case 2:
+                MyViewHolder3 myViewHolder3 = (MyViewHolder3) holder;
+                myViewHolder3.aSwitch.setChecked(RVItems.get(position).getWert().equals("J") ||
+                        RVItems.get(position).getWert().equals("new"));
+                myViewHolder3.aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked){
+                            clickInterface.onClick("on");
+                        } else {
+                            clickInterface.onClick("off");
+                        }
+                    }
+                });
         }
     }
 
@@ -119,6 +139,8 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         int i = 0;
         if(RVItems.get(position).getName().equals("Lagerplatz")){
             i = 1;
+        } else if(RVItems.get(position).getName().equals("switch")){
+            i = 2;
         }
         return i;
     }
@@ -156,6 +178,14 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             super(itemView);
             links = itemView.findViewById(R.id.textLinks);
             rechts = itemView.findViewById(R.id.textRechts);
+        }
+    }
+    public static class MyViewHolder3 extends RecyclerView.ViewHolder{
+        Switch aSwitch;
+
+        public MyViewHolder3(@NonNull View itemView){
+            super(itemView);
+            aSwitch = itemView.findViewById(R.id.switch1);
         }
     }
 

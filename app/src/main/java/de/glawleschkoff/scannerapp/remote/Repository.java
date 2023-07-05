@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -16,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.model.BauteilLogModel;
 import de.glawleschkoff.scannerapp.model.BauteilModel;
 import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
@@ -40,7 +43,6 @@ public class Repository {
     private static Repository repository;
     private final HttpApi httpApi;
     private Target target;
-    private Target target2;
 
     public static synchronized Repository getInstance(){
         if(repository==null){
@@ -51,6 +53,25 @@ public class Repository {
     private Repository(){
         Retrofit retrofit = RetrofitInstance.getInstance();
         httpApi = retrofit.create(HttpApi.class);
+    }
+
+    public void requestMaterialien(MutableLiveData<ResponseWrapper<List<String>>> responseMaterialien) {
+        Call<List<String>> call = httpApi.getMaterialien();
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(!response.isSuccessful()){
+                    responseMaterialien.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                } else {
+                    responseMaterialien.setValue(new ResponseWrapper<>(response.body(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                responseMaterialien.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            }
+        });
     }
 
     public void requestPlattenlager(String id, MutableLiveData<ResponseWrapper<PlattenlagerModel>> responsePlattenlager){
@@ -302,7 +323,7 @@ public class Repository {
     }
 
     public void requestBitmapMaterial(String name, MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap){
-        target2 = new Target() {
+        target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 System.out.println("bitmap succeded");
@@ -322,8 +343,12 @@ public class Repository {
             }
         };
         System.out.println(name);
-        Picasso.get().load("http://192.168.1.34:8080/api/v1/image/material/?name="+name)
-                .into(target2);
+        Picasso.get().invalidate("http://192.168.1.34:8080/api/v1/image/material/?name="+name);
+        Picasso.get().load("http://192.168.1.34:8080/api/v1/image/material/?name="+name+"&timestamp="+System.currentTimeMillis())
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .into(target);
+
     }
 
 }

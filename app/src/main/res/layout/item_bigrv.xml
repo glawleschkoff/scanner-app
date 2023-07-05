@@ -13,12 +13,12 @@
         <TextView
             android:id="@+id/textLinks"
             android:layout_width="0dp"
-            android:layout_height="35sp"
+            android:layout_height="30sp"
             android:paddingStart="8sp"
             android:paddingEnd="8sp"
 
             app:autoSizeTextType="uniform"
-            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMaxTextSize="14sp"
 
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,13 +29,13 @@
         <TextView
             android:id="@+id/textRechts"
             android:layout_width="0dp"
-            android:layout_height="50sp"
+            android:layout_height="30sp"
             android:paddingEnd="8sp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
 
             app:autoSizeTextType="uniform"
-            app:autoSizeMaxTextSize="32sp"
+            app:autoSizeMaxTextSize="35sp"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

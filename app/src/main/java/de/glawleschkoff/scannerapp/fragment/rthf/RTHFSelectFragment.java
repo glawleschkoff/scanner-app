@@ -133,6 +133,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                                 rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
                                 "J"
                         ));
+                        System.out.println("ooon");
                         break;
                     case "off":
                         rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
@@ -143,6 +144,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                                 rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
                                 ""
                         ));
+                        System.out.println("offff");
                         break;
                     default:
                 }
@@ -164,8 +166,32 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                         new RVItem("Material\nKurzzeichen",String.valueOf(x.getMatKurzzeichen())!=""?String.valueOf(x.getMatKurzzeichen()):"Wähle Material"),
                         new RVItem("Länge",String.valueOf(x.getLng())),
                         new RVItem("Breite",String.valueOf(x.getBrt())),
-                        new RVItem("Lagerplatz",String.valueOf(x.getLagerPlatz())),
-                        new RVItem("switch","new")
+                        new RVItem("Lagerplatz",String.valueOf(x.getLagerPlatz()))
+                        //new RVItem("switch","new")
+                ));
+                binding.switch1.setChecked(rthfViewModel.getPlattenlagerModel().getValue().getMz3().equals("J"));
+            }
+        });
+
+        binding.switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                        rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getLng(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getBrt(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
+                        "J"
+                ));
+            } else {
+                //only for testing
+                rthfViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                        rthfViewModel.getPlattenlagerModel().getValue().getPlattenID(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getLng(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getBrt(),
+                        rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen(),
+                        ""
                 ));
             }
         });

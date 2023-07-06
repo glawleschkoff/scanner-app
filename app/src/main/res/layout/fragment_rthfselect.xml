@@ -31,9 +31,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintBottom_toTopOf="@+id/button">
+        app:layout_constraintBottom_toTopOf="@+id/switch1">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:text="Etikett drucken"
+        android:textSize="22dp"
+        tools:layout_editor_absoluteX="6dp"
+        tools:layout_editor_absoluteY="357dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button" />
 
     <Button
         android:id="@+id/button"

@@ -144,8 +144,32 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                         new RVItem("Material\nKurzzeichen",String.valueOf(x.getResponse().getMatKurzzeichen())),
                         new RVItem("Länge",String.valueOf(x.getResponse().getLng())),
                         new RVItem("Breite",String.valueOf(x.getResponse().getBrt())),
-                        new RVItem("Lagerplatz",String.valueOf(x.getResponse().getLagerPlatz())),
-                        new RVItem("switch",String.valueOf(x.getResponse().getMz3()))
+                        new RVItem("Lagerplatz",String.valueOf(x.getResponse().getLagerPlatz()))
+                        //new RVItem("switch",String.valueOf(x.getResponse().getMz3()))
+                ));
+                binding.switch1.setChecked(plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3().equals("J"));
+            }
+        });
+
+        binding.switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                plebViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
+                        "J"
+                ));
+            } else {
+                //only for testing
+                plebViewModel.setPlattenlagerModel(new PlattenlagerModel(
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
+                        ""
                 ));
             }
         });

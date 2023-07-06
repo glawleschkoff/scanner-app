@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -117,15 +118,17 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 break;
             case 2:
                 MyViewHolder3 myViewHolder3 = (MyViewHolder3) holder;
-                myViewHolder3.aSwitch.setChecked(RVItems.get(position).getWert().equals("J") ||
-                        RVItems.get(position).getWert().equals("new"));
+                //myViewHolder3.aSwitch.setChecked(RVItems.get(position).getWert().equals("J") ||
+                  //      RVItems.get(position).getWert().equals("new"));
                 myViewHolder3.aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if(isChecked){
                             clickInterface.onClick("on");
+                            myViewHolder3.aSwitch.setChecked(true);
                         } else {
                             clickInterface.onClick("off");
+                            myViewHolder3.aSwitch.setChecked(false);
                         }
                     }
                 });

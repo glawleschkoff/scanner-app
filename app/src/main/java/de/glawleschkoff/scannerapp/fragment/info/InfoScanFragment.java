@@ -45,8 +45,8 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentInfoscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -62,13 +62,13 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
         });
 
         getActivity().setTitle("Bauteil Info");
-        binding.text.setOnClickListener(x -> {
+        /*binding.text.setOnClickListener(x -> {
             infoViewModel.requestBauteil("3995112-001");
             infoViewModel.requestFeedback("3995112-001_BTZS.csv");
             infoViewModel.requestCNCFeedback("3995112-001");
             infoViewModel.requestKntFeedback("3995112-001");
             infoViewModel.requestBauteilLog("3995112-001");
-        });
+        });*/
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_infoScanFragment2_to_menuFragment);
@@ -120,7 +120,7 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

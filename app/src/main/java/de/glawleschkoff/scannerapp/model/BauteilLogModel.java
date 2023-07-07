@@ -20,6 +20,8 @@ public class BauteilLogModel {
     private String job;
     private String vorgang;
     private String protokoll;
+    private String mitarbeiter;
+    private String ergebnis;
 
     public Integer getRowID() {
         return rowID;
@@ -91,5 +93,13 @@ public class BauteilLogModel {
 
     public String getProtokoll() {
         return protokoll;
+    }
+
+    public String getMitarbeiter() {
+        return mitarbeiter;
+    }
+
+    public String getErgebnis() {
+        return ergebnis;
     }
 }

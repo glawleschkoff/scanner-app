@@ -50,8 +50,8 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentInfoshowBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -99,22 +99,26 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
         tabLayout = binding.tabLayout;
         TabLayout.Tab firstTab = tabLayout.newTab();
         firstTab.setText("Allgemein");
-        tabLayout.addTab(firstTab);
+
         TabLayout.Tab secondTab = tabLayout.newTab();
         secondTab.setText("Platte");
         //tabLayout.addTab(secondTab);
         TabLayout.Tab thirdTab = tabLayout.newTab();
-        thirdTab.setText("Platten Feedback");
-        tabLayout.addTab(thirdTab);
+        thirdTab.setText("BAZ Feedback");
+
         TabLayout.Tab fourthTab = tabLayout.newTab();
         fourthTab.setText("Kante");
         //tabLayout.addTab(fourthTab);
         TabLayout.Tab fifthTab = tabLayout.newTab();
-        fifthTab.setText("Kanten Feedback");
-        tabLayout.addTab(fifthTab);
+        fifthTab.setText("Kante Feedback");
+
         TabLayout.Tab sixthTab = tabLayout.newTab();
-        sixthTab.setText("Log");
+        sixthTab.setText("Bauteil Log");
+
+        tabLayout.addTab(firstTab);
         tabLayout.addTab(sixthTab);
+        tabLayout.addTab(thirdTab);
+        tabLayout.addTab(fifthTab);
         FragmentManager fm = getChildFragmentManager();
         //FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -127,9 +131,9 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
                 Fragment fragment = null;
                 switch (tab.getPosition()){
                     case 0: fragment = new InfoShow1Fragment(); break;
-                    case 1: fragment = new InfoShow3Fragment(); break;
-                    case 2: fragment = new InfoShow5Fragment(); break;
-                    case 3: fragment = new InfoShow6Fragment(); break;
+                    case 1: fragment = new InfoShow6Fragment(); break;
+                    case 2: fragment = new InfoShow3Fragment(); break;
+                    case 3: fragment = new InfoShow5Fragment(); break;
                     //case 4: fragment = new InfoShow5Fragment(); break;
                     //case 5: fragment = new InfoShow6Fragment(); break;
                 }
@@ -153,7 +157,7 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
         });
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         getView().setFocusableInTouchMode(true);
@@ -162,12 +166,12 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == 501){
-                    Navigation.findNavController(requireView()).navigate(R.id.action_BTZSSelectFragment3_to_BTZSScanFragment);
+                    Navigation.findNavController(requireView()).navigate(R.id.action_infoShowFragment_to_infoScanFragment2);
                     return true;
                 } else return false;
             }
         });
-    }
+    }*/
 
     @Override
     public void onDataReceived(DecodeResult decodeResult) {
@@ -188,8 +192,8 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 
 }

@@ -19,7 +19,7 @@ public class PlattenlagerModel {
     private String matKurzzeichen;
     private String mz3;
     private Double optimiert;
-    private Double Produktion;
+    private Double produktion;
 
     public PlattenlagerModel(Double plattenID, String lagerPlatz, Double lng, Double brt, String matKurzzeichen, String mz3){
         this.plattenID = plattenID;
@@ -87,7 +87,7 @@ public class PlattenlagerModel {
     }
 
     public Double getProduktion() {
-        return Produktion;
+        return produktion;
     }
 
     public void setLagerPlatz(String lagerPlatz) {

@@ -62,8 +62,8 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPlebselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -82,24 +82,6 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
             }
         });
 
-        binding.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageView image = new ImageView(getContext());
-                image.setImageBitmap(plebViewModel.getResponseBitmap().getValue().getResponse());
-
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(getContext()).
-                                setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).
-                                setView(image);
-                builder.create().show();
-            }
-        });
 
         plebViewModel.getPlattenlagerModel().observe(getViewLifecycleOwner(),x -> {
             if(plebViewModel.getPlattenlagerModel().getValue().getResponse()!=null){
@@ -240,7 +222,7 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
     }
 
     private boolean validLagerplatz(String s){
-        return s.matches("[0-9][0-9]|[0-9]");
+        return s.matches("[a-z][0-9]");
     }
 
     private void pickLänge(boolean b){
@@ -348,7 +330,7 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

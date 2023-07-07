@@ -69,6 +69,8 @@ public class InfoShow6Fragment extends Fragment {
                                         new RVItem("Uhrzeit",x.getUhrzeit()),
                                         new RVItem("Vorgang", x.getVorgang())),
                                 Arrays.asList(
+                                        new RVItem("Ergebnis",x.getErgebnis()),
+                                        new RVItem("Mitarbeiter",x.getMitarbeiter()),
                                         new RVItem("Job",x.getJob()),
                                         //new RVItem("Vorgang", x.getVorgang()),
                                         new RVItem("Protokoll",x.getProtokoll())

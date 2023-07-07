@@ -66,7 +66,7 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
 
         AndLiveData.use(getViewLifecycleOwner())
                 .add(btzsViewModel.getResponseBauteil())
-                .add(btzsViewModel.getResponseFeedback())
+                //.add(btzsViewModel.getResponseFeedback())
                 .observe(getViewLifecycleOwner(),x->{
                     if(btzsViewModel.getResponseBauteil().getValue().getErrorMessage() != null){
                         System.out.println("fail1");
@@ -90,7 +90,7 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
                     }
                 });
 
-        if(btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAnweisung().startsWith("BTZS=X")){
+        if(!btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")){
             binding.text2.setText("Bauteil bereits zurück gesetzt");
             binding.button2.setVisibility(View.GONE);
             binding.button2.setEnabled(false);
@@ -104,6 +104,7 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
             System.out.println("wirlich zurücksetzen?");
             binding.text2.setText("Bauteil wirklich zurücksetzen?");
         }
+
 
 
         metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x->{
@@ -125,7 +126,7 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
                 String kurzbefehl = "BTZS";
                 String optionen = "";
 
-                btzsViewModel.updateBauteil(exemplarNr,"BTZS=X;"+
+                btzsViewModel.updateBauteil(exemplarNr,"BTZS="+
                         new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                 ";"+mitarbeiter);
 
@@ -201,7 +202,7 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
             String id = data.startsWith(" ")?data.substring(1):data;
             btzsViewModel.requestBauteil(id);
-            btzsViewModel.requestFeedback(id+"_BTZS.csv");
+            //btzsViewModel.requestFeedback(id+"_BTZS.csv");
         }
     }
 

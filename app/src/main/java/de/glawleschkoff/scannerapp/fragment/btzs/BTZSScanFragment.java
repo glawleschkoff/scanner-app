@@ -1,6 +1,7 @@
 package de.glawleschkoff.scannerapp.fragment.btzs;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.DialogInterface;
@@ -48,8 +49,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentBtzsscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -59,8 +60,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
 
         getActivity().setTitle("Bauteil Zurücksetzen");
         binding.text.setOnClickListener(x -> {
-            btzsViewModel.requestBauteil("3914986-001");
-            btzsViewModel.requestFeedback("3914986-001_BTZS.csv");
+            //btzsViewModel.requestBauteil("3914986-001");
+            //btzsViewModel.requestFeedback("3914986-001_BTZS.csv");
         });
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
@@ -73,9 +74,10 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
             }
         });
 
+
         AndLiveData.use(getViewLifecycleOwner())
                 .add(btzsViewModel.getResponseBauteil())
-                .add(btzsViewModel.getResponseFeedback())
+                //.add(btzsViewModel.getResponseFeedback())
                 .observe(getViewLifecycleOwner(),x->{
                     if(btzsViewModel.getResponseBauteil().getValue().getErrorMessage() != null){
                         System.out.println("fail1");
@@ -108,17 +110,18 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
         String data = decodeResult.getData();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
+            System.out.println(data);
             String id = data.startsWith(" ")?data.substring(1):data;
             btzsViewModel.requestBauteil(id);
-            btzsViewModel.requestFeedback(id+"_BTZS.csv");
+            //btzsViewModel.requestFeedback(id+"_BTZS.csv");
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 
 }

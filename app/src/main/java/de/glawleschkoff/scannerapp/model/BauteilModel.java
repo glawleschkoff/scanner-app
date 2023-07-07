@@ -111,6 +111,7 @@ public class BauteilModel {
     private String cp_ausblenden;
 
 
+
     public Integer getRowID() {
         return rowID;
     }
@@ -482,4 +483,6 @@ public class BauteilModel {
     public String getCp_ausblenden() {
         return cp_ausblenden;
     }
+
+
 }

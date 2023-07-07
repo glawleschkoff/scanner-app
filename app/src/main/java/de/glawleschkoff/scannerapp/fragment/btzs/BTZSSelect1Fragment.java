@@ -61,24 +61,6 @@ public class BTZSSelect1Fragment extends Fragment {
             }
         });
 
-        binding.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageView image = new ImageView(getContext());
-                image.setImageBitmap(btzsViewModel.getResponseBitmap().getValue().getResponse());
-
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(getContext()).
-                                setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).
-                                setView(image);
-                builder.create().show();
-            }
-        });
 
         btzsViewModel.getResponseBauteil().observe(getViewLifecycleOwner(),x -> {
             if(btzsViewModel.getResponseBauteil().getValue().getResponse()!=null){

@@ -46,8 +46,8 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPlebscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -58,7 +58,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Restteil bearbeiten");
 
         binding.text.setOnClickListener(x -> {
-            plebViewModel.requestPlattenlager("6000000014");
+            //plebViewModel.requestPlattenlager("6000000014");
         });
 
         plebViewModel.getPlattenlagerModel().observe(getViewLifecycleOwner(), x -> {
@@ -78,8 +78,11 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
                             // A null listener allows the button to dismiss the dialog and take no further action.
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-                } else if(plebViewModel.getPlattenlagerModel().getValue().getResponse().getOptimiert()!=null ||
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getProduktion()!=null){
+                } else if(plebViewModel.getPlattenlagerModel().getValue().getResponse().getOptimiert()==0 &&
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getProduktion()==0){
+                    Navigation.findNavController(requireView())
+                            .navigate(R.id.action_PLEBScanFragment_to_PLEBSelectFragment);
+                } else {
                     new AlertDialog.Builder(getContext())
                             //.setTitle("Delete entry")
                             .setMessage("Bauteil ist reserviert")
@@ -94,9 +97,6 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
                             // A null listener allows the button to dismiss the dialog and take no further action.
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-                } else {
-                    Navigation.findNavController(requireView())
-                            .navigate(R.id.action_PLEBScanFragment_to_PLEBSelectFragment);
                 }
             }
 
@@ -133,7 +133,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

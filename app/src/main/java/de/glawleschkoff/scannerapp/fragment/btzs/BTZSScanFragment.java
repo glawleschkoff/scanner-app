@@ -48,8 +48,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentBtzsscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -59,8 +59,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
 
         getActivity().setTitle("Bauteil Zurücksetzen");
         binding.text.setOnClickListener(x -> {
-            btzsViewModel.requestBauteil("3923242-001");
-            btzsViewModel.requestFeedback("3923242-001_BTZS.csv");
+            btzsViewModel.requestBauteil("3914986-001");
+            btzsViewModel.requestFeedback("3914986-001_BTZS.csv");
         });
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
@@ -108,7 +108,7 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
         String data = decodeResult.getData();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(1);
+            String id = data.startsWith(" ")?data.substring(1):data;
             btzsViewModel.requestBauteil(id);
             btzsViewModel.requestFeedback(id+"_BTZS.csv");
         }
@@ -117,8 +117,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
     }
 
 }

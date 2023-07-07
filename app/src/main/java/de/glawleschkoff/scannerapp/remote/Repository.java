@@ -107,6 +107,22 @@ public class Repository {
         });
     }
 
+    public void updateBauteil(String exemplarNr, String scannerAnweisung) {
+        System.out.println("hier555");
+        Call<String> call = httpApi.updateBauteil(exemplarNr, scannerAnweisung);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void insertPlattenlager(Integer rowUserId, String matKurzzeichen, Double plattenId, String lagerplatz, String mz3, Double lng, Double brt) {
         Call<String> call = httpApi.insertPlattenlager(rowUserId,matKurzzeichen,plattenId,lagerplatz,mz3,lng,brt);
         call.enqueue(new Callback<String>() {

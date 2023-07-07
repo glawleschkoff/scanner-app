@@ -67,15 +67,16 @@ public class InfoShow5Fragment extends Fragment {
                         .map(x -> new CardRVItem(
                                 Arrays.asList(
                                         new RVItem("Datum",x.getDatum()),
-                                        new RVItem("Uhrzeit",x.getUhrzeit())),
-                                Arrays.asList(
+                                        new RVItem("Uhrzeit",x.getUhrzeit()),
                                         new RVItem("LaufNr",x.getLaufNr()),
-                                        new RVItem("Kante", x.getKante()),
+                                        new RVItem("Kante", x.getKante())),
+                                Arrays.asList(
+
                                         new RVItem("KantenMat",x.getKantenMat()),
-                                        new RVItem("KantenLng",x.getKantenLng()),
-                                        new RVItem("PlatteLng", x.getPlatteLng()),
-                                        new RVItem("PlatteBrt",x.getPlatteBrt()),
-                                        new RVItem("PlatteDck",x.getPlatteDck())
+                                        new RVItem("KantenLng",x.getKantenLng())
+                                        //new RVItem("PlatteLng", x.getPlatteLng()),
+                                        //new RVItem("PlatteBrt",x.getPlatteBrt()),
+                                        //new RVItem("PlatteDck",x.getPlatteDck())
                                 ))).collect(Collectors.toList()));
             }
         });

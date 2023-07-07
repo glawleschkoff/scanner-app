@@ -50,8 +50,8 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentInfoshowBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -102,13 +102,13 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
         tabLayout.addTab(firstTab);
         TabLayout.Tab secondTab = tabLayout.newTab();
         secondTab.setText("Platte");
-        tabLayout.addTab(secondTab);
+        //tabLayout.addTab(secondTab);
         TabLayout.Tab thirdTab = tabLayout.newTab();
         thirdTab.setText("Platten Feedback");
         tabLayout.addTab(thirdTab);
         TabLayout.Tab fourthTab = tabLayout.newTab();
         fourthTab.setText("Kante");
-        tabLayout.addTab(fourthTab);
+        //tabLayout.addTab(fourthTab);
         TabLayout.Tab fifthTab = tabLayout.newTab();
         fifthTab.setText("Kanten Feedback");
         tabLayout.addTab(fifthTab);
@@ -127,11 +127,11 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
                 Fragment fragment = null;
                 switch (tab.getPosition()){
                     case 0: fragment = new InfoShow1Fragment(); break;
-                    case 1: fragment = new InfoShow2Fragment(); break;
-                    case 2: fragment = new InfoShow3Fragment(); break;
-                    case 3: fragment = new InfoShow4Fragment(); break;
-                    case 4: fragment = new InfoShow5Fragment(); break;
-                    case 5: fragment = new InfoShow6Fragment(); break;
+                    case 1: fragment = new InfoShow3Fragment(); break;
+                    case 2: fragment = new InfoShow5Fragment(); break;
+                    case 3: fragment = new InfoShow6Fragment(); break;
+                    //case 4: fragment = new InfoShow5Fragment(); break;
+                    //case 5: fragment = new InfoShow6Fragment(); break;
                 }
                 //FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentManager fm = getChildFragmentManager();
@@ -176,7 +176,7 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
         String data = decodeResult.getData();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(1);
+            String id = data.startsWith(" ")?data.substring(1):data;
             infoViewModel.requestBauteil(id);
             infoViewModel.requestFeedback(id+"_BTZS.csv");
             infoViewModel.requestCNCFeedback(id);
@@ -188,8 +188,8 @@ public class InfoShowFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
     }
 
 }

@@ -80,6 +80,7 @@ public class BauteilModel {
     private String steti_gedruckt;
     private String baz_Vorgabe;
     private String baz_Fortschritt;
+    private String kante_Fortschritt;
     private String fertigZuschnitt;
     private String zuschnittDatum;
     private String ka_Ist_L;
@@ -364,6 +365,10 @@ public class BauteilModel {
 
     public String getBaz_Fortschritt() {
         return baz_Fortschritt;
+    }
+
+    public String getKante_Fortschritt() {
+        return kante_Fortschritt;
     }
 
     public String getFertigZuschnitt() {

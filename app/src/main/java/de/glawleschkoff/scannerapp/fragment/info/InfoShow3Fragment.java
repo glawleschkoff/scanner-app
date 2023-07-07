@@ -69,11 +69,11 @@ public class InfoShow3Fragment extends Fragment {
                         .map(x -> new CardRVItem(
                                 Arrays.asList(
                                         new RVItem("Datum",x.getDatum()),
-                                        new RVItem("Uhrzeit",x.getUhrzeit())),
+                                        new RVItem("Uhrzeit",x.getUhrzeit()),
+                                        new RVItem("Fortschritt",x.getFortschritt())),
                                 Arrays.asList(
-                                        new RVItem("Fortschritt",x.getFortschritt()),
-                                        new RVItem("Maschine", x.getMaschine()),
-                                        new RVItem("Bestandsbuchung", x.getBestandsBuchung())
+                                        new RVItem("Maschine", x.getMaschine())
+                                        //new RVItem("Bestandsbuchung", x.getBestandsBuchung())
                                 ))).collect(Collectors.toList()));
             }
         });

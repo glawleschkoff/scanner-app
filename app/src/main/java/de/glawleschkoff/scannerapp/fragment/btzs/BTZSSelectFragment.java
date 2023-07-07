@@ -20,6 +20,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.keyence.autoid.sdk.scan.DecodeResult;
 import com.keyence.autoid.sdk.scan.ScanManager;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import de.glawleschkoff.scannerapp.R;
@@ -53,8 +55,8 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBtzsselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -88,12 +90,12 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
                     }
                 });
 
-        if(btzsViewModel.getResponseFeedback().getValue().getResponse()!=null){
+        if(btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAnweisung().startsWith("BTZS=X")){
             binding.text2.setText("Bauteil bereits zurück gesetzt");
             binding.button2.setVisibility(View.GONE);
             binding.button2.setEnabled(false);
             binding.button.setText("Zurück");
-        } else if(!btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAnweisung().equals("BTZS=J")){
+        } else if(!btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAnweisung().startsWith("BTZS=J")){
             binding.text2.setText("Zurücksetzen nicht möglich");
             binding.button2.setVisibility(View.GONE);
             binding.button2.setEnabled(false);
@@ -123,7 +125,11 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
                 String kurzbefehl = "BTZS";
                 String optionen = "";
 
-                btzsViewModel.createFeedback(new BTZSFeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));
+                btzsViewModel.updateBauteil(exemplarNr,"BTZS=X;"+
+                        new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
+                                ";"+mitarbeiter);
+
+                //btzsViewModel.createFeedback(new BTZSFeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));
                 Navigation.findNavController(requireView()).navigate(R.id.action_BTZSSelectFragment3_to_BTZSScanFragment);
             }
         });
@@ -193,7 +199,7 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
         String data = decodeResult.getData();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(1);
+            String id = data.startsWith(" ")?data.substring(1):data;
             btzsViewModel.requestBauteil(id);
             btzsViewModel.requestFeedback(id+"_BTZS.csv");
         }
@@ -202,8 +208,8 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
     }
 
 }

@@ -66,10 +66,11 @@ public class InfoShow6Fragment extends Fragment {
                         .map(x -> new CardRVItem(
                                 Arrays.asList(
                                         new RVItem("Datum",x.getDatum()),
-                                        new RVItem("Uhrzeit",x.getUhrzeit())),
+                                        new RVItem("Uhrzeit",x.getUhrzeit()),
+                                        new RVItem("Vorgang", x.getVorgang())),
                                 Arrays.asList(
                                         new RVItem("Job",x.getJob()),
-                                        new RVItem("Vorgang", x.getVorgang()),
+                                        //new RVItem("Vorgang", x.getVorgang()),
                                         new RVItem("Protokoll",x.getProtokoll())
                                 ))).collect(Collectors.toList()));
             }

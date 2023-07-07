@@ -121,7 +121,7 @@ public class PLEBScanLpFragment extends Fragment implements ScanManager.DataList
         //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(0);
+            String id = data.startsWith(" ")?data.substring(1):data;
             //rtebViewModel.setFeedbackRestteil(id);
             //rtebViewModel.requestFeedback(id.split("%")[0]+"_RTEB.csv");
         }

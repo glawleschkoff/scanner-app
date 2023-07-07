@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 
 import androidx.appcompat.app.AlertDialog;
@@ -61,8 +62,8 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPlebselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -78,8 +79,25 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                 Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
                 Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
                 binding.image.setImageBitmap(rotatedBitmap);
+            }
+        });
 
+        binding.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageView image = new ImageView(getContext());
+                image.setImageBitmap(plebViewModel.getResponseBitmap().getValue().getResponse());
 
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(getContext()).
+                                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).
+                                setView(image);
+                builder.create().show();
             }
         });
 
@@ -320,7 +338,7 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
         //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(0);
+            String id = data.startsWith(" ")?data.substring(1):data;
             plebViewModel.setTempLagerplatz(id);
             //rtebViewModel.setFeedbackRestteil(id);
             //rtebViewModel.requestFeedback(id.split("%")[0]+"_RTEB.csv");
@@ -330,7 +348,7 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
     }
 }

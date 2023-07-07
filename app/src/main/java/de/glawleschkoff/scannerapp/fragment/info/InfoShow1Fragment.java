@@ -1,13 +1,17 @@
 package de.glawleschkoff.scannerapp.fragment.info;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -69,6 +73,51 @@ public class InfoShow1Fragment extends Fragment {
 
             if(x.getResponse()!=null){
                 rvAdapter.setRecyclerViewItems(Arrays.asList(
+                        new RVItem("Exemplar Nr",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getExemplarNr()),
+                        new RVItem("KundenAuftrag",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenAuftrag()),
+                        new RVItem("Position",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenPosition()),
+                        new RVItem("Platte",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPlatte()),
+                        new RVItem("Länge",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPl_FLng()),
+                        new RVItem("Breite",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPl_FBrt()),
+                        new RVItem("BAZ",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getBaz_Fortschritt()
+                                .replace("0","_ ")
+                                .replace("1","O ")
+                                .replace("2","X ")),
+                        new RVItem("Kante",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKante_Fortschritt()
+                                .replace("0","_ ")
+                                .replace("1","O ")
+                                .replace("2","X ")),
+                        new RVItem("ProdDatum",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getProdDatum()),
+                        new RVItem("FertigDatum",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getFertigDatum()),
+                        new RVItem("Freigabe",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getProdFreigabe()),
+                        new RVItem("Status",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getStatus()),
+                        new RVItem("Ardis Job",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getArdisJob()),
+                        new RVItem("Sp Nr",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getArdisSPln()),
+                        new RVItem("Maschine",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getMaschine()
+                                .replace("1","Bimacut")
+                                .replace("2","Säge")),
+                        new RVItem("Prod Stopp",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getProdStopp()),
+                        new RVItem("Platten ID",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getPlattenID())
+
+
+                        /*
                         new RVItem("ExemplarNr",infoViewModel.getResponseBauteil()
                                 .getValue().getResponse().getExemplarNr()),
                         new RVItem("KundenAuftrag",infoViewModel.getResponseBauteil()
@@ -98,7 +147,7 @@ public class InfoShow1Fragment extends Fragment {
                         new RVItem("SollZtKante",infoViewModel.getResponseBauteil()
                                 .getValue().getResponse().getSollZtKante()),
                         new RVItem("SollZtBankQM",infoViewModel.getResponseBauteil()
-                                .getValue().getResponse().getSollZtBankQM())
+                                .getValue().getResponse().getSollZtBankQM())*/
                 ));
             }
         });

@@ -46,8 +46,8 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPlebscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -58,7 +58,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Restteil bearbeiten");
 
         binding.text.setOnClickListener(x -> {
-            //plebViewModel.requestPlattenlager("6000000014");
+            plebViewModel.requestPlattenlager("6000000014");
         });
 
         plebViewModel.getPlattenlagerModel().observe(getViewLifecycleOwner(), x -> {
@@ -67,6 +67,22 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
                     new AlertDialog.Builder(getContext())
                             //.setTitle("Delete entry")
                             .setMessage("Bauteil nicht gefunden")
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Navigation.findNavController(requireView()).navigate(R.id.action_PLEBScanFragment_self);
+                                }
+                            })
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                } else if(plebViewModel.getPlattenlagerModel().getValue().getResponse().getOptimiert()!=null ||
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getProduktion()!=null){
+                    new AlertDialog.Builder(getContext())
+                            //.setTitle("Delete entry")
+                            .setMessage("Bauteil ist reserviert")
 
                             // Specifying a listener allows you to take an action before dismissing the dialog.
                             // The dialog is automatically dismissed when a dialog button is clicked.
@@ -107,7 +123,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
         //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(0);
+            String id = data.startsWith(" ")?data.substring(1):data;
             plebViewModel.requestPlattenlager(id);
             //rtebViewModel.setFeedbackRestteil(id);
             //rtebViewModel.requestFeedback(id.split("%")[0]+"_RTEB.csv");
@@ -117,7 +133,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
     }
 }

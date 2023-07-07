@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 
@@ -75,8 +76,8 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRthfselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -99,6 +100,25 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
                 Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
                 binding.image.setImageBitmap(rotatedBitmap);
                 System.out.println("biiiiiild");
+            }
+        });
+
+        binding.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageView image = new ImageView(getContext());
+                image.setImageBitmap(rthfViewModel.getResponseBitmap().getValue().getResponse());
+
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(getContext()).
+                                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).
+                                setView(image);
+                builder.create().show();
             }
         });
 
@@ -203,11 +223,10 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
 
         binding.button2.setOnClickListener(x -> {
 
-            if(rthfViewModel.getPlattenlagerModel().getValue().getLagerPlatz().equals("") ||
-                rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen().equals("")){
+            if(rthfViewModel.getPlattenlagerModel().getValue().getMatKurzzeichen().equals("")){
                 new AlertDialog.Builder(getContext())
                         //.setTitle("Delete entry")
-                        .setMessage("Lagerplatz oder Material noch nicht gewählt")
+                        .setMessage("Material noch nicht gewählt")
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
@@ -330,7 +349,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
             @Override
             public void afterTextChanged(Editable s) {
                 materialienAdapter.setRecyclerViewItems(rthfViewModel.getMaterialien().getValue().getResponse()
-                        .stream().filter(x -> x.toLowerCase().startsWith(s.toString().toLowerCase())).collect(Collectors.toList()));
+                        .stream().filter(x -> x.toLowerCase().contains(s.toString().toLowerCase())).collect(Collectors.toList()));
             }
         });
 
@@ -437,7 +456,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
         //Toast.makeText(this.getContext(), data, Toast.LENGTH_SHORT).show();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(0);
+            String id = data.startsWith(" ")?data.substring(1):data;
             rthfViewModel.setTempLagerplatz(id);
             //rtebViewModel.setFeedbackRestteil(id);
             //rtebViewModel.requestFeedback(id.split("%")[0]+"_RTEB.csv");
@@ -447,8 +466,8 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
         rthfViewModel.setBitmap(null);
     }
 }

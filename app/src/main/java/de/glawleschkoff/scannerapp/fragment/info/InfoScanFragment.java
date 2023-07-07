@@ -45,8 +45,8 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentInfoscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -63,11 +63,11 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
 
         getActivity().setTitle("Bauteil Info");
         binding.text.setOnClickListener(x -> {
-            infoViewModel.requestBauteil("3980228-002");
-            infoViewModel.requestFeedback("3980228-002_BTZS.csv");
-            infoViewModel.requestCNCFeedback("3980228-002");
-            infoViewModel.requestKntFeedback("3980228-002");
-            infoViewModel.requestBauteilLog("3980228-002");
+            infoViewModel.requestBauteil("3995112-001");
+            infoViewModel.requestFeedback("3995112-001_BTZS.csv");
+            infoViewModel.requestCNCFeedback("3995112-001");
+            infoViewModel.requestKntFeedback("3995112-001");
+            infoViewModel.requestBauteilLog("3995112-001");
         });
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
@@ -108,7 +108,7 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
         String data = decodeResult.getData();
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
-            String id = data.substring(1);
+            String id = data.startsWith(" ")?data.substring(1):data;
             infoViewModel.requestBauteil(id);
             infoViewModel.requestFeedback(id+"_BTZS.csv");
             infoViewModel.requestCNCFeedback(id);
@@ -120,7 +120,7 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
     }
 }

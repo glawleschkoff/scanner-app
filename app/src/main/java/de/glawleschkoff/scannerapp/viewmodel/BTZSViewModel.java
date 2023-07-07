@@ -39,6 +39,10 @@ public class BTZSViewModel extends ViewModel {
         repository.requestBitmapBauteil(id, name, responseBitmap);
     }
 
+    public void updateBauteil(String exemplarNr, String scannerAnweisung) {
+        repository.updateBauteil(exemplarNr, scannerAnweisung);
+    }
+
     public LiveData<ResponseWrapper<BauteilModel>> getResponseBauteil(){
         return responseBauteil;
     }

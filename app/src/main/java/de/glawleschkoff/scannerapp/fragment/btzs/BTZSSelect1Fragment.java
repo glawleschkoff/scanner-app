@@ -1,12 +1,15 @@
 package de.glawleschkoff.scannerapp.fragment.btzs;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,6 +58,25 @@ public class BTZSSelect1Fragment extends Fragment {
         btzsViewModel.getResponseBitmap().observe(getViewLifecycleOwner(),x -> {
             if(x.getResponse()!=null){
                 binding.image.setImageBitmap(x.getResponse());
+            }
+        });
+
+        binding.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageView image = new ImageView(getContext());
+                image.setImageBitmap(btzsViewModel.getResponseBitmap().getValue().getResponse());
+
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(getContext()).
+                                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).
+                                setView(image);
+                builder.create().show();
             }
         });
 

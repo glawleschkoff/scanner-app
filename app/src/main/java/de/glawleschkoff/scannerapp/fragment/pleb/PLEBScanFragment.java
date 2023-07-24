@@ -80,9 +80,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
                             // A null listener allows the button to dismiss the dialog and take no further action.
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-                } else if(plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()==0 &&
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getOptimiert()!=0 &&
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getProduktion()!=0) {
+                } else if(plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()==0) {
                     new AlertDialog.Builder(getContext())
                             //.setTitle("Delete entry")
                             .setMessage("Ausgelagert von "+plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo())

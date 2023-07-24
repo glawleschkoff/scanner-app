@@ -67,11 +67,12 @@ public class InfoShow6Fragment extends Fragment {
             if(response.getResponse()!=null){
                 cardRVAdapter.setCardRVItemList(infoViewModel.getResponseBauteilLog().getValue().getResponse().stream()
                         .sorted((o1, o2) -> {
-                            try {
+                            return o2.getRowTimestamp().compareTo(o1.getRowTimestamp());
+                            /*try {
                                 return new SimpleDateFormat("dd-MM-yyyy").parse(o2.getDatum().replace(".","-")).compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(o1.getDatum().replace(".","-")));
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
-                            }
+                            }*/
                         })
                         .map(x -> new CardRVItem(
                                 Arrays.asList(

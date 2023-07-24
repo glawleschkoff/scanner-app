@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp.fragment.pleb;
+package de.glawleschkoff.scannerapp.fragment.rtab;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -18,33 +18,33 @@ import com.keyence.autoid.sdk.scan.ScanManager;
 import org.jetbrains.annotations.Nullable;
 
 import de.glawleschkoff.scannerapp.R;
-import de.glawleschkoff.scannerapp.databinding.FragmentPlebscanBinding;
+import de.glawleschkoff.scannerapp.databinding.FragmentRtabscanBinding;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
-import de.glawleschkoff.scannerapp.viewmodel.PLEBViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.RTABViewModel;
 import io.reactivex.annotations.NonNull;
 
-public class PLEBScanFragment extends Fragment implements ScanManager.DataListener {
+public class RTABScanFragment extends Fragment implements ScanManager.DataListener {
 
-    private FragmentPlebscanBinding binding;
-    private PLEBViewModel plebViewModel;
+    private FragmentRtabscanBinding binding;
+    private RTABViewModel rtabViewModel;
     private MetaViewModel metaViewModel;
     private ScanManager scanManager;
 
-    public static PLEBScanFragment newInstance() {
-        return new PLEBScanFragment();
+    public static RTABScanFragment newInstance() {
+        return new RTABScanFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        plebViewModel = new ViewModelProvider(requireActivity()).get(PLEBViewModel.class);
+        rtabViewModel = new ViewModelProvider(requireActivity()).get(RTABViewModel.class);
         metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentPlebscanBinding.inflate(getLayoutInflater());
+        binding = FragmentRtabscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         scanManager = ScanManager.createScanManager(this.getContext());
         scanManager.addDataListener(this);
@@ -55,17 +55,16 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Restteil bearbeiten");
+        getActivity().setTitle("Restteil auslagern");
 
         binding.text.setOnClickListener(x -> {
-            //plebViewModel.requestPlattenlager("2000000515");
+            //rtabViewModel.requestPlattenlager("6000000001");
         });
 
-        plebViewModel.getPlattenlagerModel().observe(getViewLifecycleOwner(), x -> {
+        rtabViewModel.getPlattenlagerModel().observe(getViewLifecycleOwner(), x -> {
             if(getViewLifecycleOwner().getLifecycle().getCurrentState() == Lifecycle.State.RESUMED){
-                //System.out.println("Menge: "+plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge());
-                if(plebViewModel.getPlattenlagerModel().getValue().getErrorMessage() != null){
-                    System.out.println("Fehler: "+plebViewModel.getPlattenlagerModel().getValue().getErrorMessage());
+                if(rtabViewModel.getPlattenlagerModel().getValue().getErrorMessage() != null){
+                    System.out.println("Fehler: "+rtabViewModel.getPlattenlagerModel().getValue().getErrorMessage());
                     new AlertDialog.Builder(getContext())
                             //.setTitle("Delete entry")
                             .setMessage("Bauteil nicht gefunden")
@@ -74,34 +73,32 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
                             // The dialog is automatically dismissed when a dialog button is clicked.
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Navigation.findNavController(requireView()).navigate(R.id.action_PLEBScanFragment_self);
+                                    Navigation.findNavController(requireView()).navigate(R.id.action_RTABScanFragment_self);
                                 }
                             })
                             // A null listener allows the button to dismiss the dialog and take no further action.
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-                } else if(plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()==0 &&
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getOptimiert()!=0 &&
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getProduktion()!=0) {
+                } else if(rtabViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()==0) {
                     new AlertDialog.Builder(getContext())
                             //.setTitle("Delete entry")
-                            .setMessage("Ausgelagert von "+plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo())
+                            .setMessage("Ausgelagert von "+rtabViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo())
 
                             // Specifying a listener allows you to take an action before dismissing the dialog.
                             // The dialog is automatically dismissed when a dialog button is clicked.
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Navigation.findNavController(requireView()).navigate(R.id.action_PLEBScanFragment_self);
+                                    Navigation.findNavController(requireView()).navigate(R.id.action_RTABScanFragment_self);
                                 }
                             })
                             // A null listener allows the button to dismiss the dialog and take no further action.
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-                } else if(plebViewModel.getPlattenlagerModel().getValue().getResponse().getOptimiert()==0 &&
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getProduktion()==0 &&
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()!=0){
+                } else if(rtabViewModel.getPlattenlagerModel().getValue().getResponse().getOptimiert()==0 &&
+                        rtabViewModel.getPlattenlagerModel().getValue().getResponse().getProduktion()==0 &&
+                        rtabViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()!=0){
                     Navigation.findNavController(requireView())
-                            .navigate(R.id.action_PLEBScanFragment_to_PLEBSelectFragment);
+                            .navigate(R.id.action_RTABScanFragment_to_RTABSelectFragment);
                 } else {
                     new AlertDialog.Builder(getContext())
                             //.setTitle("Delete entry")
@@ -111,7 +108,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
                             // The dialog is automatically dismissed when a dialog button is clicked.
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Navigation.findNavController(requireView()).navigate(R.id.action_PLEBScanFragment_self);
+                                    Navigation.findNavController(requireView()).navigate(R.id.action_RTABScanFragment_self);
                                 }
                             })
                             // A null listener allows the button to dismiss the dialog and take no further action.
@@ -124,13 +121,13 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
 
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
-                    .navigate(R.id.action_PLEBScanFragment_to_menuFragment);
+                    .navigate(R.id.action_RTABScanFragment_to_menuFragment);
         });
 
         metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x -> {
             if(x==null){
                 Navigation.findNavController(requireView())
-                        .navigate(R.id.action_PLEBScanFragment_to_loginFragment);
+                        .navigate(R.id.action_RTABScanFragment_to_loginFragment);
             }
         });
     }
@@ -144,7 +141,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
             String id = data.startsWith(" ")?data.substring(1):data;
-            plebViewModel.requestPlattenlager(id);
+            rtabViewModel.requestPlattenlager(id);
             //rtebViewModel.setFeedbackRestteil(id);
             //rtebViewModel.requestFeedback(id.split("%")[0]+"_RTEB.csv");
         }

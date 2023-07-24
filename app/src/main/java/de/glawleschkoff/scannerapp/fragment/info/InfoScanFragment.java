@@ -62,13 +62,13 @@ public class InfoScanFragment extends Fragment implements ScanManager.DataListen
         });
 
         getActivity().setTitle("Bauteil Info");
-        /*binding.text.setOnClickListener(x -> {
-            infoViewModel.requestBauteil("3995112-001");
+        binding.text.setOnClickListener(x -> {
+            /*infoViewModel.requestBauteil("3995112-001");
             infoViewModel.requestFeedback("3995112-001_BTZS.csv");
             infoViewModel.requestCNCFeedback("3995112-001");
             infoViewModel.requestKntFeedback("3995112-001");
-            infoViewModel.requestBauteilLog("3995112-001");
-        });*/
+            infoViewModel.requestBauteilLog("3995112-001");*/
+        });
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_infoScanFragment2_to_menuFragment);

@@ -117,7 +117,11 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                                 plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
                                 plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
                                 plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                                "J"
+                                "J",
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerId(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerDatum(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()
                         ));
                         break;
                     case "off":
@@ -127,7 +131,11 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                                 plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
                                 plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
                                 plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                                ""
+                                "",
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerId(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerDatum(),
+                                plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()
                         ));
                         break;
                     default:
@@ -141,7 +149,7 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
             if(x!=null){
                 plebCardRVAdapter.setRvItemList(Arrays.asList(
                         new RVItem("PlattenID",String.format("%.0f", x.getResponse().getPlattenID())),
-                        new RVItem("Material\nKurzzeichen",String.valueOf(x.getResponse().getMatKurzzeichen())),
+                        new RVItem("Material\nKurzzeichen1",String.valueOf(x.getResponse().getMatKurzzeichen())),
                         new RVItem("Länge",String.valueOf(x.getResponse().getLng())),
                         new RVItem("Breite",String.valueOf(x.getResponse().getBrt())),
                         new RVItem("Lagerplatz",String.valueOf(x.getResponse().getLagerPlatz()))
@@ -159,17 +167,24 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                        "J"
+                        "J",
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerId(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerDatum(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()
                 ));
             } else {
-                //only for testing
                 plebViewModel.setPlattenlagerModel(new PlattenlagerModel(
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getPlattenID(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getLagerPlatz(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                        ""
+                        "",
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerId(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerDatum(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()
                 ));
             }
         });
@@ -213,7 +228,11 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                             plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
                             plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
                             plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                            plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3()
+                            plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3(),
+                            plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerId(),
+                            plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo(),
+                            plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerDatum(),
+                            plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()
                     ));
                 }
             }
@@ -251,7 +270,11 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                         (double) (np.getValue()*1),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getBrt(),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3()
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerId(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerDatum(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()
                 ));
                 if(b){
                     pickBreite();
@@ -296,7 +319,11 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getLng(),
                         (double) (np.getValue()*1),
                         plebViewModel.getPlattenlagerModel().getValue().getResponse().getMatKurzzeichen(),
-                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3()
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMz3(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerId(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerInfo(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getAuslagerDatum(),
+                        plebViewModel.getPlattenlagerModel().getValue().getResponse().getMenge()
                 ));
             }
         });

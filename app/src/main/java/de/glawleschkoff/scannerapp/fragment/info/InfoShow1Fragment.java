@@ -16,7 +16,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import de.glawleschkoff.scannerapp.databinding.FragmentInfoshow1Binding;
 import de.glawleschkoff.scannerapp.util.BitmapCutter;
@@ -95,10 +101,12 @@ public class InfoShow1Fragment extends Fragment {
                                 .replace("0","_ ")
                                 .replace("1","O ")
                                 .replace("2","X ")),
-                        new RVItem("ProdDatum",infoViewModel.getResponseBauteil()
-                                .getValue().getResponse().getProdDatum()),
-                        new RVItem("FertigDatum",infoViewModel.getResponseBauteil()
-                                .getValue().getResponse().getFertigDatum()),
+                        new RVItem("Prod Stopp",infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getProdStopp()),
+                        new RVItem("ProdDatum", LocalDate.parse(infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getProdDatum()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))),
+                        new RVItem("FertigDatum",LocalDate.parse(infoViewModel.getResponseBauteil()
+                                .getValue().getResponse().getFertigDatum()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))),
                         new RVItem("Freigabe",infoViewModel.getResponseBauteil()
                                 .getValue().getResponse().getProdFreigabe()),
                         new RVItem("Status",infoViewModel.getResponseBauteil()
@@ -111,8 +119,6 @@ public class InfoShow1Fragment extends Fragment {
                                 .getValue().getResponse().getMaschine()
                                 .replace("1","Bimacut")
                                 .replace("2","Säge")),
-                        new RVItem("Prod Stopp",infoViewModel.getResponseBauteil()
-                                .getValue().getResponse().getProdStopp()),
                         new RVItem("Platten ID",infoViewModel.getResponseBauteil()
                                 .getValue().getResponse().getPlattenID())
 

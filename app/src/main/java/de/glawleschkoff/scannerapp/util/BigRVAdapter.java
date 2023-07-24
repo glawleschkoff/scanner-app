@@ -103,7 +103,22 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     wert.setSpan(new UnderlineSpan(), 0, wert.length(), 0);
                     //holder.rechts.setTextColor(Color.parseColor("#000000"));
                 }
-                myViewHolder1.links.setText(RVItems.get(position).getName());
+                String name = RVItems.get(position).getName();
+                switch(name){
+                    case "Matrial\nKurzzeichen1":
+                        name = "Matrial\nKurzzeichen";
+                        break;
+                    case "Länge1":
+                        name = "Länge";
+                        break;
+                    case "Breite1":
+                        name = "Breite";
+                        break;
+                    case "Lagerplatz1":
+                        name = "Lagerplatz";
+                        break;
+                }
+                myViewHolder1.links.setText(name);
                 myViewHolder1.rechts.setText(wert);
                 if(clickInterface!=null){
                     myViewHolder1.links.setOnClickListener(x-> clickInterface.onClick(RVItems.get(position).getName()));

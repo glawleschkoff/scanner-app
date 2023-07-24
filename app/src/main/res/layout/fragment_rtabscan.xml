@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.pleb.PLEBScanLpFragment">
+    tools:context=".fragment.rtab.RTABScanFragment">
 
     <Button
         android:id="@+id/bt1"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Bitte Lagerplatz scannen"
+        android:text="Scanner bereit"
         android:textAlignment="center"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"

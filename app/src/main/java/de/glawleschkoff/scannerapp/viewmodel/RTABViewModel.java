@@ -6,13 +6,23 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.model.LagerModel;
 import de.glawleschkoff.scannerapp.model.PlattenlagerModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import de.glawleschkoff.scannerapp.remote.Repository;
 
-public class PLEBViewModel extends ViewModel {
+public class RTABViewModel extends ViewModel {
 
     private final Repository repository;
     private final MutableLiveData<ResponseWrapper<PlattenlagerModel>> responsePlattenlager;
@@ -21,7 +31,7 @@ public class PLEBViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap;
 
 
-    public PLEBViewModel(){
+    public RTABViewModel(){
         repository = Repository.getInstance();
         responsePlattenlager = new MutableLiveData<>(new ResponseWrapper<>());
         tempLagerplatz = new MutableLiveData<>();
@@ -36,20 +46,22 @@ public class PLEBViewModel extends ViewModel {
         repository.requestLager(id, responseLager);
     }
     public void requestBitmap(String name){
+        System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Timestamp(System.currentTimeMillis())));
         repository.requestBitmapMaterial(name, responseBitmap);
     }
 
-    public void updatePlattenlager() {
+    public void updatePlattenlager(String mitarbeiter) {
         repository.updatePlattenlager(
                 responsePlattenlager.getValue().getResponse().getPlattenID(),
                 responsePlattenlager.getValue().getResponse().getLagerPlatz(),
                 responsePlattenlager.getValue().getResponse().getLng(),
                 responsePlattenlager.getValue().getResponse().getBrt(),
                 responsePlattenlager.getValue().getResponse().getMz3(),
-                responsePlattenlager.getValue().getResponse().getAuslagerId(),
-                responsePlattenlager.getValue().getResponse().getAuslagerInfo(),
-                responsePlattenlager.getValue().getResponse().getAuslagerDatum(),
-                responsePlattenlager.getValue().getResponse().getMenge());
+                "Entnahme",
+                mitarbeiter+" "+new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Timestamp(System.currentTimeMillis())),
+                new Date(System.currentTimeMillis()),
+                0.0);
     }
 
     public LiveData<ResponseWrapper<PlattenlagerModel>> getPlattenlagerModel() {

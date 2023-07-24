@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp.remote;
 
+import java.sql.Date;
 import java.util.List;
 
 import de.glawleschkoff.scannerapp.model.BauteilLogModel;
@@ -25,7 +26,7 @@ public interface HttpApi {
     Call<PlattenlagerModel> getPlattenlager(@Query("id") String id);
 
     @GET("api/v1/plattenlagerupdate")
-    Call<String> updatePlattenlager(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3);
+    Call<String> updatePlattenlager(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
 
     @GET("api/v1/bauteilupdate")
     Call<String> updateBauteil(@Query("exemplarNr") String exemplarNr, @Query("scannerAnweisung") String scannerAnweisung);

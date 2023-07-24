@@ -20,6 +20,23 @@ public class PlattenlagerModel {
     private String mz3;
     private Double optimiert;
     private Double produktion;
+    private String mz6;
+    private String mz1;
+    private Date mzd1;
+    private Double menge;
+
+    public PlattenlagerModel(Double plattenID, String lagerPlatz, Double lng, Double brt, String matKurzzeichen, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge){
+        this.plattenID = plattenID;
+        this.lagerPlatz = lagerPlatz;
+        this.lng = lng;
+        this.brt = brt;
+        this.matKurzzeichen = matKurzzeichen;
+        this.mz3 = mz3;
+        this.mz6 = auslagerId;
+        this.mz1 = auslagerInfo;
+        this.mzd1 = auslagerDatum;
+        this.menge = menge;
+    }
 
     public PlattenlagerModel(Double plattenID, String lagerPlatz, Double lng, Double brt, String matKurzzeichen, String mz3){
         this.plattenID = plattenID;
@@ -88,6 +105,22 @@ public class PlattenlagerModel {
 
     public Double getProduktion() {
         return produktion;
+    }
+
+    public String getAuslagerId() {
+        return mz6;
+    }
+
+    public String getAuslagerInfo() {
+        return mz1;
+    }
+
+    public Date getAuslagerDatum() {
+        return mzd1;
+    }
+
+    public Double getMenge() {
+        return menge;
     }
 
     public void setLagerPlatz(String lagerPlatz) {

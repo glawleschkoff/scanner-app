@@ -73,5 +73,9 @@ public class MenuFragment extends Fragment {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_menuFragment_to_PLEBScanFragment);
         });
+        binding.bt5.setOnClickListener(x -> {
+            Navigation.findNavController(requireView())
+                    .navigate(R.id.action_menuFragment_to_RTABScanFragment);
+        });
     }
 }

@@ -12,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
-                metaViewModel.setMitarbeiter(null);
+                metaViewModel.resetMitarbeiter();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -74,4 +75,5 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
 }

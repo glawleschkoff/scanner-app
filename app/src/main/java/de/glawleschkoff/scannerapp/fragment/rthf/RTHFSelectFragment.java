@@ -1,5 +1,6 @@
 package de.glawleschkoff.scannerapp.fragment.rthf;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -282,6 +283,12 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
         AlertDialog optionDialog = new AlertDialog.Builder(getContext()).create();
         //AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         optionDialog.setTitle("Wähle Material");
+        optionDialog.setButton(Dialog.BUTTON_NEGATIVE, "Abbrechen", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
 
         // set the custom layout
         final View customLayout = getLayoutInflater().inflate(R.layout.alertdialog, null);

@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +66,13 @@ public class InfoShow6Fragment extends Fragment {
 
             if(response.getResponse()!=null){
                 cardRVAdapter.setCardRVItemList(infoViewModel.getResponseBauteilLog().getValue().getResponse().stream()
+                        .sorted((o1, o2) -> {
+                            try {
+                                return new SimpleDateFormat("dd-MM-yyyy").parse(o2.getDatum().replace(".","-")).compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(o1.getDatum().replace(".","-")));
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
                         .map(x -> new CardRVItem(
                                 Arrays.asList(
                                         new RVItem("Datum",x.getDatum()),

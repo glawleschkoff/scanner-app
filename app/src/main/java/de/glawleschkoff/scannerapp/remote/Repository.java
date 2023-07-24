@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -92,8 +93,8 @@ public class Repository {
         });
     }
 
-    public void updatePlattenlager(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3) {
-        Call<String> call = httpApi.updatePlattenlager(plattenId,lagerPlatz,lng,brt,mz3);
+    public void updatePlattenlager(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge) {
+        Call<String> call = httpApi.updatePlattenlager(plattenId,lagerPlatz,lng,brt,mz3,auslagerId,auslagerInfo,auslagerDatum,menge);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {

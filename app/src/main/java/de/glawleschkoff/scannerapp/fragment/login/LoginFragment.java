@@ -12,11 +12,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Arrays;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 import de.glawleschkoff.scannerapp.util.LoginItemClickSupport;
@@ -97,11 +101,40 @@ public class LoginFragment extends Fragment {
                                 // The dialog is automatically dismissed when a dialog button is clicked.
                                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        metaViewModel.setMitarbeiter(loginViewModel.getResponseMitarbeiter()
-                                                .getValue().getResponse().get(position));
-                                        //getActivity().setTitle("Menü - angemeldet als "+metaViewModel.getMitarbeiter().getValue());
-                                        Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_loginFragment_to_menuFragment);
+                                        new AlertDialog.Builder(getContext())
+                                                .setSingleChoiceItems(new CharSequence[]{"Nach 5 min abmelden", "Nach 60 min abmelden"}, 0, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        if(which == 0){
+                                                            metaViewModel.setFiveMinutes(true);
+                                                        } else {
+                                                            metaViewModel.setFiveMinutes(false);
+                                                        }
+                                                    }
+
+                                                })
+                                                .setPositiveButton("Weiter", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        Boolean b = metaViewModel.getFiveMinutes().getValue();
+                                                        metaViewModel.setMitarbeiter(loginViewModel.getResponseMitarbeiter()
+                                                        .getValue().getResponse().get(position));
+                                                        //getActivity().setTitle("Menü - angemeldet als "+metaViewModel.getMitarbeiter().getValue());
+                                                        Navigation.findNavController(requireView())
+                                                        .navigate(R.id.action_loginFragment_to_menuFragment);
+                                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                metaViewModel.setTimer(b==true?300000:3600000);
+                                                                metaViewModel.getTimer().getValue().start();
+                                                            }
+                                                        });
+
+                                                    }
+                                                })
+                                                .create()
+                                                .show();
+
                                     }
                                 })
 

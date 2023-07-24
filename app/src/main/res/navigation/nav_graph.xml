@@ -28,14 +28,14 @@
             android:id="@+id/action_menuFragment_to_infoScanFragment2"
             app:destination="@id/infoScanFragment2" />
         <action
-            android:id="@+id/action_menuFragment_to_RTEBScanFragment"
-            app:destination="@id/RTEBScanFragment" />
-        <action
             android:id="@+id/action_menuFragment_to_PLEBScanFragment"
             app:destination="@id/PLEBScanFragment" />
         <action
             android:id="@+id/action_menuFragment_to_RTHFSelectFragment"
             app:destination="@id/RTHFSelectFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_RTABScanFragment"
+            app:destination="@id/RTABScanFragment" />
     </fragment>
     <fragment
         android:id="@+id/BTZSScanFragment"
@@ -110,42 +110,6 @@
             app:destination="@id/infoShowFragment" />
     </fragment>
     <fragment
-        android:id="@+id/RTEBScanFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.rteb.RTEBScanFragment"
-        android:label="fragment_rtebscan"
-        tools:layout="@layout/fragment_rtebscan" >
-        <action
-            android:id="@+id/action_RTEBScanFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
-        <action
-            android:id="@+id/action_RTEBScanFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_RTEBScanFragment_to_RTEBSelectFragment"
-            app:destination="@id/RTEBSelectFragment" />
-        <action
-            android:id="@+id/action_RTEBScanFragment_self"
-            app:destination="@id/RTEBScanFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/RTEBSelectFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.rteb.RTEBSelectFragment"
-        android:label="fragment_rtebselect"
-        tools:layout="@layout/fragment_rtebselect" >
-        <action
-            android:id="@+id/action_RTEBSelectFragment_to_RTEBScanFragment"
-            app:destination="@id/RTEBScanFragment" />
-        <action
-            android:id="@+id/action_RTEBSelectFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_RTEBSelectFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
-        <action
-            android:id="@+id/action_RTEBSelectFragment_self"
-            app:destination="@id/RTEBSelectFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/PLEBScanFragment"
         android:name="de.glawleschkoff.scannerapp.fragment.pleb.PLEBScanFragment"
         android:label="fragment_plebscan"
@@ -173,20 +137,6 @@
         <action
             android:id="@+id/action_PLEBSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_PLEBSelectFragment_to_PLEBScanLpFragment"
-            app:destination="@id/PLEBScanLpFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/PLEBScanLpFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.pleb.PLEBScanLpFragment"
-        android:label="PLEBScanLpFragment" >
-        <action
-            android:id="@+id/action_PLEBScanLpFragment_to_PLEBSelectFragment"
-            app:destination="@id/PLEBSelectFragment" />
-        <action
-            android:id="@+id/action_PLEBScanLpFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/RTHFSelectFragment"
@@ -198,6 +148,34 @@
             app:destination="@id/menuFragment" />
         <action
             android:id="@+id/action_RTHFSelectFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RTABScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.rtab.RTABScanFragment"
+        android:label="RTABScanFragment" >
+        <action
+            android:id="@+id/action_RTABScanFragment_to_RTABSelectFragment"
+            app:destination="@id/RTABSelectFragment" />
+        <action
+            android:id="@+id/action_RTABScanFragment_self"
+            app:destination="@id/RTABScanFragment" />
+        <action
+            android:id="@+id/action_RTABScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_RTABScanFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RTABSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.rtab.RTABSelectFragment"
+        android:label="RTABSelectFragment" >
+        <action
+            android:id="@+id/action_RTABSelectFragment_to_RTABScanFragment"
+            app:destination="@id/RTABScanFragment" />
+        <action
+            android:id="@+id/action_RTABSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

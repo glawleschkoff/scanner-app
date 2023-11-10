@@ -77,8 +77,8 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRthfselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -275,7 +275,8 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     }
 
     private boolean validLagerplatz(String s){
-        return s.toLowerCase().matches("[a-z][0-9]");
+        return s.length()<10;
+        //return s.toLowerCase().matches("[a-z][0-9]");
     }
 
     private void pickMaterialKurzzeichen() {
@@ -456,8 +457,8 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
         rthfViewModel.setBitmap(null);
     }
 }

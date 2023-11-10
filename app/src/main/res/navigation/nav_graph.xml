@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_menuFragment_to_RTABScanFragment"
             app:destination="@id/RTABScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_PRQMScanFragment"
+            app:destination="@id/PRQMScanFragment" />
     </fragment>
     <fragment
         android:id="@+id/BTZSScanFragment"
@@ -177,5 +180,37 @@
         <action
             android:id="@+id/action_RTABSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PRQMScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.prqm.PRQMScanFragment"
+        android:label="fragment_prqmscan"
+        tools:layout="@layout/fragment_prqmscan" >
+        <action
+            android:id="@+id/action_PRQMScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_PRQMScanFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_PRQMScanFragment_to_PRQMSelectFragment"
+            app:destination="@id/PRQMSelectFragment" />
+        <action
+            android:id="@+id/action_PRQMScanFragment_self"
+            app:destination="@id/PRQMScanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PRQMSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.prqm.PRQMSelectFragment"
+        android:label="PRQMSelectFragment" >
+        <action
+            android:id="@+id/action_PRQMSelectFragment_to_PRQMScanFragment"
+            app:destination="@id/PRQMScanFragment" />
+        <action
+            android:id="@+id/action_PRQMSelectFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_PRQMSelectFragment_self"
+            app:destination="@id/PRQMSelectFragment" />
     </fragment>
 </navigation>

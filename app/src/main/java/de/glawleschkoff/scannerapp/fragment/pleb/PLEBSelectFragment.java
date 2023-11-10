@@ -241,7 +241,8 @@ public class PLEBSelectFragment extends Fragment implements ScanManager.DataList
     }
 
     private boolean validLagerplatz(String s){
-        return s.matches("[a-z][0-9]");
+        return s.length()<10;
+        //return s.matches("[a-z][0-9]");
     }
 
     private void pickLänge(boolean b){

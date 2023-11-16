@@ -7,6 +7,7 @@ import de.glawleschkoff.scannerapp.model.BauteilLogModel;
 import de.glawleschkoff.scannerapp.model.BauteilModel;
 import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
 import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
+import de.glawleschkoff.scannerapp.model.KommWagenModel;
 import de.glawleschkoff.scannerapp.model.LagerModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
 import de.glawleschkoff.scannerapp.model.PlattenlagerModel;
@@ -47,6 +48,9 @@ public interface HttpApi {
 
     @GET("api/v1/bauteil")
     Call<BauteilModel> getBauteil(@Query("id") String id);
+
+    @GET("api/v1/kommwagen")
+    Call<KommWagenModel> getKommWagen(@Query("auftrag") String auftrag);
 
     @Multipart
     @POST("api/v1/feedback")

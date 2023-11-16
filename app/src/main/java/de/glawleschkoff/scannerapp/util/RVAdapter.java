@@ -67,6 +67,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
     }
 
     public void setRecyclerViewItems(List<RVItem> RVItems){
+        System.out.println(RVItems.get(0).getWert());
+        System.out.println(RVItems.get(1).getWert());
+        System.out.println(RVItems.get(2).getWert());
         this.RVItems = RVItems;
         notifyDataSetChanged();
     }

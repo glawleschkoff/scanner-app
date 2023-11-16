@@ -22,7 +22,9 @@ import com.keyence.autoid.sdk.scan.ScanManager;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentBtzsselectBinding;
@@ -89,13 +91,18 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
                                 .navigate(R.id.action_BTZSSelectFragment3_self);
                     }
                 });
-
-        if(!btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")){
+        // falls scannerAntwort nicht leer ist
+        // falls Teil von scannerAntwort mit BTZS startet
+        if(!Arrays.stream(btzsViewModel.getResponseBauteil().getValue().getResponse()
+                .getScannerAntwort().split("#")).filter(x -> x.startsWith("BTZS")).collect(Collectors.toList()).isEmpty()){
             binding.text2.setText("Bauteil bereits zurück gesetzt");
             binding.button2.setVisibility(View.GONE);
             binding.button2.setEnabled(false);
             binding.button.setText("Zurück");
-        } else if(!btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAnweisung().startsWith("BTZS=J")){
+            // sonst, falls scannerAnweisung nicht mit BTZS=J startet
+            // sonst, falls BTZS von scannerAnweisung =N ist
+        } else if(!Arrays.stream(btzsViewModel.getResponseBauteil().getValue().getResponse()
+                .getScannerAnweisung().split("#")).filter(x -> x.startsWith("BTZS=N")).collect(Collectors.toList()).isEmpty()){
             binding.text2.setText("Zurücksetzen nicht möglich");
             binding.button2.setVisibility(View.GONE);
             binding.button2.setEnabled(false);
@@ -127,7 +134,7 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
                 String optionen = "";
 
                 btzsViewModel.updateBauteil(exemplarNr,"BTZS="+
-                        new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
+                        new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis() + 3600000))+
                                 ";"+mitarbeiter);
 
                 //btzsViewModel.createFeedback(new BTZSFeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));

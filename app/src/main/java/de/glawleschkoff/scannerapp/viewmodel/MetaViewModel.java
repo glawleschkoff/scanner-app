@@ -18,6 +18,7 @@ public class MetaViewModel extends ViewModel {
     private final MutableLiveData<Boolean> fiveMinutes;
     private final MutableLiveData<CountDownTimer> timer;
     private final Repository repository;
+    private final MutableLiveData<String> prqmLetzterAuftrag;
 
     public MetaViewModel(){
         repository = Repository.getInstance();
@@ -25,6 +26,7 @@ public class MetaViewModel extends ViewModel {
         scannerNr = new MutableLiveData<>("001");
         fiveMinutes = new MutableLiveData<>(true);
         timer = new MutableLiveData<>();
+        prqmLetzterAuftrag = new MutableLiveData<>("");
     }
 
     public LiveData<String> getMitarbeiter(){
@@ -38,6 +40,13 @@ public class MetaViewModel extends ViewModel {
     }
     public LiveData<CountDownTimer> getTimer() {
         return timer;
+    }
+    public LiveData<String> getPrqmLetzterAuftrag(){
+        return prqmLetzterAuftrag;
+    }
+
+    public void setPrqmLetzterAuftrag(String auftrag){
+        this.prqmLetzterAuftrag.setValue(auftrag);
     }
 
     public void setTimer(long time) {

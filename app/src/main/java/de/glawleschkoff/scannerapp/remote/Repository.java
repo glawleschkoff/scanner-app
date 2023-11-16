@@ -24,6 +24,7 @@ import de.glawleschkoff.scannerapp.model.BauteilLogModel;
 import de.glawleschkoff.scannerapp.model.BauteilModel;
 import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
 import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
+import de.glawleschkoff.scannerapp.model.KommWagenModel;
 import de.glawleschkoff.scannerapp.model.LagerModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
 import de.glawleschkoff.scannerapp.model.PlattenlagerModel;
@@ -110,6 +111,7 @@ public class Repository {
 
     public void updateBauteil(String exemplarNr, String scannerAnweisung) {
         System.out.println("hier555");
+        System.out.println("hier "+scannerAnweisung);
         Call<String> call = httpApi.updateBauteil(exemplarNr, scannerAnweisung);
         call.enqueue(new Callback<String>() {
             @Override
@@ -119,7 +121,7 @@ public class Repository {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                System.out.println("Failure: "+t.getMessage());
             }
         });
     }
@@ -188,6 +190,25 @@ public class Repository {
             @Override
             public void onFailure(Call<BauteilModel> call, Throwable t) {
                 responseBauteil.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            }
+        });
+    }
+
+    public void requestKommWagen(String auftrag, MutableLiveData<ResponseWrapper<KommWagenModel>> responseKommWagen){
+        Call<KommWagenModel> call = httpApi.getKommWagen(auftrag);
+        call.enqueue(new Callback<KommWagenModel>() {
+            @Override
+            public void onResponse(Call<KommWagenModel> call, Response<KommWagenModel> response) {
+                if(!response.isSuccessful()){
+                    responseKommWagen.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                } else {
+                    responseKommWagen.setValue(new ResponseWrapper<>(response.body(),null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<KommWagenModel> call, Throwable t) {
+                responseKommWagen.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }

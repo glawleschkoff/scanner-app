@@ -1,11 +1,14 @@
 package de.glawleschkoff.scannerapp.fragment.prqm;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -46,8 +49,8 @@ public class PRQMScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPrqmscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -57,7 +60,33 @@ public class PRQMScanFragment extends Fragment implements ScanManager.DataListen
 
         getActivity().setTitle("Qualitätskontrolle");
 
+        /*binding.text.setOnClickListener(x -> {
+            prqmViewModel.requestBauteil("4078332-001");
+            //btzsViewModel.requestBauteil("3914986-001");
+            //btzsViewModel.requestFeedback("3914986-001_BTZS.csv");
+        });
 
+         */
+
+        prqmViewModel.getResponseBauteil().observe(getViewLifecycleOwner(), x -> {
+            if(getViewLifecycleOwner().getLifecycle().getCurrentState() == Lifecycle.State.RESUMED){
+                if(prqmViewModel.getResponseBauteil().getValue().getErrorMessage() != null){
+                    new AlertDialog.Builder(getContext())
+                            .setMessage("Bauteil nicht gefunden")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Navigation.findNavController(requireView()).navigate(R.id.action_BTZSScanFragment_self);
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                } else {
+                    System.out.println("hier123");
+                    Navigation.findNavController(requireView())
+                            .navigate(R.id.action_PRQMScanFragment_to_PRQMSelectFragment);
+                }
+            }
+        });
 
 
 
@@ -84,7 +113,7 @@ public class PRQMScanFragment extends Fragment implements ScanManager.DataListen
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
             String id = data.startsWith(" ")?data.substring(1):data;
-            //prqmViewModel.requestPlattenlager(id);
+            prqmViewModel.requestBauteil(id);
             //rtebViewModel.setFeedbackRestteil(id);
             //rtebViewModel.requestFeedback(id.split("%")[0]+"_RTEB.csv");
         }
@@ -93,7 +122,7 @@ public class PRQMScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

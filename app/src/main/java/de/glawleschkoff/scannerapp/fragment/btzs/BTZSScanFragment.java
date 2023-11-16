@@ -59,10 +59,12 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().setTitle("Bauteil Zurücksetzen");
-        binding.text.setOnClickListener(x -> {
-            //btzsViewModel.requestBauteil("3914986-001");
-            //btzsViewModel.requestFeedback("3914986-001_BTZS.csv");
+        /*binding.text.setOnClickListener(x -> {
+            btzsViewModel.requestBauteil("4078332-001");
+            //btzsViewModel.requestFeedback("4078332-001_BTZS.csv");
         });
+
+         */
         binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_BTZSScanFragment_to_menuFragment);

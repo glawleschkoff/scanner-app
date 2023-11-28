@@ -1,5 +1,7 @@
 package de.glawleschkoff.scannerapp.viewmodel;
 
+import android.graphics.Bitmap;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -14,11 +16,13 @@ public class PRQMViewModel extends ViewModel {
     private final Repository repository;
     private final MutableLiveData<ResponseWrapper<BauteilModel>> responseBauteil;
     private final MutableLiveData<ResponseWrapper<KommWagenModel>> responseKommWagen;
+    private final MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap;
 
     public PRQMViewModel(){
         repository = Repository.getInstance();
         responseBauteil = new MutableLiveData<>(new ResponseWrapper<>());
         responseKommWagen = new MutableLiveData<>(new ResponseWrapper<>());
+        responseBitmap = new MutableLiveData<>(new ResponseWrapper<>());
     }
 
     public void requestBauteil(String id){
@@ -26,6 +30,9 @@ public class PRQMViewModel extends ViewModel {
     }
     public void requestKommWagen(String auftrag){
         repository.requestKommWagen(auftrag, responseKommWagen);
+    }
+    public void requestBitmap(String id, String name){
+        repository.requestBitmapBauteil(id, name, responseBitmap);
     }
 
     public void updateBauteil(String exemplarNr, String scannerAntwort) {
@@ -35,8 +42,10 @@ public class PRQMViewModel extends ViewModel {
     public LiveData<ResponseWrapper<BauteilModel>> getResponseBauteil(){
         return responseBauteil;
     }
-
     public LiveData<ResponseWrapper<KommWagenModel>> getResponseKommWagen() {
         return responseKommWagen;
+    }
+    public LiveData<ResponseWrapper<Bitmap>> getResponseBitmap(){
+        return responseBitmap;
     }
 }

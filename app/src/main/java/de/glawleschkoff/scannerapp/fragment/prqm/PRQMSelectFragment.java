@@ -46,7 +46,7 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
     private FragmentPrqmselectBinding binding;
     private PRQMViewModel prqmViewModel;
     private MetaViewModel metaViewModel;
-    private PLEBCardRVAdapter plebCardRVAdapter;
+    private RVAdapter rvAdapter;
     private ScanManager scanManager;
     private Notification notification;
 
@@ -117,54 +117,51 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
         List<RVItem> list1 = new ArrayList<>();
         list1.add(new RVItem("Lädt...", ""));
 
-        plebCardRVAdapter = new PLEBCardRVAdapter(list1,this.getContext(), x -> {});
-        binding.rv.setAdapter(plebCardRVAdapter);
+        rvAdapter = new RVAdapter(this.getContext(),list1);
+        binding.rv.setAdapter(rvAdapter);
         binding.rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        //binding.rv.setHasFixedSize(true);
+
+        prqmViewModel.getResponseBitmap().observe(getViewLifecycleOwner(),x -> {
+            if(x.getResponse()!=null){
+                binding.image.setImageBitmap(x.getResponse());
+            }
+        });
 
         prqmViewModel.getResponseBauteil().observe(getViewLifecycleOwner(), x -> {
-            System.out.println(x.getResponse());
+            if(prqmViewModel.getResponseBauteil().getValue().getResponse()!=null){
+                prqmViewModel.requestBitmap(prqmViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenAuftrag(),
+                        prqmViewModel.getResponseBauteil()
+                                .getValue().getResponse().getKundenPosition());
+            }
+
             if(x.getResponse() != null){
                 if(!Arrays.stream(prqmViewModel.getResponseBauteil().getValue().getResponse()
-                        .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=J")).collect(Collectors.toList()).isEmpty()){
-                    if(!Arrays.stream(prqmViewModel.getResponseBauteil().getValue().getResponse()
-                            .getScannerAntwort().split("#")).filter(y -> y.startsWith("BTQM")).collect(Collectors.toList()).isEmpty()){
-                        // C
-                        plebCardRVAdapter.setRvItemList(Arrays.asList(
-                                new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                                new RVItem("Kunden-\nAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                                new RVItem("Kunden-\nPosition",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition()),
-                                new RVItem("Wagen-\nkennung", "keine")
-                        ));
-                        binding.text.setText("Bereits gescannt + keine Wagenkennung");
-                        binding.text.setTextColor(Color.parseColor("#ff0000"));
-                        notification.startBuzzer(12,0,1000,1);
-                    } else {
-                        prqmViewModel.requestKommWagen(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag());
-                    }
+                        .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=J")).collect(Collectors.toList()).isEmpty() ||
+                        !Arrays.stream(prqmViewModel.getResponseBauteil().getValue().getResponse()
+                                .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=F")).collect(Collectors.toList()).isEmpty()){
+                    prqmViewModel.requestKommWagen(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag());
                 } else if(!Arrays.stream(prqmViewModel.getResponseBauteil().getValue().getResponse()
-                        .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=N")).collect(Collectors.toList()).isEmpty()){
-                    // B
-                    plebCardRVAdapter.setRvItemList(Arrays.asList(
+                        .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=N")).collect(Collectors.toList()).isEmpty()) {
+                    // (3)
+                    rvAdapter.setRecyclerViewItems(Arrays.asList(
                             new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                            new RVItem("Kunden-\nAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                            new RVItem("Kunden-\nPosition",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition()),
-                            new RVItem("Wagen-\nkennung", "keine")
+                            new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                            new RVItem("Position", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                     ));
-                    binding.text.setText("Bauteil unvollständig");
-                    binding.text.setTextColor(Color.parseColor("#ff0000"));
-                    notification.startBuzzer(12,0,1000,1);
+                    binding.text.setText("Bearbeitung unvollständig");
+                    binding.frameWagenkennung.setText("!!!");
+                    binding.frameWagenkennung.setTextColor(Color.parseColor("#ff0000"));
                 } else {
-                    // A
-                    plebCardRVAdapter.setRvItemList(Arrays.asList(
+                    // (6)
+                    rvAdapter.setRecyclerViewItems(Arrays.asList(
                             new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                            new RVItem("Kunden-\nAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                            new RVItem("Kunden-\nPosition",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition()),
-                            new RVItem("Wagen-\nkennung", "keine")
+                            new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                            new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                     ));
-                    binding.text.setText("Datensatz nicht vorhanden");
-                    binding.text.setTextColor(Color.parseColor("#ff0000"));
-                    notification.startBuzzer(12,0,1000,1);
+                    binding.text.setText("Anweisung nicht vorhanden");
+                    binding.frameWagenkennung.setText("!!!");
+                    binding.frameWagenkennung.setTextColor(Color.parseColor("#ff0000"));
                 }
             }
         });
@@ -174,63 +171,73 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
         prqmViewModel.getResponseKommWagen().observe(getViewLifecycleOwner(), x -> {
             if(getViewLifecycleOwner().getLifecycle().getCurrentState() == Lifecycle.State.RESUMED){
                 if(x.getResponse() != null){
-                    // D, D
-                    if(metaViewModel.getPrqmLetzterAuftrag().getValue().equals(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag())){
-                        // 2
-                        plebCardRVAdapter.setRvItemList(Arrays.asList(
+                    if(!Arrays.stream(prqmViewModel.getResponseBauteil().getValue().getResponse()
+                            .getScannerAntwort().split("#")).filter(y -> y.startsWith("BTQM")).collect(Collectors.toList()).isEmpty() ||
+                            !Arrays.stream(prqmViewModel.getResponseBauteil().getValue().getResponse()
+                                    .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=F")).collect(Collectors.toList()).isEmpty()){
+                        // (5)
+                        rvAdapter.setRecyclerViewItems(Arrays.asList(
                                 new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                                new RVItem("Kunden-\nAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                                new RVItem("Kunden-\nPosition",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition()),
-                                new RVItem("Wagen-\nkennung", prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung())
+                                new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                                new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                         ));
-                        binding.text.setText("OK + Wagenkennung");
-                        binding.text.setTextColor(Color.parseColor("#ffd500"));
-                        notification.startBuzzer(12,0,1000,1);
-
-                        String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
-                                "BTQM="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis() + 3600000))+
-                                        ";"+metaViewModel.getMitarbeiter().getValue():
-                                prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
-                                        prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
-                                        new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis() + 3600000))+
-                                        ";"+metaViewModel.getMitarbeiter().getValue();
-                        prqmViewModel.updateBauteil(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
-                        System.out.println(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr());
-                        System.out.println(antwort);
-
+                        binding.text.setText("Qualitätskontrolle bereits erfolgt");
+                        binding.frameWagenkennung.setText(prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung());
                     } else {
-                        // 1
-                        plebCardRVAdapter.setRvItemList(Arrays.asList(
-                                new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                                new RVItem("Kunden-\nAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                                new RVItem("Kunden-\nPosition",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition()),
-                                new RVItem("Wagen-\nkennung", prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung())
-                        ));
-                        binding.text.setText("OK + Wagenkennung");
-                        binding.text.setTextColor(Color.parseColor("#00ff00"));
+                        if(metaViewModel.getPrqmLetzterAuftrag().getValue().equals(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag())){
+                            // (2)
+                            rvAdapter.setRecyclerViewItems(Arrays.asList(
+                                    new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
+                                    new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                                    new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
+                            ));
+                            binding.text.setText("Auftragswechsel");
+                            binding.frameWagenkennung.setText(prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung());
+                            binding.frameWagenkennung.setTextColor(Color.parseColor("#ffd500"));
+                            notification.startBuzzer(12,0,4000,1);
 
-                        String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
-                                "BTQM="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis() + 3600000))+
-                                        ";"+metaViewModel.getMitarbeiter().getValue():
-                                prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
-                                        prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
-                                        new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis() + 3600000))+
-                                        ";"+metaViewModel.getMitarbeiter().getValue();
-                        prqmViewModel.updateBauteil(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
-                        System.out.println(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr());
-                        System.out.println(antwort);
+                            String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                                    "BTQM="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
+                                            ";"+metaViewModel.getMitarbeiter().getValue():
+                                    prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
+                                            prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
+                                            new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
+                                            ";"+metaViewModel.getMitarbeiter().getValue();
+                            prqmViewModel.updateBauteil(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
+
+                        } else {
+                            // (1)
+                            rvAdapter.setRecyclerViewItems(Arrays.asList(
+                                    new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
+                                    new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                                    new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
+                                    //new RVItem("Wagen-\nkennung", prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung())
+                            ));
+                            binding.text.setText("");
+                            binding.frameWagenkennung.setText(prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung());
+                            binding.frameWagenkennung.setTextColor(Color.parseColor("#00ff00"));
+
+                            String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                                    "BTQM="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
+                                            ";"+metaViewModel.getMitarbeiter().getValue():
+                                    prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
+                                            prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
+                                            new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
+                                            ";"+metaViewModel.getMitarbeiter().getValue();
+                            prqmViewModel.updateBauteil(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
+                        }
                     }
+
                 } else {
-                    // E
-                    plebCardRVAdapter.setRvItemList(Arrays.asList(
+                    // (4)
+                    rvAdapter.setRecyclerViewItems(Arrays.asList(
                             new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                            new RVItem("Kunden-\nAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                            new RVItem("Kunden-\nPosition",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition()),
-                            new RVItem("Wagen-\nkennung", "keine")
+                            new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                            new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                     ));
-                    binding.text.setText("Wagen nicht vorhanden + keine Wagenkennung");
-                    binding.text.setTextColor(Color.parseColor("#ff0000"));
-                    notification.startBuzzer(12,0,1000,1);
+                    binding.text.setText("Wagenkennung nicht vorhanden");
+                    binding.frameWagenkennung.setText("!!!");
+                    binding.frameWagenkennung.setTextColor(Color.parseColor("#ff0000"));
                 }
             }
         });

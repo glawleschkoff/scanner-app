@@ -134,7 +134,7 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
                 String optionen = "";
 
                 btzsViewModel.updateBauteil(exemplarNr,"BTZS="+
-                        new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis() + 3600000))+
+                        new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                 ";"+mitarbeiter);
 
                 //btzsViewModel.createFeedback(new BTZSFeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));

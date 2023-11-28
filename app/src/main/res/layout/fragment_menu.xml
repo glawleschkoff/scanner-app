@@ -99,7 +99,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            android:text="Quali\n(experi-\nmentell)"
+            android:text="Quali"
             android:textSize="18sp">
 
         </Button>

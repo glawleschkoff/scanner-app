@@ -61,7 +61,7 @@ public class PRQMScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Qualitätskontrolle");
 
         binding.text.setOnClickListener(x -> {
-            //prqmViewModel.requestBauteil("4101777-001");
+            //prqmViewModel.requestBauteil("4107047-001");
             //btzsViewModel.requestBauteil("3914986-001");
             //btzsViewModel.requestFeedback("3914986-001_BTZS.csv");
         });

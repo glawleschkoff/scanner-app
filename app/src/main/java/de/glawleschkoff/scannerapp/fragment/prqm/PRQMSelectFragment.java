@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -76,19 +77,18 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
         /*binding.text.setOnClickListener(x -> {
-            switch(new Random().nextInt(2 - 0 + 1) + 0){
+            metaViewModel.setPrqmLetzterAuftrag(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag());
+            switch(new Random().nextInt(1 - 0 + 1) + 0){
                 case 0:
                     // case 3
-                    //prqmViewModel.requestBauteil("4083499-002"); break;
+                    prqmViewModel.requestBauteil("4107047-001"); break;
                 case 1:
                     // case 4
-                    //prqmViewModel.requestBauteil("4059942-001"); break;
+                    prqmViewModel.requestBauteil("4107015-001"); break;
                 case 2:
                     // case 1
-                    prqmViewModel.requestBauteil("4078332-001"); break;
+                    //prqmViewModel.requestBauteil("4078332-001"); break;
                 default:
             }
         });
@@ -146,7 +146,7 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
                     // (3)
                     rvAdapter.setRecyclerViewItems(Arrays.asList(
                             new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                            new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                            new RVItem("Auftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
                             new RVItem("Position", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                     ));
                     binding.text.setText("Bearbeitung unvollständig");
@@ -156,7 +156,7 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
                     // (6)
                     rvAdapter.setRecyclerViewItems(Arrays.asList(
                             new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                            new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                            new RVItem("Auftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
                             new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                     ));
                     binding.text.setText("Anweisung nicht vorhanden");
@@ -178,23 +178,25 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
                         // (5)
                         rvAdapter.setRecyclerViewItems(Arrays.asList(
                                 new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                                new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                                new RVItem("Auftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
                                 new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                         ));
                         binding.text.setText("Qualitätskontrolle bereits erfolgt");
                         binding.frameWagenkennung.setText(prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung());
                     } else {
-                        if(metaViewModel.getPrqmLetzterAuftrag().getValue().equals(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag())){
+                        if(!metaViewModel.getPrqmLetzterAuftrag().getValue().equals(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()) &&
+                        !metaViewModel.getPrqmLetzterAuftrag().getValue().equals("")){
                             // (2)
                             rvAdapter.setRecyclerViewItems(Arrays.asList(
                                     new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                                    new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                                    new RVItem("Auftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
                                     new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                             ));
                             binding.text.setText("Auftragswechsel");
                             binding.frameWagenkennung.setText(prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung());
                             binding.frameWagenkennung.setTextColor(Color.parseColor("#ffd500"));
-                            notification.startBuzzer(12,0,4000,1);
+                            notification.startBuzzer(16,200,50,10);
+                            notification.startLed(Notification.Led.YELLOW,200,50,10);
 
                             String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
                                     "BTQM="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
@@ -209,9 +211,8 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
                             // (1)
                             rvAdapter.setRecyclerViewItems(Arrays.asList(
                                     new RVItem("ExemplarNr", prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                                    new RVItem("KundenAuftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                                    new RVItem("Auftrag", prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
                                     new RVItem("Position",prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
-                                    //new RVItem("Wagen-\nkennung", prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung())
                             ));
                             binding.text.setText("");
                             binding.frameWagenkennung.setText(prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung());
@@ -227,6 +228,9 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
                             prqmViewModel.updateBauteil(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
                         }
                     }
+
+
+
 
                 } else {
                     // (4)
@@ -253,10 +257,12 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
                         .navigate(R.id.action_PRQMSelectFragment_to_loginFragment);
             }
         });
+
     }
 
     @Override
     public void onDataReceived(DecodeResult decodeResult) {
+        metaViewModel.setPrqmLetzterAuftrag(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag());
         DecodeResult.Result result = decodeResult.getResult();
         String codeType = decodeResult.getCodeType();
         String data = decodeResult.getData();
@@ -269,7 +275,7 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
 
     @Override
     public void onDestroyView() {
-        metaViewModel.setPrqmLetzterAuftrag(prqmViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag());
+
         System.out.println("destroy");
         super.onDestroyView();
         scanManager.removeDataListener(this);

@@ -1,109 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.menu.MenuFragment">
+    tools:context=".fragment.login.LoginFragment">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv2"
         android:layout_width="match_parent"
-        android:layout_height="150sp"
-        android:layout_marginTop="12dp"
-        android:weightSum="2"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        style="@style/Widget.AppCompat.ListView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
 
-        <Button
-            android:id="@+id/bt1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:text="Bauteil zurück setzen"
-            android:textSize="18sp">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="6"
+        tools:itemCount="20"
+        tools:listitem="@layout/menu_rv_item">
 
-        </Button>
+    </androidx.recyclerview.widget.RecyclerView>
 
-        <Button
-            android:id="@+id/bt2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1"
-            android:text="Bauteil Info"
-            android:textSize="18sp">
-
-        </Button>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150sp"
-        android:layout_marginTop="6dp"
-        android:weightSum="2"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/bt3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:text="Restteil Einbuchen"
-            android:textSize="18sp">
-
-        </Button>
-
-        <Button
-            android:id="@+id/bt4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1"
-            android:text="Restteil bearbeiten"
-            android:textSize="18sp">
-
-        </Button>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150sp"
-        android:layout_marginTop="6dp"
-        android:weightSum="2"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/bt5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:text="Restteil Auslagern"
-            android:textSize="18sp">
-
-        </Button>
-
-        <Button
-            android:id="@+id/bt6"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1"
-            android:text="Quali"
-            android:textSize="18sp">
-
-        </Button>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

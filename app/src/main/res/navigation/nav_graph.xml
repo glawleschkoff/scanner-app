@@ -17,7 +17,7 @@
         android:id="@+id/menuFragment"
         android:name="de.glawleschkoff.scannerapp.fragment.menu.MenuFragment"
         android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" >
+        tools:layout="@layout/fragment_menu_old" >
         <action
             android:id="@+id/action_menuFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_menuFragment_to_PRQMScanFragment"
             app:destination="@id/PRQMScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_BTEDScanFragment"
+            app:destination="@id/BTEDScanFragment" />
     </fragment>
     <fragment
         android:id="@+id/BTZSScanFragment"
@@ -212,5 +215,38 @@
         <action
             android:id="@+id/action_PRQMSelectFragment_self"
             app:destination="@id/PRQMSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/BTEDScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bted.BTEDScanFragment"
+        android:label="fragment_btedscan"
+        tools:layout="@layout/fragment_btedscan" >
+        <action
+            android:id="@+id/action_BTEDScanFragment_self"
+            app:destination="@id/BTEDScanFragment" />
+        <action
+            android:id="@+id/action_BTEDScanFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_BTEDScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_BTEDScanFragment_to_BTEDSelectFragment"
+            app:destination="@id/BTEDSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/BTEDSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bted.BTEDSelectFragment"
+        android:label="fragment_btedselect"
+        tools:layout="@layout/fragment_btedselect" >
+        <action
+            android:id="@+id/action_BTEDSelectFragment_self"
+            app:destination="@id/BTEDSelectFragment" />
+        <action
+            android:id="@+id/action_BTEDSelectFragment_to_BTEDScanFragment"
+            app:destination="@id/BTEDScanFragment" />
+        <action
+            android:id="@+id/action_BTEDSelectFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

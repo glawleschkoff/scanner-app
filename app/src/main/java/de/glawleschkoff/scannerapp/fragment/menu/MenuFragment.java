@@ -7,11 +7,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Arrays;
+
+import de.glawleschkoff.scannerapp.util.LoginItemClickSupport;
+import de.glawleschkoff.scannerapp.util.MenuRVAdapter;
+import de.glawleschkoff.scannerapp.util.MenuRVItem;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentMenuBinding;
@@ -25,6 +32,7 @@ public class MenuFragment extends Fragment {
 
     private FragmentMenuBinding binding;
     private MetaViewModel metaViewModel;
+    private MenuRVAdapter menuRVAdapter;
 
     public static MenuFragment newInstance() {
         return new MenuFragment();
@@ -49,6 +57,58 @@ public class MenuFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().setTitle("Menü");
+
+        menuRVAdapter = new MenuRVAdapter(this.getContext(), Arrays.asList(
+                new MenuRVItem("Bauteil Info"),
+                new MenuRVItem("Bauteil Zurücksetzen"),
+                new MenuRVItem("Restteil Hinzufügen"),
+                new MenuRVItem("Restteil Bearbeiten"),
+                new MenuRVItem("Restteil Auslagern"),
+                new MenuRVItem("Qualitätskontrolle"),
+                new MenuRVItem("Bauteiletikett Drucken")));
+
+        binding.rv2.setAdapter(menuRVAdapter);
+        binding.rv2.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        LoginItemClickSupport.addTo(binding.rv2)
+                        .setOnItemClickListener(new LoginItemClickSupport.OnItemClickListener() {
+                            @Override
+                            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                                System.out.println("Position: "+position);
+                                switch (position){
+                                    case 0:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_infoScanFragment2);
+                                        break;
+                                    case 1:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_BTZSScanFragment);
+                                        break;
+                                    case 2:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_RTHFSelectFragment);
+                                        break;
+                                    case 3:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_PLEBScanFragment);
+                                        break;
+                                    case 4:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_RTABScanFragment);
+                                        break;
+                                    case 5:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_PRQMScanFragment);
+                                        break;
+                                    case 6:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_BTEDScanFragment);
+                                        break;
+                                    default:
+                                }
+                            }
+                        });
+
         metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x->{
             if(x==null){
                 Navigation.findNavController(requireView())
@@ -56,7 +116,7 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        binding.bt1.setOnClickListener(x -> {
+        /*binding.bt1.setOnClickListener(x -> {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_menuFragment_to_BTZSScanFragment);
         });
@@ -81,5 +141,7 @@ public class MenuFragment extends Fragment {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_menuFragment_to_PRQMScanFragment);
         });
+
+         */
     }
 }

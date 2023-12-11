@@ -1,4 +1,4 @@
-package de.glawleschkoff.scannerapp.fragment.bted;
+package de.glawleschkoff.scannerapp.fragment.btedA;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -24,45 +24,41 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import de.glawleschkoff.scannerapp.R;
-import de.glawleschkoff.scannerapp.databinding.FragmentBtedselectBinding;
-import de.glawleschkoff.scannerapp.databinding.FragmentPrqmselectBinding;
-import de.glawleschkoff.scannerapp.fragment.prqm.PRQMSelectFragment;
+import de.glawleschkoff.scannerapp.databinding.FragmentBtedaselectBinding;
 import de.glawleschkoff.scannerapp.util.AndLiveData;
 import de.glawleschkoff.scannerapp.util.RVAdapter;
 import de.glawleschkoff.scannerapp.util.RVItem;
-import de.glawleschkoff.scannerapp.viewmodel.BTEDViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.BTEDAViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
-import de.glawleschkoff.scannerapp.viewmodel.PRQMViewModel;
 import io.reactivex.annotations.NonNull;
 
-public class BTEDSelectFragment extends Fragment implements ScanManager.DataListener {
+public class BTEDASelectFragment extends Fragment implements ScanManager.DataListener {
 
-    private FragmentBtedselectBinding binding;
-    private BTEDViewModel btedViewModel;
+    private FragmentBtedaselectBinding binding;
+    private BTEDAViewModel btedAViewModel;
     private MetaViewModel metaViewModel;
     private RVAdapter rvAdapter;
     private ScanManager scanManager;
     private Notification notification;
 
-    public static BTEDSelectFragment newInstance() {
-        return new BTEDSelectFragment();
+    public static BTEDASelectFragment newInstance() {
+        return new BTEDASelectFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        btedViewModel = new ViewModelProvider(requireActivity()).get(BTEDViewModel.class);
+        btedAViewModel = new ViewModelProvider(requireActivity()).get(BTEDAViewModel.class);
         metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentBtedselectBinding.inflate(getLayoutInflater());
+        binding = FragmentBtedaselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         scanManager = ScanManager.createScanManager(this.getContext());
         scanManager.addDataListener(this);
@@ -94,9 +90,9 @@ public class BTEDSelectFragment extends Fragment implements ScanManager.DataList
 
 
         AndLiveData.use(getViewLifecycleOwner())
-                .add(btedViewModel.getResponseBauteil())
+                .add(btedAViewModel.getResponseBauteil())
                 .observe(getViewLifecycleOwner(),x->{
-                    if(btedViewModel.getResponseBauteil().getValue().getErrorMessage() != null){
+                    if(btedAViewModel.getResponseBauteil().getValue().getErrorMessage() != null){
                         new AlertDialog.Builder(getContext())
                                 .setMessage("Bauteil nicht gefunden")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -119,58 +115,58 @@ public class BTEDSelectFragment extends Fragment implements ScanManager.DataList
         binding.rv.setAdapter(rvAdapter);
         binding.rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        btedViewModel.getResponseBitmap().observe(getViewLifecycleOwner(),x -> {
+        btedAViewModel.getResponseBitmap().observe(getViewLifecycleOwner(), x -> {
             if(x.getResponse()!=null){
                 binding.image.setImageBitmap(x.getResponse());
             }
         });
 
-        btedViewModel.getResponseBauteil().observe(getViewLifecycleOwner(), x -> {
-            if(btedViewModel.getResponseBauteil().getValue().getResponse()!=null){
-                btedViewModel.requestBitmap(btedViewModel.getResponseBauteil()
+        btedAViewModel.getResponseBauteil().observe(getViewLifecycleOwner(), x -> {
+            if(btedAViewModel.getResponseBauteil().getValue().getResponse()!=null){
+                btedAViewModel.requestBitmap(btedAViewModel.getResponseBauteil()
                                 .getValue().getResponse().getKundenAuftrag(),
-                        btedViewModel.getResponseBauteil()
+                        btedAViewModel.getResponseBauteil()
                                 .getValue().getResponse().getKundenPosition());
             }
 
             if(x.getResponse() != null){
-                if(!Arrays.stream(btedViewModel.getResponseBauteil().getValue().getResponse()
+                if(!Arrays.stream(btedAViewModel.getResponseBauteil().getValue().getResponse()
                         .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTETI=J")).collect(Collectors.toList()).isEmpty()){
-                    if(!Arrays.stream(btedViewModel.getResponseBauteil().getValue().getResponse()
+                    if(!Arrays.stream(btedAViewModel.getResponseBauteil().getValue().getResponse()
                             .getScannerAntwort().split("#")).filter(y -> y.startsWith("BTETI")).collect(Collectors.toList()).isEmpty()){
                         rvAdapter.setRecyclerViewItems(Arrays.asList(
-                                new RVItem("ExemplarNr", btedViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                                new RVItem("Auftrag", btedViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                                new RVItem("Position", btedViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
+                                new RVItem("ExemplarNr", btedAViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
+                                new RVItem("Auftrag", btedAViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                                new RVItem("Position", btedAViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                         ));
-                        binding.text.setText("Bereits aufgeführt");
+                        binding.text.setText("Bereits ausgeführt");
                         binding.frameWagenkennung.setText("gedruckt");
                     } else {
                         rvAdapter.setRecyclerViewItems(Arrays.asList(
-                                new RVItem("ExemplarNr", btedViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                                new RVItem("Auftrag", btedViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                                new RVItem("Position", btedViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
+                                new RVItem("ExemplarNr", btedAViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
+                                new RVItem("Auftrag", btedAViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                                new RVItem("Position", btedAViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                         ));
                         binding.text.setText("");
                         binding.frameWagenkennung.setText("gedruckt");
                         binding.frameWagenkennung.setTextColor(Color.parseColor("#00ff00"));
 
-                        String antwort = btedViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                        String antwort = btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
                                 "BTETI="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
-                                        ";"+metaViewModel.getMitarbeiter().getValue():
-                                btedViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
-                                        btedViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTETI="+
+                                        ";"+metaViewModel.getMitarbeiter().getValue()+";A":
+                                btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
+                                        btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTETI="+
                                         new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
-                                        ";"+metaViewModel.getMitarbeiter().getValue();
-                        btedViewModel.updateBauteil(btedViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
+                                        ";"+metaViewModel.getMitarbeiter().getValue()+";A";
+                        btedAViewModel.updateBauteil(btedAViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
                     }
-                } else if(!Arrays.stream(btedViewModel.getResponseBauteil().getValue().getResponse()
+                } else if(!Arrays.stream(btedAViewModel.getResponseBauteil().getValue().getResponse()
                         .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTETI=N")).collect(Collectors.toList()).isEmpty()) {
                     // (3)
                     rvAdapter.setRecyclerViewItems(Arrays.asList(
-                            new RVItem("ExemplarNr", btedViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                            new RVItem("Auftrag", btedViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                            new RVItem("Position", btedViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
+                            new RVItem("ExemplarNr", btedAViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
+                            new RVItem("Auftrag", btedAViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                            new RVItem("Position", btedAViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                     ));
                     binding.text.setText("Bauteil nicht vorhanden");
                     binding.frameWagenkennung.setText("!!!");
@@ -178,9 +174,9 @@ public class BTEDSelectFragment extends Fragment implements ScanManager.DataList
                 } else {
                     // (6)
                     rvAdapter.setRecyclerViewItems(Arrays.asList(
-                            new RVItem("ExemplarNr", btedViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
-                            new RVItem("Auftrag", btedViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
-                            new RVItem("Position",btedViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
+                            new RVItem("ExemplarNr", btedAViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr()),
+                            new RVItem("Auftrag", btedAViewModel.getResponseBauteil().getValue().getResponse().getKundenAuftrag()),
+                            new RVItem("Position", btedAViewModel.getResponseBauteil().getValue().getResponse().getKundenPosition())
                     ));
                     binding.text.setText("Anweisung nicht vorhanden");
                     binding.frameWagenkennung.setText("!!!");
@@ -210,7 +206,7 @@ public class BTEDSelectFragment extends Fragment implements ScanManager.DataList
         System.out.println(data);
         if(decodeResult.getResult() == DecodeResult.Result.SUCCESS){
             String id = data.startsWith(" ")?data.substring(1):data;
-            btedViewModel.requestBauteil(id);
+            btedAViewModel.requestBauteil(id);
         }
     }
 

@@ -10,13 +10,13 @@ import de.glawleschkoff.scannerapp.model.BauteilModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import de.glawleschkoff.scannerapp.remote.Repository;
 
-public class BTEDViewModel extends ViewModel {
+public class BTEDBViewModel extends ViewModel {
 
     private final Repository repository;
     private final MutableLiveData<ResponseWrapper<BauteilModel>> responseBauteil;
     private final MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap;
 
-    public BTEDViewModel(){
+    public BTEDBViewModel(){
         repository = Repository.getInstance();
         responseBauteil = new MutableLiveData<>(new ResponseWrapper<>());
         responseBitmap = new MutableLiveData<>(new ResponseWrapper<>());

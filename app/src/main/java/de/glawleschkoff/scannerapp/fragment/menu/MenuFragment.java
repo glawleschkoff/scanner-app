@@ -65,7 +65,8 @@ public class MenuFragment extends Fragment {
                 new MenuRVItem("Restteil Bearbeiten"),
                 new MenuRVItem("Restteil Auslagern"),
                 new MenuRVItem("Qualitätskontrolle"),
-                new MenuRVItem("Bauteiletikett Drucken")));
+                new MenuRVItem("Bauteiletikett Drucken A"),
+                new MenuRVItem("Bauteiletikett Drucken B")));
 
         binding.rv2.setAdapter(menuRVAdapter);
         binding.rv2.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -103,6 +104,10 @@ public class MenuFragment extends Fragment {
                                     case 6:
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_menuFragment_to_BTEDScanFragment);
+                                        break;
+                                    case 7:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_BTEDBScanFragment);
                                         break;
                                     default:
                                 }

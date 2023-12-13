@@ -86,7 +86,7 @@ public class RTHFSelectFragment extends Fragment implements ScanManager.DataList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Restteil einbuchen");
+        getActivity().setTitle("Restteil Hinzufügen");
 
         rthfViewModel.requestMaxPlattenID();
 

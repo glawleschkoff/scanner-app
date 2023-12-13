@@ -55,7 +55,7 @@ public class RTABScanFragment extends Fragment implements ScanManager.DataListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Restteil auslagern");
+        getActivity().setTitle("Restteil Auslagern");
 
         /*binding.text.setOnClickListener(x -> {
             rtabViewModel.requestPlattenlager("5065105101");

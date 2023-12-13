@@ -61,12 +61,12 @@ public class MenuFragment extends Fragment {
         menuRVAdapter = new MenuRVAdapter(this.getContext(), Arrays.asList(
                 new MenuRVItem("Bauteil Info"),
                 new MenuRVItem("Bauteil Zurücksetzen"),
+                new MenuRVItem("Bauteil Quali"),
+                new MenuRVItem("Bauteil Etikett A"),
+                new MenuRVItem("Bauteil Etikett B"),
                 new MenuRVItem("Restteil Hinzufügen"),
                 new MenuRVItem("Restteil Bearbeiten"),
-                new MenuRVItem("Restteil Auslagern"),
-                new MenuRVItem("Qualitätskontrolle"),
-                new MenuRVItem("Bauteiletikett Drucken A"),
-                new MenuRVItem("Bauteiletikett Drucken B")));
+                new MenuRVItem("Restteil Auslagern")));
 
         binding.rv2.setAdapter(menuRVAdapter);
         binding.rv2.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -85,27 +85,27 @@ public class MenuFragment extends Fragment {
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_menuFragment_to_BTZSScanFragment);
                                         break;
-                                    case 2:
+                                    case 5:
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_menuFragment_to_RTHFSelectFragment);
                                         break;
-                                    case 3:
+                                    case 6:
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_menuFragment_to_PLEBScanFragment);
                                         break;
-                                    case 4:
+                                    case 7:
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_menuFragment_to_RTABScanFragment);
                                         break;
-                                    case 5:
+                                    case 2:
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_menuFragment_to_PRQMScanFragment);
                                         break;
-                                    case 6:
+                                    case 3:
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_menuFragment_to_BTEDScanFragment);
                                         break;
-                                    case 7:
+                                    case 4:
                                         Navigation.findNavController(requireView())
                                                 .navigate(R.id.action_menuFragment_to_BTEDBScanFragment);
                                         break;

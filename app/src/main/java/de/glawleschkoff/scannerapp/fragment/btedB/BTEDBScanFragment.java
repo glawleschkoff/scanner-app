@@ -55,7 +55,7 @@ public class BTEDBScanFragment extends Fragment implements ScanManager.DataListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Bauteiletikett Drucken B");
+        getActivity().setTitle("Bauteil Etikett B");
 
         binding.text.setOnClickListener(x -> {
             //btedViewModel.requestBauteil("4107047-001");

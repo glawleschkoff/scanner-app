@@ -55,7 +55,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Restteil bearbeiten");
+        getActivity().setTitle("Restteil Bearbeiten");
 
         binding.text.setOnClickListener(x -> {
             //plebViewModel.requestPlattenlager("2000000515");

@@ -58,7 +58,7 @@ public class PRQMScanFragment extends Fragment implements ScanManager.DataListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Qualitätskontrolle");
+        getActivity().setTitle("Bauteil Quali");
 
         binding.text.setOnClickListener(x -> {
             //prqmViewModel.requestBauteil("4107047-001");

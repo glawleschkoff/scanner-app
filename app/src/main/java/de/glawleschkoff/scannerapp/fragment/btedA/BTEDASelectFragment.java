@@ -151,13 +151,17 @@ public class BTEDASelectFragment extends Fragment implements ScanManager.DataLis
                         binding.frameWagenkennung.setText("gedruckt");
                         binding.frameWagenkennung.setTextColor(Color.parseColor("#00ff00"));
 
-                        String antwort = btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                        String antwort_old = btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
                                 "BTETI="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                         ";"+metaViewModel.getMitarbeiter().getValue()+";A":
                                 btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
                                         btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTETI="+
                                         new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                         ";"+metaViewModel.getMitarbeiter().getValue()+";A";
+                        String antwort = btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                                "BTETI="+";;"+";"+metaViewModel.getMitarbeiter().getValue()+";A":
+                                btedAViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTETI="+
+                                        ";;"+";"+metaViewModel.getMitarbeiter().getValue()+";A";
                         btedAViewModel.updateBauteil(btedAViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
                     }
                 } else if(!Arrays.stream(btedAViewModel.getResponseBauteil().getValue().getResponse()

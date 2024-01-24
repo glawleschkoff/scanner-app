@@ -133,9 +133,11 @@ public class BTZSSelectFragment extends Fragment implements ScanManager.DataList
                 String kurzbefehl = "BTZS";
                 String optionen = "";
 
-                btzsViewModel.updateBauteil(exemplarNr,"BTZS="+
-                        new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
-                                ";"+mitarbeiter);
+                String antwort = btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                        "BTZS="+";;"+";"+metaViewModel.getMitarbeiter().getValue():
+                        btzsViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
+                                "BTZS="+";;"+";"+metaViewModel.getMitarbeiter().getValue();
+                btzsViewModel.updateBauteil(exemplarNr,antwort);
 
                 //btzsViewModel.createFeedback(new BTZSFeedbackModel(exemplarNr, scannerNr, kurzbefehl, mitarbeiter,optionen));
                 new AlertDialog.Builder(getContext())

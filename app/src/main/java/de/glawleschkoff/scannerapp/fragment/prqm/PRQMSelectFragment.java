@@ -198,13 +198,18 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
                             notification.startBuzzer(16,200,50,10);
                             notification.startLed(Notification.Led.YELLOW,200,50,10);
 
-                            String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                            String antwort_old = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
                                     "BTQM="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                             ";"+metaViewModel.getMitarbeiter().getValue():
                                     prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
                                             prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
                                             new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                             ";"+metaViewModel.getMitarbeiter().getValue();
+
+                            String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                                    "BTQM="+";;"+";"+metaViewModel.getMitarbeiter().getValue():
+                                    prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
+                                            "BTQM="+";;"+";"+metaViewModel.getMitarbeiter().getValue();
                             prqmViewModel.updateBauteil(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
 
                         } else {
@@ -218,13 +223,18 @@ public class PRQMSelectFragment extends Fragment implements ScanManager.DataList
                             binding.frameWagenkennung.setText(prqmViewModel.getResponseKommWagen().getValue().getResponse().getWagenKennung());
                             binding.frameWagenkennung.setTextColor(Color.parseColor("#00ff00"));
 
-                            String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                            String antwort_old = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
                                     "BTQM="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                             ";"+metaViewModel.getMitarbeiter().getValue():
                                     prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
                                             prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
                                             new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                             ";"+metaViewModel.getMitarbeiter().getValue();
+
+                            String antwort = prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                                    "BTQM="+";;"+";"+metaViewModel.getMitarbeiter().getValue():
+                                    prqmViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
+                                            ";;"+";"+metaViewModel.getMitarbeiter().getValue();
                             prqmViewModel.updateBauteil(prqmViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
                         }
                     }

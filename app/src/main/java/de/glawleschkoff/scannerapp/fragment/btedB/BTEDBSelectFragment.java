@@ -27,18 +27,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.glawleschkoff.scannerapp.R;
-import de.glawleschkoff.scannerapp.databinding.FragmentBtedaselectBinding;
+import de.glawleschkoff.scannerapp.databinding.FragmentBtedbselectBinding;
 import de.glawleschkoff.scannerapp.util.AndLiveData;
 import de.glawleschkoff.scannerapp.util.RVAdapter;
 import de.glawleschkoff.scannerapp.util.RVItem;
-import de.glawleschkoff.scannerapp.viewmodel.BTEDAViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.BTEDBViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
 import io.reactivex.annotations.NonNull;
 
 public class BTEDBSelectFragment extends Fragment implements ScanManager.DataListener {
 
-    private FragmentBtedaselectBinding binding;
-    private BTEDAViewModel btedBViewModel;
+    private FragmentBtedbselectBinding binding;
+    private BTEDBViewModel btedBViewModel;
     private MetaViewModel metaViewModel;
     private RVAdapter rvAdapter;
     private ScanManager scanManager;
@@ -51,14 +51,14 @@ public class BTEDBSelectFragment extends Fragment implements ScanManager.DataLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        btedBViewModel = new ViewModelProvider(requireActivity()).get(BTEDAViewModel.class);
+        btedBViewModel = new ViewModelProvider(requireActivity()).get(BTEDBViewModel.class);
         metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentBtedaselectBinding.inflate(getLayoutInflater());
+        binding = FragmentBtedbselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         scanManager = ScanManager.createScanManager(this.getContext());
         scanManager.addDataListener(this);
@@ -151,13 +151,17 @@ public class BTEDBSelectFragment extends Fragment implements ScanManager.DataLis
                         binding.frameWagenkennung.setText("gedruckt");
                         binding.frameWagenkennung.setTextColor(Color.parseColor("#00ff00"));
 
-                        String antwort = btedBViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                        String antwort_old = btedBViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
                                 "BTETI="+new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                         ";"+metaViewModel.getMitarbeiter().getValue()+";B":
                                 btedBViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+
                                         btedBViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTETI="+
                                         new SimpleDateFormat("yyyyMMddHHmmss").format(new Timestamp(System.currentTimeMillis()))+
                                         ";"+metaViewModel.getMitarbeiter().getValue()+";B";
+                        String antwort = btedBViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort().equals("")?
+                                "BTETI="+";;"+";"+metaViewModel.getMitarbeiter().getValue()+";B":
+                                btedBViewModel.getResponseBauteil().getValue().getResponse().getScannerAntwort()+"#"+"BTETI="+
+                                        ";;"+";"+metaViewModel.getMitarbeiter().getValue()+";B";
                         btedBViewModel.updateBauteil(btedBViewModel.getResponseBauteil().getValue().getResponse().getExemplarNr(),antwort);
                     }
                 } else if(!Arrays.stream(btedBViewModel.getResponseBauteil().getValue().getResponse()

@@ -110,8 +110,6 @@ public class Repository {
     }
 
     public void updateBauteil(String exemplarNr, String scannerAnweisung) {
-        System.out.println("hier555");
-        System.out.println("hier "+scannerAnweisung);
         Call<String> call = httpApi.updateBauteil(exemplarNr, scannerAnweisung);
         call.enqueue(new Callback<String>() {
             @Override

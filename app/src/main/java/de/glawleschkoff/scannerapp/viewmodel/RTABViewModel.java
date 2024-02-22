@@ -59,8 +59,7 @@ public class RTABViewModel extends ViewModel {
                 responsePlattenlager.getValue().getResponse().getBrt(),
                 responsePlattenlager.getValue().getResponse().getMz3(),
                 "Entnahme",
-                mitarbeiter+" "+new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Timestamp(System.currentTimeMillis())),
-                new Date(System.currentTimeMillis()),
+                mitarbeiter,
                 0.0);
     }
 

@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentBtzsselectBinding;
-import de.glawleschkoff.scannerapp.model.BTZSFeedbackModel;
 import de.glawleschkoff.scannerapp.util.AndLiveData;
 import de.glawleschkoff.scannerapp.viewmodel.BTZSViewModel;
 import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;

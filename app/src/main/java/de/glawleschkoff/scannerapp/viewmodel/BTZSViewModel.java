@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import de.glawleschkoff.scannerapp.model.BauteilModel;
-import de.glawleschkoff.scannerapp.model.BTZSFeedbackModel;
+//import de.glawleschkoff.scannerapp.model.BTZSFeedbackModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import de.glawleschkoff.scannerapp.remote.Repository;
 
@@ -29,9 +29,7 @@ public class BTZSViewModel extends ViewModel {
     public void requestBauteil(String id){
         repository.requestBauteil(id, responseBauteil);
     }
-    public void createFeedback(BTZSFeedbackModel BTZSFeedbackModel){
-        repository.createFeedback(BTZSFeedbackModel.toCsvName(), BTZSFeedbackModel.toCsv());
-    }
+
     public void requestFeedback(String name){
         repository.requestFeedback(name, responseFeedback);
     }

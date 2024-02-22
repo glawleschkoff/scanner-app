@@ -60,6 +60,7 @@ public class RTABViewModel extends ViewModel {
                 responsePlattenlager.getValue().getResponse().getMz3(),
                 "Entnahme",
                 mitarbeiter,
+                new Date(System.currentTimeMillis()),
                 0.0);
     }
 

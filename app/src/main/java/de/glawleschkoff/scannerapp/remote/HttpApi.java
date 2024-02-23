@@ -28,6 +28,8 @@ public interface HttpApi {
 
     @GET("api/v1/plattenlagerupdate")
     Call<String> updatePlattenlager(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
+    @GET("api/v1/plattenlagerupdatebearbeiten")
+    Call<String> updatePlattenlagerBearbeiten(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
 
     @GET("api/v1/bauteilupdate")
     Call<String> updateBauteil(@Query("exemplarNr") String exemplarNr, @Query("scannerAnweisung") String scannerAnweisung);

@@ -40,7 +40,7 @@ public class PLEBViewModel extends ViewModel {
     }
 
     public void updatePlattenlager() {
-        repository.updatePlattenlager(
+        repository.updatePlattenlagerBearbeiten(
                 responsePlattenlager.getValue().getResponse().getPlattenID(),
                 responsePlattenlager.getValue().getResponse().getLagerPlatz(),
                 responsePlattenlager.getValue().getResponse().getLng(),

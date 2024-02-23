@@ -46,8 +46,8 @@ public class RTABScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRtabscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -57,11 +57,11 @@ public class RTABScanFragment extends Fragment implements ScanManager.DataListen
 
         getActivity().setTitle("Restteil Auslagern");
 
-        /*binding.text.setOnClickListener(x -> {
-            rtabViewModel.requestPlattenlager("5065105101");
+        binding.text.setOnClickListener(x -> {
+            rtabViewModel.requestPlattenlager("5068405801");
         });
 
-         */
+
 
         rtabViewModel.getPlattenlagerModel().observe(getViewLifecycleOwner(), x -> {
             if(getViewLifecycleOwner().getLifecycle().getCurrentState() == Lifecycle.State.RESUMED){
@@ -152,7 +152,7 @@ public class RTABScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
     }
 }

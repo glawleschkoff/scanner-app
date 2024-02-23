@@ -46,8 +46,8 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPlebscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        scanManager = ScanManager.createScanManager(this.getContext());
-        scanManager.addDataListener(this);
+        //scanManager = ScanManager.createScanManager(this.getContext());
+        //scanManager.addDataListener(this);
         return view;
     }
 
@@ -58,7 +58,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Restteil Bearbeiten");
 
         binding.text.setOnClickListener(x -> {
-            //plebViewModel.requestPlattenlager("2000000515");
+            plebViewModel.requestPlattenlager("5068405801");
         });
 
         plebViewModel.getPlattenlagerModel().observe(getViewLifecycleOwner(), x -> {
@@ -151,7 +151,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        scanManager.removeDataListener(this);
-        scanManager.releaseScanManager();
+        //scanManager.removeDataListener(this);
+        //scanManager.releaseScanManager();
     }
 }

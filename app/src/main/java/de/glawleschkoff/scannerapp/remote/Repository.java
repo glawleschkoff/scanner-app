@@ -108,6 +108,20 @@ public class Repository {
             }
         });
     }
+    public void updatePlattenlagerBearbeiten(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge) {
+        Call<String> call = httpApi.updatePlattenlagerBearbeiten(plattenId,lagerPlatz,lng,brt,mz3,auslagerId,auslagerInfo,auslagerDatum,menge);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+    }
 
     public void updateBauteil(String exemplarNr, String scannerAnweisung) {
         Call<String> call = httpApi.updateBauteil(exemplarNr, scannerAnweisung);

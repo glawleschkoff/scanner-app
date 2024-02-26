@@ -58,7 +58,7 @@ public class PLEBScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Restteil Bearbeiten");
 
         binding.text.setOnClickListener(x -> {
-            plebViewModel.requestPlattenlager("5068405801");
+            //plebViewModel.requestPlattenlager("5068405801");
         });
 
         plebViewModel.getPlattenlagerModel().observe(getViewLifecycleOwner(), x -> {

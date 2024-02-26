@@ -58,7 +58,7 @@ public class RTABScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Restteil Auslagern");
 
         binding.text.setOnClickListener(x -> {
-            rtabViewModel.requestPlattenlager("5068405801");
+            //rtabViewModel.requestPlattenlager("5068405801");
         });
 
 

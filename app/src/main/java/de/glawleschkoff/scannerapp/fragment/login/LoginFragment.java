@@ -12,7 +12,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -20,27 +19,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Arrays;
-import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 import de.glawleschkoff.scannerapp.util.LoginItemClickSupport;
 import de.glawleschkoff.scannerapp.viewmodel.LoginViewModel;
-import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.SuperViewModel;
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.util.LoginRVAdapter;
 import de.glawleschkoff.scannerapp.util.LoginRVItem;
 import de.glawleschkoff.scannerapp.databinding.FragmentLoginBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LoginFragment extends Fragment {
 
     private FragmentLoginBinding binding;
     private LoginViewModel loginViewModel;
-    private MetaViewModel metaViewModel;
+    private SuperViewModel superViewModel;
     private LoginRVAdapter loginRVAdapter;
 
    public static LoginFragment newInstance() {
@@ -51,7 +44,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
-        metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
+        superViewModel = new ViewModelProvider(requireActivity()).get(SuperViewModel.class);
     }
 
     @Nullable
@@ -88,27 +81,20 @@ public class LoginFragment extends Fragment {
                 .setOnItemClickListener(new LoginItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        //Toast.makeText(getContext(),loginViewModel.getResponseMitarbeiter()
-                        //       .getValue().get(position),Toast.LENGTH_SHORT).show();
-
-
                         new AlertDialog.Builder(getContext())
-                                //.setTitle("Delete entry")
                                 .setMessage("Wirklich als "+ loginViewModel.getResponseMitarbeiter()
                                         .getValue().getResponse().get(position)+ " anmelden?")
-
-                                // Specifying a listener allows you to take an action before dismissing the dialog.
-                                // The dialog is automatically dismissed when a dialog button is clicked.
                                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         new AlertDialog.Builder(getContext())
-                                                .setSingleChoiceItems(new CharSequence[]{"Nach 5 min abmelden", "Nach 60 min abmelden"}, 0, new DialogInterface.OnClickListener() {
+                                                .setTitle("Nach letzter Benutzung abmelden")
+                                                .setSingleChoiceItems(new CharSequence[]{"Nach 5 min", "Nach 60 min"}, 0, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         if(which == 0){
-                                                            metaViewModel.setFiveMinutes(true);
+                                                            superViewModel.setFiveMinutes(true);
                                                         } else {
-                                                            metaViewModel.setFiveMinutes(false);
+                                                            superViewModel.setFiveMinutes(false);
                                                         }
                                                     }
 
@@ -116,29 +102,25 @@ public class LoginFragment extends Fragment {
                                                 .setPositiveButton("Weiter", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        Boolean b = metaViewModel.getFiveMinutes().getValue();
-                                                        metaViewModel.setMitarbeiter(loginViewModel.getResponseMitarbeiter()
+                                                        Boolean b = superViewModel.getFiveMinutes().getValue();
+                                                        superViewModel.setMitarbeiter(loginViewModel.getResponseMitarbeiter()
                                                         .getValue().getResponse().get(position));
-                                                        //getActivity().setTitle("Menü - angemeldet als "+metaViewModel.getMitarbeiter().getValue());
                                                         Navigation.findNavController(requireView())
                                                         .navigate(R.id.action_loginFragment_to_menuFragment);
                                                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                metaViewModel.setTimer(b==true?300000:3600000);
-                                                                metaViewModel.getTimer().getValue().start();
+                                                                //superViewModel.setTimer(b==true?300000:3600000);
+                                                                superViewModel.setTimer(b==true?300000:3600000);
+                                                                superViewModel.getTimer().getValue().start();
                                                             }
                                                         });
-
                                                     }
                                                 })
                                                 .create()
                                                 .show();
-
                                     }
                                 })
-
-                                // A null listener allows the button to dismiss the dialog and take no further action.
                                 .setNegativeButton("Nein", null)
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();

@@ -20,7 +20,6 @@ import java.util.List;
 
 import de.glawleschkoff.scannerapp.R;
 
-//public class BigRVAdapter extends RecyclerView.Adapter<BigRVAdapter.MyViewHolder> {
 public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private Context context;
@@ -38,14 +37,6 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         this.clickInterface = null;
     }
 
-
-    /*@NonNull
-    @Override
-    public BigRVAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_bigrv, parent, false);
-        return new BigRVAdapter.MyViewHolder(view);
-    }*/
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
@@ -59,33 +50,12 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 return new BigRVAdapter.MyViewHolder2(view2);
             case 2:
                 LayoutInflater inflater3 = LayoutInflater.from(context);
-                View view3 = inflater3.inflate(R.layout.item_bigrvswitch, parent, false);
+                View view3 = inflater3.inflate(R.layout.item_smallrv, parent, false);
                 return new BigRVAdapter.MyViewHolder3(view3);
             default:
                 return null;
         }
     }
-
-    /*@Override
-    public void onBindViewHolder(@NonNull BigRVAdapter.MyViewHolder holder, int position){
-        SpannableString wert;
-        if(RVItems.get(position).getWert()!=null){
-            wert = new SpannableString(RVItems.get(position).getWert());
-        } else {
-            wert = new SpannableString("");
-        }
-
-        if(RVItems.get(position).getName().equals("Länge") || RVItems.get(position).getName().equals("Breite")){
-            wert.setSpan(new UnderlineSpan(), 0, wert.length(), 0);
-            //holder.rechts.setTextColor(Color.parseColor("#000000"));
-        }
-        holder.links.setText(RVItems.get(position).getName());
-        holder.rechts.setText(wert);
-        if(clickInterface!=null){
-            holder.links.setOnClickListener(x-> clickInterface.onClick(RVItems.get(position).getName()));
-            holder.rechts.setOnClickListener(x-> clickInterface.onClick(RVItems.get(position).getName()));
-        }
-    }*/
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
@@ -101,12 +71,11 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
                 if(RVItems.get(position).getName().equals("Länge") || RVItems.get(position).getName().equals("Breite") || RVItems.get(position).getName().equals("Material\nKurzzeichen")){
                     wert.setSpan(new UnderlineSpan(), 0, wert.length(), 0);
-                    //holder.rechts.setTextColor(Color.parseColor("#000000"));
                 }
                 String name = RVItems.get(position).getName();
                 switch(name){
-                    case "Matrial\nKurzzeichen1":
-                        name = "Matrial\nKurzzeichen";
+                    case "Material\nKurzzeichen1":
+                        name = "Material\nKurzzeichen";
                         break;
                     case "Länge1":
                         name = "Länge";
@@ -133,20 +102,8 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 break;
             case 2:
                 MyViewHolder3 myViewHolder3 = (MyViewHolder3) holder;
-                //myViewHolder3.aSwitch.setChecked(RVItems.get(position).getWert().equals("J") ||
-                  //      RVItems.get(position).getWert().equals("new"));
-                myViewHolder3.aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
-                            clickInterface.onClick("on");
-                            myViewHolder3.aSwitch.setChecked(true);
-                        } else {
-                            clickInterface.onClick("off");
-                            myViewHolder3.aSwitch.setChecked(false);
-                        }
-                    }
-                });
+                myViewHolder3.links.setText(RVItems.get(position).getName());
+                myViewHolder3.rechts.setText(RVItems.get(position).getWert());
         }
     }
 
@@ -157,7 +114,15 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         int i = 0;
         if(RVItems.get(position).getName().equals("Lagerplatz")){
             i = 1;
-        } else if(RVItems.get(position).getName().equals("switch")){
+        } else if(RVItems.get(position).getName().equals("WINKEL A") ||
+                RVItems.get(position).getName().equals("WINKEL B") ||
+                RVItems.get(position).getName().equals("WINKEL C") ||
+                RVItems.get(position).getName().equals("WINKEL D") ||
+                RVItems.get(position).getName().equals("SÄGEN A") ||
+                RVItems.get(position).getName().equals("SÄGEN B") ||
+                RVItems.get(position).getName().equals("SÄGEN C") ||
+                RVItems.get(position).getName().equals("SÄGEN D") ||
+                RVItems.get(position).getName().equals("SÄGEN Ecke")){
             i = 2;
         }
         return i;
@@ -168,16 +133,6 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return RVItems.size();
     }
 
-    /*public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView links;
-        TextView rechts;
-
-        public MyViewHolder(@NonNull View itemView){
-            super(itemView);
-            links = itemView.findViewById(R.id.textLinks);
-            rechts = itemView.findViewById(R.id.textRechts);
-        }
-    }*/
     public static class MyViewHolder1 extends RecyclerView.ViewHolder{
         TextView links;
         TextView rechts;
@@ -188,6 +143,7 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             rechts = itemView.findViewById(R.id.textRechts);
         }
     }
+
     public static class MyViewHolder2 extends RecyclerView.ViewHolder{
         TextView links;
         TextView rechts;
@@ -198,12 +154,15 @@ public class BigRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             rechts = itemView.findViewById(R.id.textRechts);
         }
     }
+
     public static class MyViewHolder3 extends RecyclerView.ViewHolder{
-        Switch aSwitch;
+        TextView links;
+        TextView rechts;
 
         public MyViewHolder3(@NonNull View itemView){
             super(itemView);
-            aSwitch = itemView.findViewById(R.id.switch1);
+            links = itemView.findViewById(R.id.textLinks);
+            rechts = itemView.findViewById(R.id.textRechts);
         }
     }
 

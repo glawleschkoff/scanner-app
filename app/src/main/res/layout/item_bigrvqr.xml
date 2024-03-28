@@ -3,57 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clipToPadding="false">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false">
+    <TextView
+        android:id="@+id/textLinks"
+        android:layout_width="0dp"
+        android:layout_height="35sp"
+        android:paddingStart="8sp"
+        android:paddingEnd="8sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_vertical"
 
-        <TextView
-            android:id="@+id/textLinks"
-            android:layout_width="0dp"
-            android:layout_height="35sp"
-            android:paddingStart="8sp"
-            android:paddingEnd="8sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="14sp"
 
-            app:autoSizeTextType="uniform"
-            app:autoSizeMaxTextSize="14sp"
+        app:layout_constraintHorizontal_weight="31"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/textRechts" />
 
-            app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textRechts" />
+    <TextView
+        android:id="@+id/textRechts"
+        android:layout_width="0dp"
+        android:layout_height="35sp"
+        android:paddingEnd="8sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_vertical"
 
-        <TextView
-            android:id="@+id/textRechts"
-            android:layout_width="0dp"
-            android:layout_height="50sp"
-            android:paddingEnd="8sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="35sp"
 
-            app:autoSizeTextType="uniform"
-            app:autoSizeMaxTextSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintHorizontal_weight="46"
+        app:layout_constraintStart_toEndOf="@id/textLinks"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintHorizontal_weight="5"
-            app:layout_constraintStart_toEndOf="@id/textLinks"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8sp"
-            app:srcCompat="@drawable/icons8_qr_code_50"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout_editor_absoluteX="269dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:paddingEnd="8sp"
+        app:srcCompat="@drawable/icons8_qr_code_50"
+        app:layout_constraintHorizontal_weight="18"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="269dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

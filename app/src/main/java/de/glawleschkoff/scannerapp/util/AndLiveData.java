@@ -26,11 +26,9 @@ public class AndLiveData extends MediatorLiveData {
             private boolean b = true;
             @Override
             public void onChanged(Object o) {
-                System.out.println("onchanged from"+this.toString());
                 if(lifecycleOwner.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED && b){
                     count = (count+1) % numberLiveData;
                     b = false;
-                    System.out.println("andlivedata "+liveData.toString());
                     if(count == 0){
                         setValue(new Object());
                     }

@@ -19,19 +19,14 @@ import java.util.Arrays;
 import de.glawleschkoff.scannerapp.util.LoginItemClickSupport;
 import de.glawleschkoff.scannerapp.util.MenuRVAdapter;
 import de.glawleschkoff.scannerapp.util.MenuRVItem;
-import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.SuperViewModel;
 import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.databinding.FragmentMenuBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MenuFragment extends Fragment {
 
     private FragmentMenuBinding binding;
-    private MetaViewModel metaViewModel;
+    private SuperViewModel superViewModel;
     private MenuRVAdapter menuRVAdapter;
 
     public static MenuFragment newInstance() {
@@ -41,7 +36,7 @@ public class MenuFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        metaViewModel = new ViewModelProvider(requireActivity()).get(MetaViewModel.class);
+        superViewModel = new ViewModelProvider(requireActivity()).get(SuperViewModel.class);
     }
 
     @Override
@@ -61,6 +56,7 @@ public class MenuFragment extends Fragment {
         menuRVAdapter = new MenuRVAdapter(this.getContext(), Arrays.asList(
                 new MenuRVItem("Bauteil Info"),
                 new MenuRVItem("Bauteil Zurücksetzen"),
+                new MenuRVItem("Bauteil Nachbearbeiten"),
                 new MenuRVItem("Bauteil Quali"),
                 new MenuRVItem("Bauteil Etikett A"),
                 new MenuRVItem("Bauteil Etikett B"),
@@ -79,74 +75,50 @@ public class MenuFragment extends Fragment {
                                 switch (position){
                                     case 0:
                                         Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_menuFragment_to_infoScanFragment2);
+                                                .navigate(R.id.action_menuFragment_to_btinScanFragment);
                                         break;
                                     case 1:
                                         Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_menuFragment_to_BTZSScanFragment);
-                                        break;
-                                    case 5:
-                                        Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_menuFragment_to_RTHFSelectFragment);
-                                        break;
-                                    case 6:
-                                        Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_menuFragment_to_PLEBScanFragment);
-                                        break;
-                                    case 7:
-                                        Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_menuFragment_to_RTABScanFragment);
+                                                .navigate(R.id.action_menuFragment_to_btzsScanFragment);
                                         break;
                                     case 2:
                                         Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_menuFragment_to_PRQMScanFragment);
+                                                .navigate(R.id.action_menuFragment_to_BTNBScanFragment);
                                         break;
                                     case 3:
                                         Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_menuFragment_to_BTEDScanFragment);
+                                                .navigate(R.id.action_menuFragment_to_btqlScanFragment);
                                         break;
                                     case 4:
                                         Navigation.findNavController(requireView())
-                                                .navigate(R.id.action_menuFragment_to_BTEDBScanFragment);
+                                                .navigate(R.id.action_menuFragment_to_bteaScanFragment);
+                                        break;
+                                    case 5:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_btebScanFragment);
+                                        break;
+                                    case 6:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_rthfSelectFragment);
+                                        break;
+                                    case 7:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_rtbaScanFragment);
+                                        break;
+                                    case 8:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_menuFragment_to_rtalScanFragment);
                                         break;
                                     default:
                                 }
                             }
                         });
 
-        metaViewModel.getMitarbeiter().observe(getViewLifecycleOwner(),x->{
+        superViewModel.getMitarbeiter().observe(getViewLifecycleOwner(), x->{
             if(x==null){
                 Navigation.findNavController(requireView())
                         .navigate(R.id.action_menuFragment_to_loginFragment);
             }
         });
-
-        /*binding.bt1.setOnClickListener(x -> {
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.action_menuFragment_to_BTZSScanFragment);
-        });
-
-        binding.bt2.setOnClickListener(x -> {
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.action_menuFragment_to_infoScanFragment2);
-        });
-        binding.bt3.setOnClickListener(x -> {
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.action_menuFragment_to_RTHFSelectFragment);
-        });
-        binding.bt4.setOnClickListener(x -> {
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.action_menuFragment_to_PLEBScanFragment);
-        });
-        binding.bt5.setOnClickListener(x -> {
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.action_menuFragment_to_RTABScanFragment);
-        });
-        binding.bt6.setOnClickListener(x -> {
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.action_menuFragment_to_PRQMScanFragment);
-        });
-
-         */
     }
 }

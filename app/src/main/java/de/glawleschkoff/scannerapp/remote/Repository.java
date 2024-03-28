@@ -1,9 +1,7 @@
 package de.glawleschkoff.scannerapp.remote;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.widget.Toast;
 
 
 import androidx.lifecycle.MutableLiveData;
@@ -13,27 +11,21 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import de.glawleschkoff.scannerapp.R;
-import de.glawleschkoff.scannerapp.model.BauteilLogModel;
-import de.glawleschkoff.scannerapp.model.BauteilModel;
-import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
-import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
-import de.glawleschkoff.scannerapp.model.KommWagenModel;
+import de.glawleschkoff.scannerapp.model.USERBauteilLogModel;
+import de.glawleschkoff.scannerapp.model.USERALBDetailsModel;
+import de.glawleschkoff.scannerapp.model.USERCNCFeedbackModel;
+import de.glawleschkoff.scannerapp.model.USERKntFeedbackModel;
+import de.glawleschkoff.scannerapp.model.USERKommWagenModel;
 import de.glawleschkoff.scannerapp.model.LagerModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
-import de.glawleschkoff.scannerapp.model.PlattenlagerModel;
+import de.glawleschkoff.scannerapp.model.USERPlattenlagerModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import de.glawleschkoff.scannerapp.util.BitmapCutter;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,26 +68,26 @@ public class Repository {
         });
     }
 
-    public void requestPlattenlager(String id, MutableLiveData<ResponseWrapper<PlattenlagerModel>> responsePlattenlager){
-        Call<PlattenlagerModel> call = httpApi.getPlattenlager(id);
-        call.enqueue(new Callback<PlattenlagerModel>() {
+    public void requestUSERPlattenlager(String id, MutableLiveData<ResponseWrapper<USERPlattenlagerModel>> responseUSERPlattenlager){
+        Call<USERPlattenlagerModel> call = httpApi.getUSERPlattenlager(id);
+        call.enqueue(new Callback<USERPlattenlagerModel>() {
             @Override
-            public void onResponse(Call<PlattenlagerModel> call, Response<PlattenlagerModel> response) {
+            public void onResponse(Call<USERPlattenlagerModel> call, Response<USERPlattenlagerModel> response) {
                 if(!response.isSuccessful()){
-                    responsePlattenlager.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                    responseUSERPlattenlager.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
-                    responsePlattenlager.setValue(new ResponseWrapper<>(response.body(), null));
+                    responseUSERPlattenlager.setValue(new ResponseWrapper<>(response.body(), null));
                 }
             }
             @Override
-            public void onFailure(Call<PlattenlagerModel> call, Throwable t) {
-                responsePlattenlager.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            public void onFailure(Call<USERPlattenlagerModel> call, Throwable t) {
+                responseUSERPlattenlager.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }
 
-    public void updatePlattenlager(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge) {
-        Call<String> call = httpApi.updatePlattenlager(plattenId,lagerPlatz,lng,brt,mz3,auslagerId,auslagerInfo,auslagerDatum,menge);
+    public void updateUSERPlattenlager(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge) {
+        Call<String> call = httpApi.updateUSERPlattenlager(plattenId,lagerPlatz,lng,brt,mz3,auslagerId,auslagerInfo,auslagerDatum,menge);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -108,8 +100,8 @@ public class Repository {
             }
         });
     }
-    public void updatePlattenlagerBearbeiten(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge) {
-        Call<String> call = httpApi.updatePlattenlagerBearbeiten(plattenId,lagerPlatz,lng,brt,mz3,auslagerId,auslagerInfo,auslagerDatum,menge);
+    public void updateUSERPlattenlagerBearbeiten(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge) {
+        Call<String> call = httpApi.updateUSERPlattenlagerBearbeiten(plattenId,lagerPlatz,lng,brt,mz3,auslagerId,auslagerInfo,auslagerDatum,menge);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -123,8 +115,8 @@ public class Repository {
         });
     }
 
-    public void updateBauteil(String exemplarNr, String scannerAnweisung) {
-        Call<String> call = httpApi.updateBauteil(exemplarNr, scannerAnweisung);
+    public void updateUSERALBDetails(String exemplarNr, String scannerAnweisung) {
+        Call<String> call = httpApi.updateUSERALBDetails(exemplarNr, scannerAnweisung);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -138,8 +130,8 @@ public class Repository {
         });
     }
 
-    public void insertPlattenlager(Integer rowUserId, String matKurzzeichen, Double plattenId, String lagerplatz, String mz3, Double lng, Double brt) {
-        Call<String> call = httpApi.insertPlattenlager(rowUserId,matKurzzeichen,plattenId,lagerplatz,mz3,lng,brt);
+    public void insertUSERPlattenlager(Integer rowUserId, String matKurzzeichen, Double plattenId, String lagerplatz, String mz3, Double lng, Double brt) {
+        Call<String> call = httpApi.insertUSERPlattenlager(rowUserId,matKurzzeichen,plattenId,lagerplatz,mz3,lng,brt);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -188,143 +180,98 @@ public class Repository {
         });
     }
 
-    public void requestBauteil(String id, MutableLiveData<ResponseWrapper<BauteilModel>> responseBauteil){
-        Call<BauteilModel> call = httpApi.getBauteil(id);
-        call.enqueue(new Callback<BauteilModel>() {
+    public void requestUSERALBDetails(String id, MutableLiveData<ResponseWrapper<USERALBDetailsModel>> responseUSERALBDetails){
+        Call<USERALBDetailsModel> call = httpApi.getUSERALBDetails(id);
+        call.enqueue(new Callback<USERALBDetailsModel>() {
             @Override
-            public void onResponse(Call<BauteilModel> call, Response<BauteilModel> response) {
+            public void onResponse(Call<USERALBDetailsModel> call, Response<USERALBDetailsModel> response) {
                 if(!response.isSuccessful()){
-                    responseBauteil.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                    responseUSERALBDetails.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
-                    responseBauteil.setValue(new ResponseWrapper<>(response.body(),null));
+                    responseUSERALBDetails.setValue(new ResponseWrapper<>(response.body(),null));
                 }
             }
             @Override
-            public void onFailure(Call<BauteilModel> call, Throwable t) {
-                responseBauteil.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            public void onFailure(Call<USERALBDetailsModel> call, Throwable t) {
+                responseUSERALBDetails.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }
 
-    public void requestKommWagen(String auftrag, MutableLiveData<ResponseWrapper<KommWagenModel>> responseKommWagen){
-        Call<KommWagenModel> call = httpApi.getKommWagen(auftrag);
-        call.enqueue(new Callback<KommWagenModel>() {
+    public void requestUSERKommWagen(String auftrag, MutableLiveData<ResponseWrapper<USERKommWagenModel>> responseUSERKommWagen){
+        Call<USERKommWagenModel> call = httpApi.getUSERKommWagen(auftrag);
+        call.enqueue(new Callback<USERKommWagenModel>() {
             @Override
-            public void onResponse(Call<KommWagenModel> call, Response<KommWagenModel> response) {
+            public void onResponse(Call<USERKommWagenModel> call, Response<USERKommWagenModel> response) {
                 if(!response.isSuccessful()){
-                    responseKommWagen.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                    responseUSERKommWagen.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
-                    responseKommWagen.setValue(new ResponseWrapper<>(response.body(),null));
+                    responseUSERKommWagen.setValue(new ResponseWrapper<>(response.body(),null));
                 }
             }
 
             @Override
-            public void onFailure(Call<KommWagenModel> call, Throwable t) {
-                responseKommWagen.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            public void onFailure(Call<USERKommWagenModel> call, Throwable t) {
+                responseUSERKommWagen.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }
 
-    public void requestCNCFeedback(String id, MutableLiveData<ResponseWrapper<List<CNCFeedbackModel>>> responseCNCFeedback){
-        Call<List<CNCFeedbackModel>> call = httpApi.getCNCFeedback(id);
-        call.enqueue(new Callback<List<CNCFeedbackModel>>() {
+    public void requestUSERCNCFeedback(String id, MutableLiveData<ResponseWrapper<List<USERCNCFeedbackModel>>> responseUSERCNCFeedback){
+        Call<List<USERCNCFeedbackModel>> call = httpApi.getUSERCNCFeedback(id);
+        call.enqueue(new Callback<List<USERCNCFeedbackModel>>() {
             @Override
-            public void onResponse(Call<List<CNCFeedbackModel>> call, Response<List<CNCFeedbackModel>> response) {
+            public void onResponse(Call<List<USERCNCFeedbackModel>> call, Response<List<USERCNCFeedbackModel>> response) {
                 if(!response.isSuccessful()){
-                    responseCNCFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                    responseUSERCNCFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
-                    responseCNCFeedback.setValue(new ResponseWrapper<>(response.body(),null));
+                    responseUSERCNCFeedback.setValue(new ResponseWrapper<>(response.body(),null));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<CNCFeedbackModel>> call, Throwable t) {
-                responseCNCFeedback.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            public void onFailure(Call<List<USERCNCFeedbackModel>> call, Throwable t) {
+                responseUSERCNCFeedback.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }
 
-    public void requestKntFeedback(String id, MutableLiveData<ResponseWrapper<List<KntFeedbackModel>>> responseKntFeedback){
-        Call<List<KntFeedbackModel>> call = httpApi.getKntFeedback(id);
-        call.enqueue(new Callback<List<KntFeedbackModel>>() {
+    public void requestUSERKntFeedback(String id, MutableLiveData<ResponseWrapper<List<USERKntFeedbackModel>>> responseUSERKntFeedback){
+        Call<List<USERKntFeedbackModel>> call = httpApi.getUSERKntFeedback(id);
+        call.enqueue(new Callback<List<USERKntFeedbackModel>>() {
             @Override
-            public void onResponse(Call<List<KntFeedbackModel>> call, Response<List<KntFeedbackModel>> response) {
+            public void onResponse(Call<List<USERKntFeedbackModel>> call, Response<List<USERKntFeedbackModel>> response) {
                 if(!response.isSuccessful()){
-                    responseKntFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                    responseUSERKntFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
-                    responseKntFeedback.setValue(new ResponseWrapper<>(response.body(),null));
+                    responseUSERKntFeedback.setValue(new ResponseWrapper<>(response.body(),null));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<KntFeedbackModel>> call, Throwable t) {
-                responseKntFeedback.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            public void onFailure(Call<List<USERKntFeedbackModel>> call, Throwable t) {
+                responseUSERKntFeedback.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }
 
-    public void requestBauteilLog(String id, MutableLiveData<ResponseWrapper<List<BauteilLogModel>>> responseBauteilLog){
-        Call<List<BauteilLogModel>> call = httpApi.getBauteilLog(id);
-        call.enqueue(new Callback<List<BauteilLogModel>>() {
+    public void requestUSERBauteilLog(String id, MutableLiveData<ResponseWrapper<List<USERBauteilLogModel>>> responseUSERBauteilLog){
+        Call<List<USERBauteilLogModel>> call = httpApi.getUSERBauteilLog(id);
+        call.enqueue(new Callback<List<USERBauteilLogModel>>() {
             @Override
-            public void onResponse(Call<List<BauteilLogModel>> call, Response<List<BauteilLogModel>> response) {
+            public void onResponse(Call<List<USERBauteilLogModel>> call, Response<List<USERBauteilLogModel>> response) {
                 if(!response.isSuccessful()){
-                    responseBauteilLog.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
+                    responseUSERBauteilLog.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
-                    responseBauteilLog.setValue(new ResponseWrapper<>(response.body(),null));
+                    responseUSERBauteilLog.setValue(new ResponseWrapper<>(response.body(),null));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<BauteilLogModel>> call, Throwable t) {
-                responseBauteilLog.setValue(new ResponseWrapper<>(null,t.getMessage()));
+            public void onFailure(Call<List<USERBauteilLogModel>> call, Throwable t) {
+                responseUSERBauteilLog.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
-    }
-
-    public void createFeedback(String csvName, String csvContent){
-        Call<ResponseBody> call = httpApi.createFeedback(
-                MultipartBody.Part.createFormData(
-                        "file",
-                        csvName,
-                        RequestBody.create(MediaType.parse("text/csv"), csvContent)
-                )
-        );
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(!response.isSuccessful()){
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
-        });
-    }
-
-    public void requestFeedback(String name, MutableLiveData<ResponseWrapper<String>> responseFeedback){
-        Call<ResponseBody> call = httpApi.getFeedback(name);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(!response.isSuccessful()){
-                    responseFeedback.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
-                } else {
-                    try {
-                        responseFeedback.setValue(new ResponseWrapper<>(new String(response.body().bytes()),null));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseFeedback.setValue(new ResponseWrapper<>(null,t.getMessage()));
-            }
-        });
-
     }
 
     public void requestMitarbeiter(MutableLiveData<ResponseWrapper<List<String>>> responseMitarbeiter){

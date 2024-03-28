@@ -8,16 +8,15 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import de.glawleschkoff.scannerapp.R;
 import de.glawleschkoff.scannerapp.model.LagerModel;
-import de.glawleschkoff.scannerapp.model.PlattenlagerModel;
+import de.glawleschkoff.scannerapp.model.USERPlattenlagerModel;
 import de.glawleschkoff.scannerapp.model.ResponseWrapper;
 import de.glawleschkoff.scannerapp.remote.Repository;
 
 public class RTHFViewModel extends ViewModel {
 
     private final Repository repository;
-    private final MutableLiveData<PlattenlagerModel> plattenlager;
+    private final MutableLiveData<USERPlattenlagerModel> userPlattenlager;
     private final MutableLiveData<String> tempLagerplatz;
     private final MutableLiveData<ResponseWrapper<LagerModel>> responseLager;
     private final MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap;
@@ -27,7 +26,7 @@ public class RTHFViewModel extends ViewModel {
 
     public RTHFViewModel(){
         repository = Repository.getInstance();
-        plattenlager = new MutableLiveData<>();
+        userPlattenlager = new MutableLiveData<>();
         tempLagerplatz = new MutableLiveData<>();
         responseLager = new MutableLiveData<>(new ResponseWrapper<>());
         responseBitmap = new MutableLiveData<>(new ResponseWrapper<>());
@@ -48,17 +47,17 @@ public class RTHFViewModel extends ViewModel {
         repository.requestMaterialien(responseMaterialien);
     }
 
-    public void insertPlattenlager(Integer rowUserId, String matKurzzeichen, Double plattenId, String lagerplatz, String mz3, Double lng, Double brt) {
-        repository.insertPlattenlager(rowUserId,matKurzzeichen,plattenId,lagerplatz,mz3,lng,brt);
+    public void insertUSERPlattenlager(Integer rowUserId, String matKurzzeichen, Double plattenId, String lagerplatz, String mz3, Double lng, Double brt) {
+        repository.insertUSERPlattenlager(rowUserId,matKurzzeichen,plattenId,lagerplatz,mz3,lng,brt);
     }
 
-    public LiveData<PlattenlagerModel> getPlattenlagerModel() {
-        return plattenlager;
+    public LiveData<USERPlattenlagerModel> getUSERPlattenlager() {
+        return userPlattenlager;
     }
     public LiveData<String> getTempLagerplatz() {
         return tempLagerplatz;
     }
-    public LiveData<ResponseWrapper<LagerModel>> getLagerModel() {
+    public LiveData<ResponseWrapper<LagerModel>> getLager() {
         return responseLager;
     }
     public LiveData<ResponseWrapper<Bitmap>> getResponseBitmap(){
@@ -71,8 +70,8 @@ public class RTHFViewModel extends ViewModel {
         return responseMaterialien;
     }
 
-    public void setPlattenlagerModel(PlattenlagerModel plattenlagerModel){
-        plattenlager.setValue(plattenlagerModel);
+    public void setUSERPlattenlager(USERPlattenlagerModel userPlattenlager){
+        this.userPlattenlager.setValue(userPlattenlager);
     }
     public void setTempLagerplatz(String tempLagerplatz) {
         this.tempLagerplatz.setValue(tempLagerplatz);

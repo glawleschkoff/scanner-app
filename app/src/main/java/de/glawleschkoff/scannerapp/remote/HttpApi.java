@@ -3,39 +3,33 @@ package de.glawleschkoff.scannerapp.remote;
 import java.sql.Date;
 import java.util.List;
 
-import de.glawleschkoff.scannerapp.model.BauteilLogModel;
-import de.glawleschkoff.scannerapp.model.BauteilModel;
-import de.glawleschkoff.scannerapp.model.CNCFeedbackModel;
-import de.glawleschkoff.scannerapp.model.KntFeedbackModel;
-import de.glawleschkoff.scannerapp.model.KommWagenModel;
+import de.glawleschkoff.scannerapp.model.USERBauteilLogModel;
+import de.glawleschkoff.scannerapp.model.USERALBDetailsModel;
+import de.glawleschkoff.scannerapp.model.USERCNCFeedbackModel;
+import de.glawleschkoff.scannerapp.model.USERKntFeedbackModel;
+import de.glawleschkoff.scannerapp.model.USERKommWagenModel;
 import de.glawleschkoff.scannerapp.model.LagerModel;
 import de.glawleschkoff.scannerapp.model.MitarbeiterModel;
-import de.glawleschkoff.scannerapp.model.PlattenlagerModel;
-import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
+import de.glawleschkoff.scannerapp.model.USERPlattenlagerModel;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
-import retrofit2.http.POST;
-import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface HttpApi {
 
     @GET("api/v1/plattenlager")
-    Call<PlattenlagerModel> getPlattenlager(@Query("id") String id);
+    Call<USERPlattenlagerModel> getUSERPlattenlager(@Query("id") String id);
 
     @GET("api/v1/plattenlagerupdate")
-    Call<String> updatePlattenlager(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
+    Call<String> updateUSERPlattenlager(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
     @GET("api/v1/plattenlagerupdatebearbeiten")
-    Call<String> updatePlattenlagerBearbeiten(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
+    Call<String> updateUSERPlattenlagerBearbeiten(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
 
     @GET("api/v1/bauteilupdate")
-    Call<String> updateBauteil(@Query("exemplarNr") String exemplarNr, @Query("scannerAnweisung") String scannerAnweisung);
+    Call<String> updateUSERALBDetails(@Query("exemplarNr") String exemplarNr, @Query("scannerAnweisung") String scannerAnweisung);
 
     @GET("api/v1/plattenlagerinsert")
-    Call<String> insertPlattenlager(@Query("rowUserId") Integer rowUserId, @Query("matKurzzeichen") String matKurzzeichen,
+    Call<String> insertUSERPlattenlager(@Query("rowUserId") Integer rowUserId, @Query("matKurzzeichen") String matKurzzeichen,
                                     @Query("plattenId") Double plattenId, @Query("lagerplatz") String lagerplatz,
                                     @Query("mz3") String mz3, @Query("lng") Double lng, @Query("brt") Double brt);
 
@@ -49,27 +43,20 @@ public interface HttpApi {
     Call<LagerModel> getLager(@Query("id") String id);
 
     @GET("api/v1/bauteil")
-    Call<BauteilModel> getBauteil(@Query("id") String id);
+    Call<USERALBDetailsModel> getUSERALBDetails(@Query("id") String id);
 
     @GET("api/v1/kommwagen")
-    Call<KommWagenModel> getKommWagen(@Query("auftrag") String auftrag);
-
-    @Multipart
-    @POST("api/v1/feedback")
-    Call<ResponseBody> createFeedback(@Part MultipartBody.Part file);
-
-    @GET("api/v1/feedback")
-    Call<ResponseBody> getFeedback(@Query("name") String name);
+    Call<USERKommWagenModel> getUSERKommWagen(@Query("auftrag") String auftrag);
 
     @GET("api/v1/mitarbeiter")
     Call<List<MitarbeiterModel>> getMitarbeiter();
 
     @GET("api/v1/cncfeedback")
-    Call<List<CNCFeedbackModel>> getCNCFeedback(@Query("id") String id);
+    Call<List<USERCNCFeedbackModel>> getUSERCNCFeedback(@Query("id") String id);
 
     @GET("api/v1/kntfeedback")
-    Call<List<KntFeedbackModel>> getKntFeedback(@Query("id") String id);
+    Call<List<USERKntFeedbackModel>> getUSERKntFeedback(@Query("id") String id);
 
     @GET("api/v1/bauteillog")
-    Call<List<BauteilLogModel>> getBauteilLog(@Query("id") String id);
+    Call<List<USERBauteilLogModel>> getUSERBauteilLog(@Query("id") String id);
 }

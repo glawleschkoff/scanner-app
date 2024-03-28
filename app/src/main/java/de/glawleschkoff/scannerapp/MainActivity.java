@@ -2,35 +2,26 @@ package de.glawleschkoff.scannerapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import de.glawleschkoff.scannerapp.databinding.ActivityMainBinding;
-import de.glawleschkoff.scannerapp.viewmodel.InfoViewModel;
-import de.glawleschkoff.scannerapp.viewmodel.MetaViewModel;
+import de.glawleschkoff.scannerapp.viewmodel.SuperViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     public ActivityMainBinding binding;
-    private MetaViewModel metaViewModel;
+    private SuperViewModel superViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        metaViewModel = new ViewModelProvider(this).get(MetaViewModel.class);
+        superViewModel = new ViewModelProvider(this).get(SuperViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -50,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
-                metaViewModel.resetMitarbeiter();
+                superViewModel.resetMitarbeiter();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -59,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        metaViewModel.getMitarbeiter().observe(this,x->{
+        superViewModel.getMitarbeiter().observe(this, x->{
             System.out.println(x);
             if(x == null){
                 menu.setGroupEnabled(0,false);
@@ -72,8 +63,16 @@ public class MainActivity extends AppCompatActivity {
                 binding.kRzel.setText(x);
             }
         });
-
         return true;
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        if(superViewModel.getTimer().getValue()!=null){
+            superViewModel.getTimer().getValue().cancel();
+            superViewModel.getTimer().getValue().start();
+        }
     }
 
 }

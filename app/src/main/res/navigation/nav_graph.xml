@@ -11,285 +11,306 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_menuFragment"
-            app:destination="@id/navigation2" />
+            app:destination="@id/menuFragment" />
     </fragment>
     <fragment
-        android:id="@+id/BTZSScanFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.btzs.BTZSScanFragment"
+        android:id="@+id/btzsScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteilzurücksetzen.BTZSScanFragment"
         android:label="fragment_btzsscan"
         tools:layout="@layout/fragment_btzsscan" >
         <action
-            android:id="@+id/action_BTZSScanFragment_to_menuFragment"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_btzsScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_BTZSScanFragment_to_BTZSSelectFragment3"
-            app:destination="@id/BTZSSelectFragment3" />
+            android:id="@+id/action_btzsScanFragment_to_btzsSelectFragment"
+            app:destination="@id/btzsSelectFragment" />
         <action
-            android:id="@+id/action_BTZSScanFragment_to_loginFragment"
+            android:id="@+id/action_btzsScanFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_BTZSScanFragment_self"
-            app:destination="@id/BTZSScanFragment" />
-        <action
-            android:id="@+id/action_BTZSScanFragment_to_menuFragment2"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_btzsScanFragment_self"
+            app:destination="@id/btzsScanFragment" />
     </fragment>
     <fragment
-        android:id="@+id/BTZSSelectFragment3"
-        android:name="de.glawleschkoff.scannerapp.fragment.btzs.BTZSSelectFragment"
+        android:id="@+id/btzsSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteilzurücksetzen.BTZSSelectFragment"
         android:label="fragment_btzsselect"
         tools:layout="@layout/fragment_btzsselect" >
         <action
-            android:id="@+id/action_BTZSSelectFragment3_to_BTZSScanFragment"
-            app:destination="@id/BTZSScanFragment" />
+            android:id="@+id/action_btzsSelectFragment_to_btzsScanFragment"
+            app:destination="@id/btzsScanFragment" />
         <action
-            android:id="@+id/action_BTZSSelectFragment3_to_loginFragment"
+            android:id="@+id/action_btzsSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_BTZSSelectFragment3_self"
-            app:destination="@id/BTZSSelectFragment3" />
+            android:id="@+id/action_btzsSelectFragment_self"
+            app:destination="@id/btzsSelectFragment" />
     </fragment>
     <fragment
-        android:id="@+id/infoScanFragment2"
-        android:name="de.glawleschkoff.scannerapp.fragment.info.InfoScanFragment"
-        android:label="fragment_infoscan"
-        tools:layout="@layout/fragment_infoscan" >
+        android:id="@+id/btinScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteilinfo.BTINScanFragment"
+        android:label="fragment_btinscan"
+        tools:layout="@layout/fragment_btinscan" >
         <action
-            android:id="@+id/action_infoScanFragment2_to_menuFragment"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_btinScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_infoScanFragment2_to_infoShowFragment"
-            app:destination="@id/infoShowFragment" />
+            android:id="@+id/action_btinScanFragment_to_btinShowFragment"
+            app:destination="@id/btinShowFragment" />
         <action
-            android:id="@+id/action_infoScanFragment2_to_loginFragment"
+            android:id="@+id/action_btinScanFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_infoScanFragment2_self"
-            app:destination="@id/infoScanFragment2" />
-        <action
-            android:id="@+id/action_infoScanFragment2_to_menuFragment2"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_btinScanFragment_self"
+            app:destination="@id/btinScanFragment" />
     </fragment>
     <fragment
-        android:id="@+id/infoShowFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.info.InfoShowFragment"
-        android:label="fragment_infoshow"
-        tools:layout="@layout/fragment_infoshow" >
+        android:id="@+id/btinShowFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteilinfo.BTINShowFragment"
+        android:label="fragment_btinshow"
+        tools:layout="@layout/fragment_btinshow" >
         <action
-            android:id="@+id/action_infoShowFragment_to_infoScanFragment2"
-            app:destination="@id/infoScanFragment2" />
+            android:id="@+id/action_btinShowFragment_to_btinScanFragment"
+            app:destination="@id/btinScanFragment" />
         <action
-            android:id="@+id/action_infoShowFragment_to_loginFragment"
+            android:id="@+id/action_btinShowFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_infoShowFragment_self"
-            app:destination="@id/infoShowFragment" />
+            android:id="@+id/action_btinShowFragment_self"
+            app:destination="@id/btinShowFragment" />
     </fragment>
     <fragment
-        android:id="@+id/PLEBScanFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.pleb.PLEBScanFragment"
-        android:label="fragment_plebscan"
-        tools:layout="@layout/fragment_plebscan" >
+        android:id="@+id/rtbaScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.restteilbearbeiten.RTBAScanFragment"
+        android:label="fragment_rtbascan"
+        tools:layout="@layout/fragment_rtbascan" >
         <action
-            android:id="@+id/action_PLEBScanFragment_to_menuFragment"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_rtbaScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_PLEBScanFragment_to_loginFragment"
+            android:id="@+id/action_rtbaScanFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_PLEBScanFragment_self"
-            app:destination="@id/PLEBScanFragment" />
+            android:id="@+id/action_rtbaScanFragment_self"
+            app:destination="@id/rtbaScanFragment" />
         <action
-            android:id="@+id/action_PLEBScanFragment_to_PLEBSelectFragment"
-            app:destination="@id/PLEBSelectFragment" />
+            android:id="@+id/action_rtbaScanFragment_to_rtbaSelectFragment"
+            app:destination="@id/rtbaSelectFragment" />
     </fragment>
     <fragment
-        android:id="@+id/PLEBSelectFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.pleb.PLEBSelectFragment"
-        android:label="PLEBSelectFragment" >
+        android:id="@+id/rtbaSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.restteilbearbeiten.RTBASelectFragment"
+        android:label="rtbaSelectFragment" >
         <action
-            android:id="@+id/action_PLEBSelectFragment_to_PLEBScanFragment"
-            app:destination="@id/PLEBScanFragment" />
+            android:id="@+id/action_rtbaSelectFragment_to_rtbaScanFragment"
+            app:destination="@id/rtbaScanFragment" />
         <action
-            android:id="@+id/action_PLEBSelectFragment_to_loginFragment"
+            android:id="@+id/action_rtbaSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/RTHFSelectFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.rthf.RTHFSelectFragment"
+        android:id="@+id/rthfSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.restteilhinzufügen.RTHFSelectFragment"
         android:label="fragment_rthfselect"
         tools:layout="@layout/fragment_rthfselect" >
         <action
-            android:id="@+id/action_RTHFSelectFragment_to_menuFragment"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_rthfSelectFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_RTHFSelectFragment_to_loginFragment"
+            android:id="@+id/action_rthfSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/RTABScanFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.rtab.RTABScanFragment"
-        android:label="RTABScanFragment" >
+        android:id="@+id/rtalScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.restteilauslagern.RTALScanFragment"
+        android:label="rtalScanFragment" >
         <action
-            android:id="@+id/action_RTABScanFragment_to_RTABSelectFragment"
-            app:destination="@id/RTABSelectFragment" />
+            android:id="@+id/action_rtalScanFragment_to_rtalSelectFragment"
+            app:destination="@id/rtalSelectFragment" />
         <action
-            android:id="@+id/action_RTABScanFragment_self"
-            app:destination="@id/RTABScanFragment" />
+            android:id="@+id/action_rtalScanFragment_self"
+            app:destination="@id/rtalScanFragment" />
         <action
-            android:id="@+id/action_RTABScanFragment_to_menuFragment"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_rtalScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_RTABScanFragment_to_loginFragment"
+            android:id="@+id/action_rtalScanFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/RTABSelectFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.rtab.RTABSelectFragment"
-        android:label="RTABSelectFragment" >
+        android:id="@+id/rtalSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.restteilauslagern.RTALSelectFragment"
+        android:label="rtalSelectFragment" >
         <action
-            android:id="@+id/action_RTABSelectFragment_to_RTABScanFragment"
-            app:destination="@id/RTABScanFragment" />
+            android:id="@+id/action_rtalSelectFragment_to_rtalScanFragment"
+            app:destination="@id/rtalScanFragment" />
         <action
-            android:id="@+id/action_RTABSelectFragment_to_loginFragment"
+            android:id="@+id/action_rtalSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/PRQMScanFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.prqm.PRQMScanFragment"
-        android:label="fragment_prqmscan"
-        tools:layout="@layout/fragment_prqmscan" >
+        android:id="@+id/btqlScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteilquali.BTQLScanFragment"
+        android:label="fragment_btqlscan"
+        tools:layout="@layout/fragment_btqlscan" >
         <action
-            android:id="@+id/action_PRQMScanFragment_to_menuFragment"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_btqlScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_PRQMScanFragment_to_loginFragment"
+            android:id="@+id/action_btqlScanFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_PRQMScanFragment_to_PRQMSelectFragment"
-            app:destination="@id/PRQMSelectFragment" />
+            android:id="@+id/action_btqlScanFragment_to_btqlSelectFragment"
+            app:destination="@id/btqlSelectFragment" />
         <action
-            android:id="@+id/action_PRQMScanFragment_self"
-            app:destination="@id/PRQMScanFragment" />
+            android:id="@+id/action_btqlScanFragment_self"
+            app:destination="@id/btqlScanFragment" />
     </fragment>
     <fragment
-        android:id="@+id/PRQMSelectFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.prqm.PRQMSelectFragment"
-        android:label="PRQMSelectFragment" >
+        android:id="@+id/btqlSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteilquali.BTQLSelectFragment"
+        android:label="btqlSelectFragment" >
         <action
-            android:id="@+id/action_PRQMSelectFragment_to_PRQMScanFragment"
-            app:destination="@id/PRQMScanFragment" />
+            android:id="@+id/action_btqlSelectFragment_to_btqlScanFragment"
+            app:destination="@id/btqlScanFragment" />
         <action
-            android:id="@+id/action_PRQMSelectFragment_to_loginFragment"
+            android:id="@+id/action_btqlSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_PRQMSelectFragment_self"
-            app:destination="@id/PRQMSelectFragment" />
+            android:id="@+id/action_btqlSelectFragment_self"
+            app:destination="@id/btqlSelectFragment" />
     </fragment>
     <fragment
-        android:id="@+id/BTEDScanFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.btedA.BTEDAScanFragment"
-        android:label="fragment_btedscan"
-        tools:layout="@layout/fragment_btedascan" >
+        android:id="@+id/bteaScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteiletiketta.BTEAScanFragment"
+        android:label="fragment_bteascan"
+        tools:layout="@layout/fragment_bteascan" >
         <action
-            android:id="@+id/action_BTEDScanFragment_self"
-            app:destination="@id/BTEDScanFragment" />
+            android:id="@+id/action_bteaScanFragment_self"
+            app:destination="@id/bteaScanFragment" />
         <action
-            android:id="@+id/action_BTEDScanFragment_to_loginFragment"
+            android:id="@+id/action_bteaScanFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_BTEDScanFragment_to_menuFragment"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_bteaScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_BTEDScanFragment_to_BTEDSelectFragment"
-            app:destination="@id/BTEDSelectFragment" />
+            android:id="@+id/action_bteaScanFragment_to_bteaSelectFragment"
+            app:destination="@id/bteaSelectFragment" />
     </fragment>
     <fragment
-        android:id="@+id/BTEDSelectFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.btedA.BTEDASelectFragment"
-        android:label="fragment_btedselect"
-        tools:layout="@layout/fragment_btedaselect" >
+        android:id="@+id/bteaSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteiletiketta.BTEASelectFragment"
+        android:label="fragment_bteaselect"
+        tools:layout="@layout/fragment_bteaselect" >
         <action
-            android:id="@+id/action_BTEDSelectFragment_self"
-            app:destination="@id/BTEDSelectFragment" />
+            android:id="@+id/action_bteaSelectFragment_self"
+            app:destination="@id/bteaSelectFragment" />
         <action
-            android:id="@+id/action_BTEDSelectFragment_to_BTEDScanFragment"
-            app:destination="@id/BTEDScanFragment" />
+            android:id="@+id/action_bteaSelectFragment_to_bteaScanFragment"
+            app:destination="@id/bteaScanFragment" />
         <action
-            android:id="@+id/action_BTEDSelectFragment_to_loginFragment"
+            android:id="@+id/action_bteaSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/BTEDBScanFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.btedB.BTEDBScanFragment"
-        android:label="fragment_btedbscan"
-        tools:layout="@layout/fragment_btedbscan" >
+        android:id="@+id/btebScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteiletikettb.BTEBScanFragment"
+        android:label="fragment_btebscan"
+        tools:layout="@layout/fragment_btebscan" >
         <action
-            android:id="@+id/action_BTEDBScanFragment_to_menuFragment"
-            app:destination="@id/navigation2" />
+            android:id="@+id/action_btebScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_BTEDBScanFragment_to_loginFragment"
+            android:id="@+id/action_btebScanFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_BTEDBScanFragment_to_BTEDBSelectFragment"
-            app:destination="@id/BTEDBSelectFragment" />
+            android:id="@+id/action_btebScanFragment_to_btebSelectFragment"
+            app:destination="@id/btebSelectFragment" />
         <action
-            android:id="@+id/action_BTEDBScanFragment_self"
-            app:destination="@id/BTEDBScanFragment" />
+            android:id="@+id/action_btebScanFragment_self"
+            app:destination="@id/btebScanFragment" />
     </fragment>
     <fragment
-        android:id="@+id/BTEDBSelectFragment"
-        android:name="de.glawleschkoff.scannerapp.fragment.btedB.BTEDBSelectFragment"
-        android:label="fragment_btedbselect"
-        tools:layout="@layout/fragment_btedbselect" >
+        android:id="@+id/btebSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteiletikettb.BTEBSelectFragment"
+        android:label="fragment_btebselect"
+        tools:layout="@layout/fragment_btebselect" >
         <action
-            android:id="@+id/action_BTEDBSelectFragment_to_BTEDBScanFragment"
-            app:destination="@id/BTEDBScanFragment" />
+            android:id="@+id/action_btebSelectFragment_to_btebScanFragment"
+            app:destination="@id/btebScanFragment" />
         <action
-            android:id="@+id/action_BTEDBSelectFragment_self"
-            app:destination="@id/BTEDBSelectFragment" />
+            android:id="@+id/action_btebSelectFragment_self"
+            app:destination="@id/btebSelectFragment" />
         <action
-            android:id="@+id/action_BTEDBSelectFragment_to_loginFragment"
+            android:id="@+id/action_btebSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
-    <navigation android:id="@+id/navigation2"
-        app:startDestination="@id/navigation">
-        <navigation
-            android:id="@+id/navigation"
-            app:startDestination="@id/menuFragment">
-            <fragment
-                android:id="@+id/menuFragment"
-                android:name="de.glawleschkoff.scannerapp.fragment.menu.MenuFragment"
-                android:label="fragment_menu"
-                tools:layout="@layout/fragment_menu_old">
-                <action
-                    android:id="@+id/action_menuFragment_to_loginFragment"
-                    app:destination="@id/loginFragment" />
-                <action
-                    android:id="@+id/action_menuFragment_to_BTZSScanFragment"
-                    app:destination="@id/BTZSScanFragment" />
-                <action
-                    android:id="@+id/action_menuFragment_to_infoScanFragment2"
-                    app:destination="@id/infoScanFragment2" />
-                <action
-                    android:id="@+id/action_menuFragment_to_PLEBScanFragment"
-                    app:destination="@id/PLEBScanFragment" />
-                <action
-                    android:id="@+id/action_menuFragment_to_RTHFSelectFragment"
-                    app:destination="@id/RTHFSelectFragment" />
-                <action
-                    android:id="@+id/action_menuFragment_to_RTABScanFragment"
-                    app:destination="@id/RTABScanFragment" />
-                <action
-                    android:id="@+id/action_menuFragment_to_PRQMScanFragment"
-                    app:destination="@id/PRQMScanFragment" />
-                <action
-                    android:id="@+id/action_menuFragment_to_BTEDScanFragment"
-                    app:destination="@id/BTEDScanFragment" />
-                <action
-                    android:id="@+id/action_menuFragment_to_BTEDBScanFragment"
-                    app:destination="@id/BTEDBScanFragment" />
-            </fragment>
-        </navigation>
-    </navigation>
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/action_menuFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_btzsScanFragment"
+            app:destination="@id/btzsScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_btinScanFragment"
+            app:destination="@id/btinScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_rtbaScanFragment"
+            app:destination="@id/rtbaScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_rthfSelectFragment"
+            app:destination="@id/rthfSelectFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_rtalScanFragment"
+            app:destination="@id/rtalScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_btqlScanFragment"
+            app:destination="@id/btqlScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_bteaScanFragment"
+            app:destination="@id/bteaScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_btebScanFragment"
+            app:destination="@id/btebScanFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_BTNBScanFragment"
+            app:destination="@id/BTNBScanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/BTNBScanFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteilnachbearbeiten.BTNBScanFragment"
+        android:label="BTNBScanFragment" >
+        <action
+            android:id="@+id/action_BTNBScanFragment_self"
+            app:destination="@id/BTNBScanFragment" />
+        <action
+            android:id="@+id/action_BTNBScanFragment_to_BTNBSelectFragment"
+            app:destination="@id/BTNBSelectFragment" />
+        <action
+            android:id="@+id/action_BTNBScanFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_BTNBScanFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/BTNBSelectFragment"
+        android:name="de.glawleschkoff.scannerapp.fragment.bauteilnachbearbeiten.BTNBSelectFragment"
+        android:label="BTNBSelectFragment" >
+        <action
+            android:id="@+id/action_BTNBSelectFragment_self"
+            app:destination="@id/BTNBSelectFragment" />
+        <action
+            android:id="@+id/action_BTNBSelectFragment_to_BTNBScanFragment"
+            app:destination="@id/BTNBScanFragment" />
+        <action
+            android:id="@+id/action_BTNBSelectFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

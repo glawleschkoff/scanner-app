@@ -1,91 +1,67 @@
 package de.glawleschkoff.scannerapp.util;
 
 import android.content.Context;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import de.glawleschkoff.scannerapp.R;
 
 public class CardRVAdapter extends RecyclerView.Adapter<CardRVAdapter.MyViewHolder> {
 
-    private List<CardRVItem> cardRVItemList;
+    private List<RVItem> rvItemList;
     private Context context;
+    private ClickInterface clickInterfaceExtern;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        public RecyclerView fixedRecyclerView;
-        public RecyclerView hiddenRecyclerView;
-        public CardView cardView;
+        public RecyclerView innerRecyclerView;
 
         public MyViewHolder(View itemView){
             super(itemView);
-            fixedRecyclerView = itemView.findViewById(R.id.rvfixed);
-            hiddenRecyclerView = itemView.findViewById(R.id.rvhidden);
-            cardView = itemView.findViewById(R.id.card);
+            innerRecyclerView = itemView.findViewById(R.id.rvinside);
         }
     }
 
-    public CardRVAdapter(List<CardRVItem> cardRVItemList, Context context){
-        this.cardRVItemList = cardRVItemList;
+    public CardRVAdapter(List<RVItem> rvItemList, Context context, ClickInterface clickInterfaceExtern){
+        this.rvItemList = rvItemList;
         this.context = context;
+        this.clickInterfaceExtern = clickInterfaceExtern;
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardrv,parent,false);
-        return new MyViewHolder(view);
+    public CardRVAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rtebcardrv,parent,false);
+        return new CardRVAdapter.MyViewHolder(view);
     }
 
     @Override
     public int getItemCount() {
-        return cardRVItemList.size();
+        return 1;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CardRVAdapter.MyViewHolder holder, int position) {
         ClickInterface clickInterface = s -> {
-            if(holder.hiddenRecyclerView.getVisibility() == View.VISIBLE){
-                TransitionManager.beginDelayedTransition(holder.cardView, new AutoTransition());
-                holder.hiddenRecyclerView.setVisibility(View.GONE);
-            } else {
-                TransitionManager.beginDelayedTransition(holder.cardView, new AutoTransition());
-                holder.hiddenRecyclerView.setVisibility(View.VISIBLE);
-            }
+            clickInterfaceExtern.onClick(s);
         };
-        CardRVItem currentItem = cardRVItemList.get(position);
-        RecyclerView.LayoutManager layoutManagerFixed = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        holder.fixedRecyclerView.setLayoutManager(layoutManagerFixed);
-        holder.fixedRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManagerHidden = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        holder.hiddenRecyclerView.setLayoutManager(layoutManagerHidden);
-        holder.hiddenRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false);
+        holder.innerRecyclerView.setLayoutManager(layoutManager);
+        holder.innerRecyclerView.setHasFixedSize(true);
 
-        RVAdapter rvAdapterFixed = new RVAdapter(holder.fixedRecyclerView.getContext(),
-                cardRVItemList.get(position).getFixedList().stream()
-                        .map(x -> new RVItem(x.getName(), x.getWert()))
-                        .collect(Collectors.toList()), clickInterface);
-        RVAdapter rvAdapterHidden = new RVAdapter(holder.hiddenRecyclerView.getContext(),
-                cardRVItemList.get(position).getHiddenList().stream()
-                        .map(x -> new RVItem(x.getName(),x.getWert()))
-                        .collect(Collectors.toList()), clickInterface);
-
-        holder.fixedRecyclerView.setAdapter(rvAdapterFixed);
-        holder.hiddenRecyclerView.setAdapter(rvAdapterHidden);
+        BigRVAdapter rvAdapter = new BigRVAdapter(holder.innerRecyclerView.getContext(),
+                rvItemList,clickInterface);
+        holder.innerRecyclerView.setAdapter(rvAdapter);
     }
 
-    public void setCardRVItemList(List<CardRVItem> cardRVItemList) {
-        this.cardRVItemList = cardRVItemList;
+    public void setRvItemList(List<RVItem> rvItemList) {
+        this.rvItemList = rvItemList;
         notifyDataSetChanged();
     }
 }

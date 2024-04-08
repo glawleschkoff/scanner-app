@@ -22,11 +22,11 @@ public class USERPlattenlagerModel {
     private Double produktion;
     private String mz6;
     private String mz1;
-    private Date mzd1;
+    private String mzd1;
     private Double menge;
-    private Date mzd2;
+    private String mzd2;
 
-    public USERPlattenlagerModel(Double plattenID, String lagerPlatz, Double lng, Double brt, String matKurzzeichen, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge, Date einlagerDatum){
+    public USERPlattenlagerModel(Double plattenID, String lagerPlatz, Double lng, Double brt, String matKurzzeichen, String mz3, String auslagerId, String auslagerInfo, String auslagerDatum, Double menge, String einlagerDatum){
         this.plattenID = plattenID;
         this.lagerPlatz = lagerPlatz;
         this.lng = lng;
@@ -117,7 +117,7 @@ public class USERPlattenlagerModel {
         return mz1;
     }
 
-    public Date getAuslagerDatum() {
+    public String getAuslagerDatum() {
         return mzd1;
     }
 
@@ -125,7 +125,7 @@ public class USERPlattenlagerModel {
         return menge;
     }
 
-    public Date getEinlagerDatum() {
+    public String getEinlagerDatum() {
         return mzd2;
     }
 

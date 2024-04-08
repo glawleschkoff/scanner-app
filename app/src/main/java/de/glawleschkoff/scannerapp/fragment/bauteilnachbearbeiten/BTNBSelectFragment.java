@@ -64,8 +64,8 @@ public class BTNBSelectFragment extends Fragment implements ScanManager.DataList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBtnbselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -75,7 +75,7 @@ public class BTNBSelectFragment extends Fragment implements ScanManager.DataList
 
         binding.text.setOnClickListener(x -> {
             //btnbViewModel.requestUSERALBDetails("4186643-001");
-            btnbViewModel.requestUSERALBDetails("4132359-001");
+            //btnbViewModel.requestUSERALBDetails("4132359-001");
         });
 
         btnbViewModel.getResponseBitmap().observe(getViewLifecycleOwner(), x -> {
@@ -97,12 +97,12 @@ public class BTNBSelectFragment extends Fragment implements ScanManager.DataList
                 .add(btnbViewModel.getResponseUSERALBDetails())
                 .observe(getViewLifecycleOwner(),x->{
                     if(btnbViewModel.getResponseUSERALBDetails().getValue().getErrorMessage() != null){
-                        //scanManager.lockScanner();
+                        scanManager.lockScanner();
                         new AlertDialog.Builder(getContext())
                                 .setMessage("Bauteil nicht gefunden")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //scanManager.unlockScanner();
+                                        scanManager.unlockScanner();
                                         Navigation.findNavController(requireView()).navigate(R.id.action_BTNBSelectFragment_to_BTNBScanFragment);
                                     }
                                 })
@@ -269,7 +269,7 @@ public class BTNBSelectFragment extends Fragment implements ScanManager.DataList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

@@ -72,8 +72,6 @@ public class RTALSelectFragment extends Fragment {
 
         rtalViewModel.getUSERPlattenlager().observe(getViewLifecycleOwner(), x -> {
             if(rtalViewModel.getUSERPlattenlager().getValue().getResponse()!=null){
-                System.out.println("Request Lager");
-                System.out.println(rtalViewModel.getUSERPlattenlager().getValue().getResponse().getMatKurzzeichen());
                 rtalViewModel.requestLager(rtalViewModel.getUSERPlattenlager().getValue().getResponse().getMatKurzzeichen());
             }
         });

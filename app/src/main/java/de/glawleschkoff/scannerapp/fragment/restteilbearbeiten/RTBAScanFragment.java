@@ -46,8 +46,8 @@ public class RTBAScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRtbascanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -58,7 +58,7 @@ public class RTBAScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Restteil Bearbeiten");
 
         binding.text.setOnClickListener(x -> {
-            rtbaViewModel.requestUSERPlattenlager("5068405801");
+            //rtbaViewModel.requestUSERPlattenlager("6000000176");
         });
 
         rtbaViewModel.getUSERPlattenlager().observe(getViewLifecycleOwner(), x -> {
@@ -69,7 +69,7 @@ public class RTBAScanFragment extends Fragment implements ScanManager.DataListen
                             .setMessage("Restteil nicht gefunden")
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    scanManager.unlockScanner();
+                                    //scanManager.unlockScanner();
                                     Navigation.findNavController(requireView()).navigate(R.id.action_rtbaScanFragment_self);
                                 }
                             })
@@ -134,7 +134,7 @@ public class RTBAScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

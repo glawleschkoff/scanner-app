@@ -73,6 +73,8 @@ public class Repository {
         call.enqueue(new Callback<USERPlattenlagerModel>() {
             @Override
             public void onResponse(Call<USERPlattenlagerModel> call, Response<USERPlattenlagerModel> response) {
+                System.out.println("Body: "+response.body());
+                System.out.println("Code :"+response.code());
                 if(!response.isSuccessful()){
                     responseUSERPlattenlager.setValue(new ResponseWrapper<>(null,String.valueOf(response.code())));
                 } else {
@@ -81,12 +83,13 @@ public class Repository {
             }
             @Override
             public void onFailure(Call<USERPlattenlagerModel> call, Throwable t) {
+                System.out.println("Failure: "+t.getMessage());
                 responseUSERPlattenlager.setValue(new ResponseWrapper<>(null,t.getMessage()));
             }
         });
     }
 
-    public void updateUSERPlattenlager(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge) {
+    public void updateUSERPlattenlager(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, String auslagerDatum, Double menge) {
         Call<String> call = httpApi.updateUSERPlattenlager(plattenId,lagerPlatz,lng,brt,mz3,auslagerId,auslagerInfo,auslagerDatum,menge);
         call.enqueue(new Callback() {
             @Override
@@ -100,7 +103,7 @@ public class Repository {
             }
         });
     }
-    public void updateUSERPlattenlagerBearbeiten(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, Date auslagerDatum, Double menge) {
+    public void updateUSERPlattenlagerBearbeiten(Double plattenId, String lagerPlatz, Double lng, Double brt, String mz3, String auslagerId, String auslagerInfo, String auslagerDatum, Double menge) {
         Call<String> call = httpApi.updateUSERPlattenlagerBearbeiten(plattenId,lagerPlatz,lng,brt,mz3,auslagerId,auslagerInfo,auslagerDatum,menge);
         call.enqueue(new Callback() {
             @Override

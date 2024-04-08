@@ -46,8 +46,8 @@ public class BTEAScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBteascanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -58,7 +58,7 @@ public class BTEAScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Bauteil Etikett A");
 
         binding.text.setOnClickListener(x -> {
-            bteaViewModel.requestUSERALBDetails("4132359-001");
+            //bteaViewModel.requestUSERALBDetails("4132359-001");
             //btzsViewModel.requestBauteil("3914986-001");
             //btzsViewModel.requestFeedback("3914986-001_BTZS.csv");
         });
@@ -110,7 +110,7 @@ public class BTEAScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

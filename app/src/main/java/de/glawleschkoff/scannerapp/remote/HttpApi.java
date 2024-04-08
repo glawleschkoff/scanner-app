@@ -21,9 +21,9 @@ public interface HttpApi {
     Call<USERPlattenlagerModel> getUSERPlattenlager(@Query("id") String id);
 
     @GET("api/v1/plattenlagerupdate")
-    Call<String> updateUSERPlattenlager(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
+    Call<String> updateUSERPlattenlager(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") String auslagerDatum, @Query("menge") Double menge);
     @GET("api/v1/plattenlagerupdatebearbeiten")
-    Call<String> updateUSERPlattenlagerBearbeiten(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") Date auslagerDatum, @Query("menge") Double menge);
+    Call<String> updateUSERPlattenlagerBearbeiten(@Query("plattenId") Double plattenId, @Query("lagerPlatz") String lagerPlatz, @Query("lng") Double lng, @Query("brt") Double brt, @Query("mz3") String mz3, @Query("auslagerId") String auslagerId, @Query("auslagerInfo") String auslagerInfo, @Query("auslagerDatum") String auslagerDatum, @Query("menge") Double menge);
 
     @GET("api/v1/bauteilupdate")
     Call<String> updateUSERALBDetails(@Query("exemplarNr") String exemplarNr, @Query("scannerAnweisung") String scannerAnweisung);

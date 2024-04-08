@@ -61,8 +61,8 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBtqlselectBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         notification = Notification.createNotification(this.getContext());
         return view;
     }
@@ -93,12 +93,12 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
                 .add(btqlViewModel.getResponseUSERALBDetails())
                 .observe(getViewLifecycleOwner(),x->{
                     if(btqlViewModel.getResponseUSERALBDetails().getValue().getErrorMessage() != null){
-                        //scanManager.lockScanner();
+                        scanManager.lockScanner();
                         new AlertDialog.Builder(getContext())
                                 .setMessage("Bauteil nicht gefunden")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //scanManager.unlockScanner();
+                                        scanManager.unlockScanner();
                                         Navigation.findNavController(requireView()).navigate(R.id.action_btqlSelectFragment_to_btqlScanFragment);
                                     }
                                 })
@@ -258,8 +258,8 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
         notification.releaseNotification();
     }
 

@@ -48,8 +48,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentBtzsscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -59,7 +59,7 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
 
         getActivity().setTitle("Bauteil Zurücksetzen");
         binding.text.setOnClickListener(x -> {
-            btzsViewModel.requestUSERALBDetails("4132359-001");
+            //btzsViewModel.requestUSERALBDetails("4132359-001");
         });
 
 
@@ -111,8 +111,8 @@ public class BTZSScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 
 }

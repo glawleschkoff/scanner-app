@@ -45,8 +45,8 @@ public class BTINScanFragment extends Fragment implements ScanManager.DataListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBtinscanBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        //scanManager = ScanManager.createScanManager(this.getContext());
-        //scanManager.addDataListener(this);
+        scanManager = ScanManager.createScanManager(this.getContext());
+        scanManager.addDataListener(this);
         return view;
     }
 
@@ -64,10 +64,12 @@ public class BTINScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Bauteil Info");
 
         binding.text.setOnClickListener(x -> {
-            btinViewModel.requestUSERALBDetails("4132359-001");
+            /*btinViewModel.requestUSERALBDetails("4132359-001");
             btinViewModel.requestUSERCNCFeedback("4132359-001");
             btinViewModel.requestUSERKntFeedback("4132359-001");
             btinViewModel.requestUSERBauteilLog("4132359-001");
+
+             */
         });
 
         binding.bt1.setOnClickListener(x -> {
@@ -79,12 +81,12 @@ public class BTINScanFragment extends Fragment implements ScanManager.DataListen
                 .add(btinViewModel.getResponseUSERALBDetails())
                 .observe(getViewLifecycleOwner(),x->{
                     if(btinViewModel.getResponseUSERALBDetails().getValue().getErrorMessage() != null){
-                        //scanManager.lockScanner();
+                        scanManager.lockScanner();
                         new AlertDialog.Builder(getContext())
                                 .setMessage("Bauteil nicht gefunden")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //scanManager.unlockScanner();
+                                        scanManager.unlockScanner();
                                         Navigation.findNavController(requireView()).navigate(R.id.action_btinScanFragment_self);
                                     }
                                 })
@@ -114,7 +116,7 @@ public class BTINScanFragment extends Fragment implements ScanManager.DataListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //scanManager.removeDataListener(this);
-        //scanManager.releaseScanManager();
+        scanManager.removeDataListener(this);
+        scanManager.releaseScanManager();
     }
 }

@@ -53,7 +53,7 @@ public class RTALViewModel extends ViewModel {
                 responseUSERPlattenlager.getValue().getResponse().getMz3(),
                 "Entnahme",
                 mitarbeiter,
-                new Date(System.currentTimeMillis()),
+                new Date(System.currentTimeMillis()).toString(),
                 0.0);
     }
 

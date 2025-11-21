@@ -17,12 +17,14 @@ public class BTQLViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<USERALBDetailsModel>> responseUSERALBDetails;
     private final MutableLiveData<ResponseWrapper<USERKommWagenModel>> responseUSERKommWagen;
     private final MutableLiveData<ResponseWrapper<Bitmap>> responseBitmap;
+    private final MutableLiveData<String> wagenCode;
 
     public BTQLViewModel(){
         repository = Repository.getInstance();
         responseUSERALBDetails = new MutableLiveData<>(new ResponseWrapper<>());
         responseUSERKommWagen = new MutableLiveData<>(new ResponseWrapper<>());
         responseBitmap = new MutableLiveData<>(new ResponseWrapper<>());
+        wagenCode = new MutableLiveData<>();
     }
 
     public void requestUSERALBDetails(String id){
@@ -47,5 +49,11 @@ public class BTQLViewModel extends ViewModel {
     }
     public LiveData<ResponseWrapper<Bitmap>> getResponseBitmap(){
         return responseBitmap;
+    }
+    public LiveData<String> getWagenCode(){
+        return wagenCode;
+    }
+    public void setWagenCode(String s){
+        wagenCode.setValue(s);
     }
 }

@@ -58,7 +58,7 @@ public class BTQLScanFragment extends Fragment implements ScanManager.DataListen
         getActivity().setTitle("Bauteil Quali");
 
         binding.text.setOnClickListener(x -> {
-            //btqlViewModel.requestUSERALBDetails("4132359-001");
+            //btqlViewModel.requestUSERALBDetails("3946689-001");
         });
 
 

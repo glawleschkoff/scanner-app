@@ -44,6 +44,8 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
     private RVAdapter rvAdapter;
     private ScanManager scanManager;
     private Notification notification;
+    private boolean scanModeWagen;
+    private boolean updateModeStandard;
 
     public static BTQLSelectFragment newInstance() {
         return new BTQLSelectFragment();
@@ -54,6 +56,7 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
         super.onCreate(savedInstanceState);
         btqlViewModel = new ViewModelProvider(requireActivity()).get(BTQLViewModel.class);
         superViewModel = new ViewModelProvider(requireActivity()).get(SuperViewModel.class);
+        scanModeWagen = false;
     }
 
     @Nullable
@@ -88,6 +91,13 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
         });
 
          */
+
+        binding.image.setOnClickListener(x -> {
+            String id = "15";
+            //btqlViewModel.setWagenCode(id);
+        });
+
+
 
         AndLiveData.use(getViewLifecycleOwner())
                 .add(btqlViewModel.getResponseUSERALBDetails())
@@ -194,11 +204,12 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
                             notification.startBuzzer(16,200,50,10);
                             notification.startLed(Notification.Led.YELLOW,200,50,10);
 
-                            String antwort = btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getScannerAntwort().equals("")?
-                                    "BTQM="+";;"+";"+ superViewModel.getMitarbeiter().getValue():
-                                    btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getScannerAntwort()+"#"+
-                                            "BTQM="+";;"+";"+ superViewModel.getMitarbeiter().getValue();
-                            btqlViewModel.updateUSERALBDetails(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getExemplarNr(),antwort);
+                            /*
+
+                             */
+                            scanModeWagen = true;
+                            updateModeStandard = false;
+                            binding.imageqr.setVisibility(View.VISIBLE);
 
                         } else {
                             // (1)
@@ -211,11 +222,13 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
                             binding.frameWagenkennung.setText(btqlViewModel.getResponseUSERKommWagen().getValue().getResponse().getWagenKennung());
                             binding.frameWagenkennung.setTextColor(Color.parseColor("#00ff00"));
 
-                            String antwort = btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getScannerAntwort().equals("")?
-                                    "BTQM="+";;"+";"+ superViewModel.getMitarbeiter().getValue():
-                                    btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
-                                            ";;"+";"+ superViewModel.getMitarbeiter().getValue();
-                            btqlViewModel.updateUSERALBDetails(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getExemplarNr(),antwort);
+                            /*
+
+                             */
+                            scanModeWagen = true;
+                            updateModeStandard = true;
+                            binding.imageqr.setVisibility(View.VISIBLE);
+
                         }
                     }
                 } else {
@@ -228,6 +241,50 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
                     binding.text.setText("Wagenkennung nicht vorhanden");
                     binding.frameWagenkennung.setText("!!!");
                     binding.frameWagenkennung.setTextColor(Color.parseColor("#ff0000"));
+                }
+            }
+        });
+
+        btqlViewModel.getWagenCode().observe(getViewLifecycleOwner(), x -> {
+            if(scanModeWagen){
+            //if(true){
+                //System.out.println(x);
+                String wagenKennung = btqlViewModel.getResponseUSERKommWagen().getValue().getResponse().getWagenKennung();
+                if(wagenKennung.equals(x) || "999".equals(x)){
+                    if(updateModeStandard){
+                        //System.out.println("success1");
+                        String antwort = btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getScannerAntwort().equals("")?
+                                "BTQM="+";;"+";"+ superViewModel.getMitarbeiter().getValue():
+                                btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getScannerAntwort()+"#"+"BTQM="+
+                                        ";;"+";"+ superViewModel.getMitarbeiter().getValue();
+                        btqlViewModel.updateUSERALBDetails(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getExemplarNr(),antwort);
+                        binding.imageqr.setVisibility(View.GONE);
+                        binding.frame.setBackgroundColor(Color.parseColor("#00ff00"));
+                        binding.frameWagenkennung.setTextColor(Color.BLACK);
+                    } else {
+                        //System.out.println("success2");
+                        String antwort = btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getScannerAntwort().equals("")?
+                                "BTQM="+";;"+";"+ superViewModel.getMitarbeiter().getValue():
+                                btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getScannerAntwort()+"#"+
+                                        "BTQM="+";;"+";"+ superViewModel.getMitarbeiter().getValue();
+                        btqlViewModel.updateUSERALBDetails(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getExemplarNr(),antwort);
+                        binding.imageqr.setVisibility(View.GONE);
+                        binding.frame.setBackgroundColor(Color.parseColor("#ffd500"));
+                        binding.frameWagenkennung.setTextColor(Color.BLACK);
+                    }
+                    scanModeWagen = false;
+                } else {
+                    //System.out.println("failure");
+                    scanManager.lockScanner();
+                    new AlertDialog.Builder(getContext())
+                            .setMessage("Falscher Wagen/Ungültiger QR-Code\n(Bitte noch Wagen für dieses Bauteil scannen)")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    scanManager.unlockScanner();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
             }
         });
@@ -251,7 +308,12 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
         String data = decodeResult.getData();
         if(result == DecodeResult.Result.SUCCESS){
             String id = data.startsWith(" ")?data.substring(1):data;
-            btqlViewModel.requestUSERALBDetails(id);
+            if(scanModeWagen){
+                btqlViewModel.setWagenCode(id);
+            } else {
+                btqlViewModel.requestUSERALBDetails(id);
+            }
+
         }
     }
 

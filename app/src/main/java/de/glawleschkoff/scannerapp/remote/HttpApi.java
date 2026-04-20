@@ -45,8 +45,8 @@ public interface HttpApi {
     @GET("api/v1/bauteil")
     Call<USERALBDetailsModel> getUSERALBDetails(@Query("id") String id);
 
-    @GET("api/v1/kommwagen")
-    Call<USERKommWagenModel> getUSERKommWagen(@Query("auftrag") String auftrag);
+    @GET("api/v2/kommwagen")
+    Call<USERKommWagenModel> getUSERKommWagen(@Query("auftrag") String auftrag, @Query("losNr") Integer losNr);
 
     @GET("api/v1/mitarbeiter")
     Call<List<MitarbeiterModel>> getMitarbeiter();

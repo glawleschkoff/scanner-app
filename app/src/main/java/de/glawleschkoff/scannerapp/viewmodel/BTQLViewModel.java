@@ -30,8 +30,8 @@ public class BTQLViewModel extends ViewModel {
     public void requestUSERALBDetails(String id){
         repository.requestUSERALBDetails(id, responseUSERALBDetails);
     }
-    public void requestUSERKommWagen(String auftrag){
-        repository.requestUSERKommWagen(auftrag, responseUSERKommWagen);
+    public void requestUSERKommWagen(String auftrag, Integer losNr){
+        repository.requestUSERKommWagen(auftrag, losNr, responseUSERKommWagen);
     }
     public void requestBitmap(String id, String name){
         repository.requestBitmapBauteil(id, name, responseBitmap);

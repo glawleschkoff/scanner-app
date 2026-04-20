@@ -146,7 +146,9 @@ public class BTQLSelectFragment extends Fragment implements ScanManager.DataList
                         .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=J")).collect(Collectors.toList()).isEmpty() ||
                         !Arrays.stream(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse()
                                 .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=F")).collect(Collectors.toList()).isEmpty()){
-                    btqlViewModel.requestUSERKommWagen(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getKundenAuftrag());
+                    Integer losNr = Integer.parseInt(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getF20());
+                    //System.out.println("hier777");
+                    btqlViewModel.requestUSERKommWagen(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse().getKundenAuftrag(), losNr);
                 } else if(!Arrays.stream(btqlViewModel.getResponseUSERALBDetails().getValue().getResponse()
                         .getScannerAnweisung().split("#")).filter(y -> y.startsWith("BTQM=N")).collect(Collectors.toList()).isEmpty()) {
                     // (3)

@@ -201,8 +201,8 @@ public class Repository {
         });
     }
 
-    public void requestUSERKommWagen(String auftrag, MutableLiveData<ResponseWrapper<USERKommWagenModel>> responseUSERKommWagen){
-        Call<USERKommWagenModel> call = httpApi.getUSERKommWagen(auftrag);
+    public void requestUSERKommWagen(String auftrag, Integer losNr, MutableLiveData<ResponseWrapper<USERKommWagenModel>> responseUSERKommWagen){
+        Call<USERKommWagenModel> call = httpApi.getUSERKommWagen(auftrag, losNr);
         call.enqueue(new Callback<USERKommWagenModel>() {
             @Override
             public void onResponse(Call<USERKommWagenModel> call, Response<USERKommWagenModel> response) {

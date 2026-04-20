@@ -4,6 +4,7 @@ public class USERKommWagenModel {
 
     private Integer auftrag;
     private String wagenKennung;
+    private Integer losNr;
 
     public Integer getAuftrag() {
         return auftrag;
@@ -12,4 +13,6 @@ public class USERKommWagenModel {
     public String getWagenKennung() {
         return wagenKennung;
     }
+
+    public Integer getLosNr() {return losNr; }
 }
